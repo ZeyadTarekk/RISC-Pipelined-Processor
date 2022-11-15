@@ -1,0 +1,202 @@
+5-bits | 3-bits | 3-bits | 5-bits
+Opcode |  Rsrc  |  Rdst  | no use
+
+CCR [carry-negative-zero]
+
+Control units:
+==============
+RegRead [1]
+RegWrite [1]
+MemRead [1]
+MemWrite [1]
+SPSub [1]
+ALUControl [n]
+BranchFlag [1]
+MemOrReg [1]
+ImmOrReg [1] // src of alu is imm or register
+XXX RegDist
+ALUJump [1]
+
+
+
+=================================================
+
+NOP
+===
+[1] 00000 | 000 | 000 | 00000
+[2] zeros
+CU: 
+
+SETC
+====
+[1] 00001 | 000 | 000 | 00000
+[2] zeros
+CU: ALUControl[](CCR OR 1), RegRead, RegWrite
+
+CLRC
+====
+[1] 00010 | 000 | 000 | 00000
+[2] zeros
+CU: ALUControl[](CCR AND 0), RegRead, RegWrite
+
+NOT Rdst
+========
+[1] 00011 | Rdst | Rdst | 00000
+[2] zeros
+CU: ALUControl[](NOT Rdst), RegRead, RegWrite
+
+INC Rdst
+========
+[1] 00100 | Rdst | Rdst | 00000
+[2] zeros
+CU: ALUControl[](Rdst ADD 1), RegRead, RegWrite
+
+DEC Rdst
+========
+[1] 00101 | Rdst | Rdst | 00000
+[2] zeros
+CU: ALUControl[](Rdst DEC 1), RegRead, RegWrite
+
+OUT Rdst
+========
+[1] 00110 | 000 | Rdst | 00000
+[2] zeros
+CU: ALUControl[](PORT ADD 0), RegRead , MemWrite
+
+IN Rdst
+=======
+[1] 00111 | 000 | Rdst | 00000
+[2] zeros
+CU: ALUControl[](PORT ADD 0), RegRead, RegWrite, MemRead
+
+=================================================
+
+MOV Rsrc, Rdst
+==============
+[1] 01000 | Rsrc | Rdst | 00000
+[2] zeros
+CU: ALUControl[](Rsec ADD 0), RegRead, RegWrite
+
+ADD Rsrc, Rdst
+==============
+[1] 01001 | Rsrc | Rdst | 00000
+[2] zeros
+CU: ALUControl[](Rsrc ADD Rdst), RegRead, RegWrite
+
+SUB Rsrc, Rdst
+==============
+[1] 01010 | Rsrc | Rdst | 00000
+[2] zeros
+CU: ALUControl[](Rdst SUB Rsrc), RegRead, RegWrite
+
+AND Rsrc, Rdst
+==============
+[1] 01011 | Rsrc | Rdst | 00000
+[2] zeros
+CU: ALUControl[](Rsrc AND Rdst), RegRead, RegWrite
+
+OR Rsrc, Rdst
+=============
+[1] 01100 | Rsrc | Rdst | 00000
+[2] zeros
+CU: ALUControl[](Rsrc OR Rdst), RegRead, RegWrite
+
+SHL Rsrc, Imm
+=============
+[1] 01101 | Rsrc | Rsrc | 00000
+[2] Imm [16-bits]
+CU: ALUControl[](Rsrc SHL Imm), RegRead, RegWrite
+
+SHR Rsrc, Imm
+=============
+[1] 01110 | Rsrc | Rsrc | 00000
+[2] Imm [16-bits]
+CU: ALUControl[](Rsrc SHR Imm), RegRead, RegWrite
+
+=================================================
+
+PUSH Rdst
+=========
+[1] 01111 | 000 | Rdst | 00000
+[2] zeros
+CU: ALUControl[](SP ADD 0), SPSub[], RegRead, MemWrite
+
+POP Rdst
+========
+[1] 10000 | 000 | Rdst | 00000
+[2] zeros
+CU: ALUControl[](SP ADD 1), RegRead, RegWrite, MemRead 
+
+LDM Rdst, Imm
+=============
+[1] 10001 | 000 | Rdst | 00000
+[2] Imm [16-bits]
+CU: ALUControl[](Imm ADD 0), RegWrite
+
+LDD Rsrc, Rdst
+==============
+[1] 10010 | Rsrc | Rdst | 00000
+[2] zeros
+CU: ALUControl[](Rsrc ADD 0), RegRead, RegWrite, MemRead
+
+STD Rsrc, Rdst
+==============
+[1] 10001 | Rsrc | Rdst | 00000
+[2] zeros
+CU: ALUControl[](Rdst ADD 0), RegRead, MemWrite
+
+=================================================
+
+JZ Rdst
+=======
+[1] 10010 | 000 | Rdst | 00000
+[2] zeros
+CU: ALUControl[](CCR AND 001), RegRead
+
+JN Rdst
+=======
+[1] 10011 | 000 | Rdst | 00000
+[2] zeros
+CU: ALUControl[](CCR AND 010), RegRead
+
+JC Rdst
+=======
+[1] 10100 | 000 | Rdst | 00000
+[2] zeros
+CU: ALUControl[](CCR AND 100), RegRead
+
+JMP Rdst
+========
+[1] 10101 | 000 | Rdst | 00000
+[2] zeros
+CU: ALUControl[](CCR OR 111), RegRead
+
+CALL Rdst
+=========
+[1] 10110 | 000 | Rdst | 00000
+[2] zeros
+CU: ALUControl[](), MemWrite
+
+RET
+===
+[1] 10111 | 000 | 000 | 00000
+[2] zeros
+CU: ALUControl[](), MemRead
+
+RTI
+===
+[1] 11000 | 000 | 000 | 00000
+[2] zeros
+CU: ALUControl[](), MemRead
+
+=================================================
+
+Reset
+=====
+[1] 11001 | 000 | 000 | 00000
+[2] zeros
+
+Interrupt
+=========
+[1] 11010 | 000 | 000 | 00000
+[2] zeros
