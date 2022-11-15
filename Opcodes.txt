@@ -17,8 +17,6 @@ ImmOrReg [1] // src of alu is imm or register
 XXX RegDist
 ALUJump [1]
 
-
-
 =================================================
 
 NOP
@@ -208,16 +206,9 @@ Interrupt
 POP firsthafl:  F D E M W
 popandgo     :    F D E M W(PC)
 
+r1 = 4
+r2 = 3
+r3 = 2
 
-f1()
-add 4 3
-
-f1():
- f2()
- ret
-
-
-
-
-f2():
- ret
+ADD R1 R2 : F D E(4+3) M W
+add r1 r1 :   F D E(4+2) M W
