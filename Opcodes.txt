@@ -200,3 +200,24 @@ Interrupt
 =========
 [1] 11010 | 000 | 000 | 00000
 [2] zeros
+
+
+
+
+
+POP firsthafl:  F D E M W
+popandgo     :    F D E M W(PC)
+
+
+f1()
+add 4 3
+
+f1():
+ f2()
+ ret
+
+
+
+
+f2():
+ ret
