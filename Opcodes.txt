@@ -1,137 +1,60 @@
-5-bits | 3-bits | 3-bits | 5-bits
-Opcode |  Rsrc  |  Rdst  | no use
+5-bits | 4-bits | 4-bits | 3-bits
+Opcode |  Rsrc  |  Rdst  | function
 
 CCR [carry-negative-zero]
 
-Control units:
-==============
-RegRead [1]
-RegWrite [1]
-MemRead [1]
-MemWrite [1]
-SPSub [1]
-ALUControl [n]
-BranchFlag [1]
-MemOrReg [1]
-ImmOrReg [1] // src of alu is imm or register
-XXX RegDist
-ALUJump [1]
+OUT Rdst
+Rdst | PORTAddress
 
+IN Rdst
+PORTAddress | Rdst
 
 =================================================
+CarryFlag:
+==========
+00: update status
+01: clear carry
+10: get from stored
+11: set carry
 
 ALU Operations:
 ===============
-
-ADD     000
-SUB     001
-AND			010
-OR			011
-SHL			100
-SHR			101
-NOT     110
-PASS    111   // pass the second operand as it is
-
-
-CarryFlag [00: update status, 11: set carry, 01: clear carry]
+ADD     0000
+SUB     0001
+AND			0010
+OR			0011
+SHL			0100
+SHR			0101
+NOT     0110
+PASS2   0111   // pass the second operand as it is
+INC			1000
+DEC 		1001
+PASS1   1010   // pass the first operand as it is
 
 
 SP Operation:
 =============
-Stay the same   00
-Add             11
-Sub             01
-
-=================================================
-			      / -
-POP:  F D E M W
-				      +
-PUSH:   F D E E M W
+00: do nothing
+01: PUSH
+10: POP
 
 
-PUSH Rdst
-=========
-[1] 01111 | 000 | Rdst | 00000
-[2] zeros
-CU: ALUControl[](SP ADD 0), SPSub[], RegRead, MemWrite
+Function Code:
+==============
+Jumps
+00: Zero flag
+01: Negative flag
+10: Carry Flag
+11: Always one
 
-POP Rdst
-========
-[1] 10000 | 000 | Rdst | 00000
-[2] zeros
-CU: ALUControl[](SP ADD 1), RegRead, RegWrite, MemRead 
-
-=================================================
-      11     10      01   00
-CCR [carry-negative-zero-one]
-JZ Rdst
-=======
-[1] 10010 | 000 | Rdst | 001
-[2] zeros
-CU: ALUControl[](CCR AND 001), RegRead
-
-JN Rdst
-=======
-[1] 10011 | 000 | Rdst | 010
-[2] zeros
-CU: ALUControl[](CCR AND 010), RegRead
-
-JC Rdst
-=======
-[1] 10100 | 000 | Rdst | 011
-[2] zeros
-CU: ALUControl[](CCR AND 100), RegRead
-
-JMP Rdst
-========
-[1] 10101 | 000 | Rdst | 000
-[2] zeros
-CU: ALUControl[](CCR OR 111), RegRead
-
-CALL Rdst
-=========
-[1] 10110 | 000 | Rdst | 000
-[2] zeros
-CU: ALUControl[](), MemWrite
-
-RET
-===
-[1] 10111 | 000 | 000 | 000
-[2] zeros
-CU: ALUControl[](), MemRead
-
-RTI
-===
-[1] 11000 | 000 | 000 | 000
-[2] zeros
-CU: ALUControl[](), MemRead
-
+PCControl:
+==========
+00: Increment one
+11: Increment two
+01: Same PC
 =================================================
 
-Reset
-=====
-[1] 11001 | 000 | 000 | 00000
-[2] zeros
+LDD R1, R2   F D E M W
+Add R2, R3     F D D E M W
 
-Interrupt
-=========
-[1] 11010 | 000 | 000 | 00000
-[2] zeros
-
-
-
-
-
-POP firsthafl:  F D E M W
-popandgo     :    F D E M W(PC)
-
-r1 = 4
-r2 = 3
-r3 = 2
-
-ADD R1 R2 : F D E(4+3) M W
-add r1 r1 :   F D E(4+2) M W
-
-
-ADD:     F D E M W
-SETC :     F D 
+for this case we will compare the current src with the dst of the ex stage to select PCControl = 01 and insert one bubble
