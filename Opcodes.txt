@@ -53,8 +53,3 @@ PCControl:
 11: Increment two
 01: Same PC
 =================================================
-
-LDD R1, R2   F D E M W
-Add R2, R3     F D D E M W
-
-for this case we will compare the current src with the dst of the ex stage to select PCControl = 01 and insert one bubble
