@@ -1,0 +1,9 @@
+Fetch
+
+Decode
+
+Exceute
+
+Memory
+
+Write Back
