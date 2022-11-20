@@ -92,7 +92,6 @@
 - Interrupt will pass through the IF/ID buffer to save it as we will use it in the next cycle to update the PC = 0
 - Assume that IF/ID can read the interrupt signal everytime and won't miss it.
   Then at rising edge execute the first part of the instruction, and at the falling edge execute the second part of the instruction
-
 ### Custom signals
 
 | OpCode | SP Operations |
@@ -187,3 +186,17 @@
 - Data hazards : Full forwarding unit which check for src & dis of second instruction (in decoding stage) and the dist of first instruction (in ALU stage or in Memory stage).
   - Load-use case : Hazard detector which check the type of first instruction (in ALU stage) and its dist with the src & dist of second instruction (in decoding stage) to stall cycle.
 - Control hazards : Do the jump itself in decoding stages and flush the instruction which entered the IF/ID buffer if the jump will be done with static pridiction of not taken.
+
+
+
+## Solving 32-bit instrunction problem
+- check passRegister bits if it 1 i will put the 16-bit instruction in imm else will be in instruction
+- at decoding if i found iam 32-bit instruction i will flush my self as (bubble) then make register (passRegister) to be one  then at next cycle will come with the whole 32-bit instruction and will check the passRegister nad make it zero again
+
+
+## TODO
+- handle return and rti
+- check jumps & call with intrrupt
+- add opCode for interrupt
+- edit the PC adder  to just add 1 or same
+- recheck for report
