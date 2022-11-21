@@ -15,51 +15,51 @@
 
 | Instruction | SPOperation | RegWrite | MemRead | MemWrite | MemOrReg | UpdateStatus | ImmOrReg | ALUControl | SPOrALUres | DestOrPrivate | BranchFlag | CarryFlag | PCControl | privateRegWrite |
 | :---------: | :---------: | :------: | :-----: | :------: | :------: | :----------: | :------: | :--------: | :--------: | :-----------: | :--------: | :-------: | :-------: | :-------------: |
-|     NOP     |     00      |    0     |    0    |    0     |    0     |      0       |    0     |    xxxx    |     x      |       x       |     0      |    xx     |    00     |        0        |
-|    SETC     |     00      |    0     |    0    |    0     |    0     |      1       |    0     |    xxxx    |     x      |       x       |     0      |    11     |    00     |        0        |
-|    CLRC     |     00      |    0     |    0    |    0     |    0     |      1       |    0     |    xxxx    |     x      |       x       |     0      |    01     |    00     |        0        |
-|  NOT Rdst   |     00      |    1     |    0    |    0     |    1     |      1       |    1     |    0110    |     x      |       x       |     0      |    00     |    00     |        0        |
-|  INC Rdst   |     00      |    1     |    0    |    0     |    1     |      1       |    1     |    1000    |     x      |       x       |     0      |    00     |    00     |        0        |
-|  DEC Rdst   |     00      |    1     |    0    |    0     |    1     |      1       |    1     |    1001    |     x      |       x       |     0      |    00     |    00     |        0        |
-|  OUT Rdst   |     00      |    1     |    0    |    0     |    1     |      0       |    1     |    1010    |     x      |       x       |     0      |    xx     |    00     |        0        |
-|   IN Rdst   |     00      |    1     |    0    |    0     |    1     |      0       |    1     |    1010    |     x      |       x       |     0      |    xx     |    00     |        0        |
+|     NOP     |     00      |    0     |    0    |    0     |    0     |      0       |    0     |    xxxx    |     x      |       x       |     0      |    xx     |     0     |        0        |
+|    SETC     |     00      |    0     |    0    |    0     |    0     |      1       |    0     |    xxxx    |     x      |       x       |     0      |    11     |     0     |        0        |
+|    CLRC     |     00      |    0     |    0    |    0     |    0     |      1       |    0     |    xxxx    |     x      |       x       |     0      |    01     |     0     |        0        |
+|  NOT Rdst   |     00      |    1     |    0    |    0     |    1     |      1       |    1     |    0110    |     x      |       x       |     0      |    00     |     0     |        0        |
+|  INC Rdst   |     00      |    1     |    0    |    0     |    1     |      1       |    1     |    1000    |     x      |       x       |     0      |    00     |     0     |        0        |
+|  DEC Rdst   |     00      |    1     |    0    |    0     |    1     |      1       |    1     |    1001    |     x      |       x       |     0      |    00     |     0     |        0        |
+|  OUT Rdst   |     00      |    1     |    0    |    0     |    1     |      0       |    1     |    1010    |     x      |       x       |     0      |    xx     |     0     |        0        |
+|   IN Rdst   |     00      |    1     |    0    |    0     |    1     |      0       |    1     |    1010    |     x      |       x       |     0      |    xx     |     0     |        0        |
 
 ### Two Operand Instructions
 
 | Instruction    | SPOperation | RegWrite | MemRead | MemWrite | MemOrReg | UpdateStatus | ImmOrReg | ALUControl | SPOrALUres | DestOrPrivate | BranchFlag | CarryFlag | PCControl | privateRegWrite |
 | -------------- | ----------- | -------- | ------- | -------- | -------- | ------------ | -------- | ---------- | ---------- | ------------- | ---------- | --------- | --------- | --------------- |
-| MOV Rsrc, Rdst | 00          | 1        | 0       | 0        | 1        | 0            | 1        | 1010       | x          | x             | 0          | xx        | 00        | 0               |
-| ADD Rsrc, Rdst | 00          | 1        | 0       | 0        | 1        | 1            | 1        | 0000       | x          | x             | 0          | 00        | 00        | 0               |
-| SUB Rsrc, Rdst | 00          | 1        | 0       | 0        | 1        | 1            | 1        | 0001       | x          | x             | 0          | 00        | 00        | 0               |
-| AND Rsrc, Rdst | 00          | 1        | 0       | 0        | 1        | 1            | 1        | 0010       | x          | x             | 0          | 00        | 00        | 0               |
-| OR Rsrc, Rdst  | 00          | 1        | 0       | 0        | 1        | 1            | 1        | 0011       | x          | x             | 0          | 00        | 00        | 0               |
-| SHL Rsrc, Imm  | 00          | 1        | 0       | 0        | 1        | 1            | 0        | 0100       | x          | x             | 0          | 00        | 11        | 0               |
-| SHR Rsrc, Imm  | 00          | 1        | 0       | 0        | 1        | 1            | 0        | 0101       | x          | x             | 0          | 00        | 11        | 0               |
+| MOV Rsrc, Rdst | 00          | 1        | 0       | 0        | 1        | 0            | 1        | 1010       | x          | x             | 0          | xx        | 0         | 0               |
+| ADD Rsrc, Rdst | 00          | 1        | 0       | 0        | 1        | 1            | 1        | 0000       | x          | x             | 0          | 00        | 0         | 0               |
+| SUB Rsrc, Rdst | 00          | 1        | 0       | 0        | 1        | 1            | 1        | 0001       | x          | x             | 0          | 00        | 0         | 0               |
+| AND Rsrc, Rdst | 00          | 1        | 0       | 0        | 1        | 1            | 1        | 0010       | x          | x             | 0          | 00        | 0         | 0               |
+| OR Rsrc, Rdst  | 00          | 1        | 0       | 0        | 1        | 1            | 1        | 0011       | x          | x             | 0          | 00        | 0         | 0               |
+| SHL Rsrc, Imm  | 00          | 1        | 0       | 0        | 1        | 1            | 0        | 0100       | x          | x             | 0          | 00        | 0         | 0               |
+| SHR Rsrc, Imm  | 00          | 1        | 0       | 0        | 1        | 1            | 0        | 0101       | x          | x             | 0          | 00        | 0         | 0               |
 
 ### Memory Instructions
 
 | Instruction    | SPOperation | RegWrite | MemRead | MemWrite | MemOrReg | UpdateStatus | ImmOrReg | ALUControl | SPOrALUres | DestOrPrivate | BranchFlag | CarryFlag | PCControl | privateRegWrite |
 | -------------- | ----------- | -------- | ------- | -------- | -------- | ------------ | -------- | ---------- | ---------- | ------------- | ---------- | --------- | --------- | --------------- |
-| Push Rdst      | 01          | 0        | 0       | 1        | x        | 0            | x        | xxxx       | 0          | x             | 0          | xx        | 00        | 0               |
-| POP Rdst       | 10          | 1        | 1       | 0        | 0        | 0            | x        | xxxx       | 0          | x             | 0          | xx        | 00        | 0               |
-| LDM Rdst, Imm  | 00          | 1        | 0       | 0        | 1        | 0            | 0        | 0111       | x          | x             | 0          | xx        | 11        | 0               |
-| LDD Rsrc, Rdst | 00          | 1        | 1       | 0        | 0        | 0            | x        | 1010       | 1          | x             | 0          | xx        | 00        | 0               |
-| STD Rsrc, Rdst | 00          | 0        | 0       | 1        | x        | 0            | 1        | 0111       | 1          | x             | 0          | xx        | 00        | 0               |
+| Push Rdst      | 01          | 0        | 0       | 1        | x        | 0            | x        | xxxx       | 0          | x             | 0          | xx        | 0         | 0               |
+| POP Rdst       | 10          | 1        | 1       | 0        | 0        | 0            | x        | xxxx       | 0          | x             | 0          | xx        | 0         | 0               |
+| LDM Rdst, Imm  | 00          | 1        | 0       | 0        | 1        | 0            | 0        | 0111       | x          | x             | 0          | xx        | 0         | 0               |
+| LDD Rsrc, Rdst | 00          | 1        | 1       | 0        | 0        | 0            | x        | 1010       | 1          | x             | 0          | xx        | 0         | 0               |
+| STD Rsrc, Rdst | 00          | 0        | 0       | 1        | x        | 0            | 1        | 0111       | 1          | x             | 0          | xx        | 0         | 0               |
 
 ### Branch Instructions
 
 | Instruction   | SPOperation | RegWrite | MemRead | MemWrite | MemOrReg | UpdateStatus | ImmOrReg | ALUControl | SPOrALUres | DestOrPrivate | BranchFlag | CarryFlag | PCControl | privateRegWrite | function |
 | ------------- | ----------- | -------- | ------- | -------- | -------- | ------------ | -------- | ---------- | ---------- | ------------- | ---------- | --------- | --------- | --------------- | -------- |
-| JZ Rdst       | 00          | 0        | 0       | 0        | x        | 0            | x        | xxxx       | x          | 0             | 1          | xx        | 00        | 0               | 00       |
-| JN Rdst       | 00          | 0        | 0       | 0        | x        | 0            | x        | xxxx       | x          | 0             | 1          | xx        | 00        | 0               | 01       |
-| JC Rdst       | 00          | 0        | 0       | 0        | x        | 0            | x        | xxxx       | x          | 0             | 1          | xx        | 00        | 0               | 10       |
-| JMP Rdst      | 00          | 0        | 0       | 0        | x        | 0            | x        | xxxx       | x          | 0             | 1          | xx        | 00        | 0               | 11       |
-| [1] CALL Rdst | 01          | 0        | 0       | 1        | x        | 0            | x        | xxxx       | 0          | x             | 0          | xx        | 00        | 1               | xx       |
-| [2] CALL Rdst | 01          | 0        | 0       | 1        | x        | 0            | x        | xxxx       | 0          | 0             | 1          | xx        | 00        | 0               | 11       |
-| [1] RET       | 10          | 1        | 1       | 0        | 0        | 0            | x        | xxxx       | 0          | x             | 0          | xx        | 00        | 0               | xx       |
-| [2] RET       | 10          | 1        | 1       | 0        | 0        | 0            | x        | xxxx       | 0          | 1             | 1          | xx        | 00        | 0               | 11       |
-| [1] RTI       | 10          | 1        | 1       | 0        | 0        | 0            | x        | xxxx       | 0          | x             | 0          | xx        | 00        | 0               | xx       |
-| [2] RTI       | 10          | 1        | 1       | 0        | 0        | 1            | x        | xxxx       | 0          | 1             | 1          | 10        | 00        | 0               | 11       |
+| JZ Rdst       | 00          | 0        | 0       | 0        | x        | 0            | x        | xxxx       | x          | 0             | 1          | xx        | 0         | 0               | 00       |
+| JN Rdst       | 00          | 0        | 0       | 0        | x        | 0            | x        | xxxx       | x          | 0             | 1          | xx        | 0         | 0               | 01       |
+| JC Rdst       | 00          | 0        | 0       | 0        | x        | 0            | x        | xxxx       | x          | 0             | 1          | xx        | 0         | 0               | 10       |
+| JMP Rdst      | 00          | 0        | 0       | 0        | x        | 0            | x        | xxxx       | x          | 0             | 1          | xx        | 0         | 0               | 11       |
+| [1] CALL Rdst | 01          | 0        | 0       | 1        | x        | 0            | x        | xxxx       | 0          | x             | 0          | xx        | 0         | 1               | xx       |
+| [2] CALL Rdst | 01          | 0        | 0       | 1        | x        | 0            | x        | xxxx       | 0          | 0             | 1          | xx        | 0         | 0               | 11       |
+| [1] RET       | 10          | 1        | 1       | 0        | 0        | 0            | x        | xxxx       | 0          | x             | 0          | xx        | 0         | 0               | xx       |
+| [2] RET       | 10          | 1        | 1       | 0        | 0        | 0            | x        | xxxx       | 0          | 1             | 1          | xx        | 0         | 0               | 11       |
+| [1] RTI       | 10          | 1        | 1       | 0        | 0        | 0            | x        | xxxx       | 0          | x             | 0          | xx        | 0         | 0               | xx       |
+| [2] RTI       | 10          | 1        | 1       | 0        | 0        | 1            | x        | xxxx       | 0          | 1             | 1          | 10        | 0         | 0               | 11       |
 
 ### Notes
 
@@ -80,9 +80,9 @@
 
 | Instruction   | SPOperation | RegWrite | MemRead | MemWrite | MemOrReg | UpdateStatus | ImmOrReg | ALUControl | SPOrALUres | DestOrPrivate | BranchFlag | CarryFlag | PCControl | privateRegWrite | function | interrupt | reset |
 | ------------- | ----------- | -------- | ------- | -------- | -------- | ------------ | -------- | ---------- | ---------- | ------------- | ---------- | --------- | --------- | --------------- | -------- | --------- | ----- |
-| Reset         | 00          | 0        | 0       | 0        | 0        | 0            | 0        | xxxx       | x          | x             | 0          | xx        | 00        | 0               | xx       | 0         | 1     |
-| [1] Interrupt | 01          | 0        | 0       | 1        | x        | 0            | x        | xxxx       | 0          | x             | 0          | xx        | 01        | 1               | xx       | 1         | 0     |
-| [2] Interrupt | 01          | 0        | 0       | 1        | x        | 0            | x        | xxxx       | 0          | x             | 0          | xx        | 00        | 0               | xx       | 0         | 0     |
+| Reset         | 00          | 0        | 0       | 0        | 0        | 0            | 0        | xxxx       | x          | x             | 0          | xx        | 0         | 0               | xx       | 0         | 1     |
+| [1] Interrupt | 01          | 0        | 0       | 1        | x        | 0            | x        | xxxx       | 0          | x             | 0          | xx        | 0         | 1               | xx       | 1         | 0     |
+| [2] Interrupt | 01          | 0        | 0       | 1        | x        | 0            | x        | xxxx       | 0          | x             | 0          | xx        | 0         | 0               | xx       | 0         | 0     |
 
 ### Notes
 
@@ -92,6 +92,7 @@
 - Interrupt will pass through the IF/ID buffer to save it as we will use it in the next cycle to update the PC = 0
 - Assume that IF/ID can read the interrupt signal everytime and won't miss it.
   Then at rising edge execute the first part of the instruction, and at the falling edge execute the second part of the instruction
+- 32-bits detector will hold the opcode of the interrupt instructions and will force them to the IF/ID buffer when its ready to start (highlited in the state machine diagram of the interrupt)
 
 ### Custom signals
 
@@ -110,9 +111,8 @@
 
 | OpCode | PC Control    |
 | ------ | ------------- |
-| 00     | Increment one |
-| 01     | Same PC       |
-| 11     | Increment two |
+| 0      | Increment one |
+| 1      | Same PC       |
 
 | OpCode | ALU Operation |
 | ------ | ------------- |
@@ -162,38 +162,40 @@
 
 ## Instruction Memory Format
 
-| Instruction         | OpCode | Format                           | Immediate 16-bit |
-| ------------------- | ------ | -------------------------------- | ---------------- |
-| NOP                 | 00000  | OP \| 0000 \| 0000 \| 000        |
-| SETC                | 00001  | OP \| 0000 \| 0000 \| 000        |
-| CLRC                | 00010  | OP \| 0000 \| 0000 \| 000        |
-| NOT Rdst            | 00011  | OP \| Rdst \| Rdst \| 000        |
-| INC Rdst            | 00100  | OP \| Rdst \| Rdst \| 000        |
-| DEC Rdst            | 00101  | OP \| Rdst \| Rdst \| 000        |
-| OUT Rdst            | 00110  | OP \| Rdst \| PORTAddress \| 000 |
-| IN Rdst             | 00111  | OP \| PORTAddress \| Rdst \| 000 |
-| MOV Rsrc, Rdst      | 01000  | OP \| Rsrc \| Rdst \| 000        |
-| ADD Rsrc, Rdst      | 01001  | OP \| Rsrc \| Rdst \| 000        |
-| SUB Rsrc, Rdst      | 01010  | OP \| Rsrc \| Rdst \| 000        |
-| AND Rsrc, Rdst      | 01011  | OP \| Rsrc \| Rdst \| 000        |
-| OR Rsrc, Rdst       | 01100  | OP \| Rsrc \| Rdst \| 000        |
-| SHL Rsrc, Imm       | 01101  | OP \| Rsrc \| Rsrc \| 000        | Imm              |
-| SHR Rsrc, Imm       | 01110  | OP \| Rsrc \| Rsrc \| 000        | Imm              |
-| PUSH Rdst           | 01111  | OP \| Rdst \| 0000 \| 000        |
-| POP Rdst            | 10000  | OP \| 0000 \| Rdst \| 000        |
-| LDM Rdst, Imm       | 10001  | OP \| 0000 \| Rdst \| 000        | Imm              |
-| LDD Rsrc, Rdst      | 10010  | OP \| Rsrc \| Rdst \| 000        |
-| STD Rsrc, Rdst      | 10011  | OP \| Rsrc \| Rdst \| 000        |
-| JZ Rdst             | 10100  | OP \| 0000 \| Rdst \| 000        |
-| JN Rdst             | 10101  | OP \| 0000 \| Rdst \| 001        |
-| JC Rdst             | 10110  | OP \| 0000 \| Rdst \| 010        |
-| JMP Rdst            | 10111  | OP \| 0000 \| Rdst \| 011        |
-| CALL Rdst           | 11000  | OP \| PCholder0 \| Rdst \| 000   |
-| Second part of CALL | 11001  | OP \| PCholder1 \| Rdst \| 011   |
-| RET                 | 11010  | OP \| 0000 \| PCholder1 \| 000   |
-| Second part of RET  | 11011  | OP \| 0000 \| PCholder0 \| 011   |
-| RTI                 | 11100  | OP \| 0000 \| PCholder1 \| 000   |
-| Second part of RTI  | 11101  | OP \| 0000 \| PCholder0 \| 011   |
+| Instruction              | OpCode | Format                          | Immediate 16-bit |
+| ------------------------ | ------ | ------------------------------- | ---------------- |
+| NOP                      | 00000  | OP\| 0000 \| 0000 \| 000        |                  |
+| SETC                     | 00001  | OP\| 0000 \| 0000 \| 000        |                  |
+| CLRC                     | 00010  | OP\| 0000 \| 0000 \| 000        |                  |
+| NOT Rdst                 | 00011  | OP\| Rdst \| Rdst \| 000        |                  |
+| INC Rdst                 | 00100  | OP\| Rdst \| Rdst \| 000        |                  |
+| DEC Rdst                 | 00101  | OP\| Rdst \| Rdst \| 000        |                  |
+| OUT Rdst                 | 00110  | OP\| Rdst \| PORTAddress \| 000 |                  |
+| IN Rdst                  | 00111  | OP\| PORTAddress \| Rdst \| 000 |                  |
+| MOV Rsrc, Rdst           | 01000  | OP\| Rsrc \| Rdst \| 000        |                  |
+| ADD Rsrc, Rdst           | 01001  | OP\| Rsrc \| Rdst \| 000        |                  |
+| SUB Rsrc, Rdst           | 01010  | OP\| Rsrc \| Rdst \| 000        |                  |
+| AND Rsrc, Rdst           | 01011  | OP\| Rsrc \| Rdst \| 000        |                  |
+| OR Rsrc, Rdst            | 01100  | OP\| Rsrc \| Rdst \| 000        |                  |
+| SHL Rsrc, Imm            | 01101  | OP\| Rsrc \| Rsrc \| 000        | Imm              |
+| SHR Rsrc, Imm            | 01110  | OP\| Rsrc \| Rsrc \| 000        | Imm              |
+| PUSH Rdst                | 01111  | OP\| Rdst \| 0000 \| 000        |                  |
+| POP Rdst                 | 10000  | OP\| 0000 \| Rdst \| 000        |                  |
+| LDM Rdst, Imm            | 10001  | OP\| 0000 \| Rdst \| 000        | Imm              |
+| LDD Rsrc, Rdst           | 10010  | OP\| Rsrc \| Rdst \| 000        |                  |
+| STD Rsrc, Rdst           | 10011  | OP\| Rsrc \| Rdst \| 000        |                  |
+| JZ Rdst                  | 10100  | OP\| 0000 \| Rdst \| 000        |                  |
+| JN Rdst                  | 10101  | OP\| 0000 \| Rdst \| 001        |                  |
+| JC Rdst                  | 10110  | OP\| 0000 \| Rdst \| 010        |                  |
+| JMP Rdst                 | 10111  | OP\| 0000 \| Rdst \| 011        |                  |
+| CALL Rdst                | 11000  | OP\| PCholder0 \| Rdst \| 000   |                  |
+| Second part of CALL      | 11001  | OP\| PCholder1 \| Rdst \| 011   |                  |
+| RET                      | 11010  | OP\| 0000 \| PCholder1 \| 000   |                  |
+| Second part of RET       | 11011  | OP\| 0000 \| PCholder0 \| 011   |                  |
+| RTI                      | 11100  | OP\| 0000 \| PCholder1 \| 000   |                  |
+| Second part of RTI       | 11101  | OP\| 0000 \| PCholder0 \| 011   |                  |
+| First part of interrupt  | 11110  | OP\| PCholder0 \| 0000 \| 000   |                  |
+| Second part of interrupt | 11111  | OP\| PCholder1 \| 0000 \| 000   |                  |
 
 ## Types of hazards and our solution to solve it
 
@@ -206,11 +208,3 @@
 
 - check passRegister bits if it 1 i will put the 16-bit instruction in imm else will be in instruction
 - at decoding if i found iam 32-bit instruction i will flush my self as (bubble) then make register (passRegister) to be one then at next cycle will come with the whole 32-bit instruction and will check the passRegister nad make it zero again
-
-## TODO
-
-- handle return and rti
-- check jumps & call with intrrupt
-- add opCode for interrupt
-- edit the PC adder to just add 1 or same
-- recheck for report
