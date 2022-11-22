@@ -177,11 +177,11 @@
 | SUB Rsrc, Rdst           | 01010  | OP\| Rsrc \| Rdst \| 000        |                  |
 | AND Rsrc, Rdst           | 01011  | OP\| Rsrc \| Rdst \| 000        |                  |
 | OR Rsrc, Rdst            | 01100  | OP\| Rsrc \| Rdst \| 000        |                  |
-| SHL Rsrc, Imm            | 01101  | OP\| Rsrc \| Rsrc \| 000        | Imm              |
-| SHR Rsrc, Imm            | 01110  | OP\| Rsrc \| Rsrc \| 000        | Imm              |
+| SHL Rsrc, Imm            | 01101  | OP\| Rsrc \| Rsrc \| 100        | Imm              |
+| SHR Rsrc, Imm            | 01110  | OP\| Rsrc \| Rsrc \| 100        | Imm              |
 | PUSH Rdst                | 01111  | OP\| Rdst \| 0000 \| 000        |                  |
 | POP Rdst                 | 10000  | OP\| 0000 \| Rdst \| 000        |                  |
-| LDM Rdst, Imm            | 10001  | OP\| 0000 \| Rdst \| 000        | Imm              |
+| LDM Rdst, Imm            | 10001  | OP\| 0000 \| Rdst \| 100        | Imm              |
 | LDD Rsrc, Rdst           | 10010  | OP\| Rsrc \| Rdst \| 000        |                  |
 | STD Rsrc, Rdst           | 10011  | OP\| Rsrc \| Rdst \| 000        |                  |
 | JZ Rdst                  | 10100  | OP\| 0000 \| Rdst \| 000        |                  |
