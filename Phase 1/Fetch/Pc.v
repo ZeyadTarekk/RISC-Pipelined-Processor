@@ -1,13 +1,13 @@
 module ProgramCounter (
     clk,
-    stallf,
+    stall,
     nextCount,
     currentCount
 );
 
 
   input [31:0] nextCount;
-  input stallf;
+  input stall;
   input clk;
   output reg [31:0] currentCount;
 
@@ -17,7 +17,8 @@ module ProgramCounter (
   end
 
   always @(posedge clk) begin
-    if (stallf == 1) currentCount <= nextCount;
+    //  if there is no stalling
+    if (stall != 1) currentCount <= nextCount;
   end
 
 endmodule

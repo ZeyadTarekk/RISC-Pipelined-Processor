@@ -1,11 +1,18 @@
+// includes
+`include "Mux32.v"
+`include "Pc.v"
+`include "Adder4.v"
+`include "MemInstruction.v"
+`include "IRDetector.v"
+
 module Fetch (
-    stallf,
+    stall,
     clk,
     nextPc,
     instruction,
     immediate
 );
-  input stallf;
+  input stall;
   input clk;
   output [31:0] nextPc;
   output [15:0] instruction, immediate;
@@ -15,7 +22,7 @@ module Fetch (
 
   programCounter pc (
       clk,
-      stallf,
+      stall,
       nextCount,
       currentCount
   );
