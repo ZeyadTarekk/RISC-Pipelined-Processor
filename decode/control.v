@@ -1,11 +1,11 @@
-module controlUnit(clk,opCode,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite,fct,interrupt,reset);
+module controlUnit(opCode,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite,fct,interrupt,reset);
 input clk;
 input[4:0] opCode;
 output [3:0] ALUControl
 output [1:0] SPOperation,CarryFlag,fct
 output RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite,interrupt,reset
 
-always @(posedge clk) begin
+always @(*) begin
 
   SPOperation=2'bxx;
   RegWrite=1'bx;
