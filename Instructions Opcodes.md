@@ -208,3 +208,8 @@
 
 - check passRegister bits if it 1 i will put the 16-bit instruction in imm else will be in instruction
 - at decoding if i found iam 32-bit instruction i will flush my self as (bubble) then make register (passRegister) to be one then at next cycle will come with the whole 32-bit instruction and will check the passRegister nad make it zero again
+
+
+
+## comments 
+- in fetch we need same pc and next pc
