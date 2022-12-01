@@ -1,9 +1,8 @@
 module controlUnit(opCode,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite,fct,interrupt,reset);
-input clk;
 input[4:0] opCode;
-output [3:0] ALUControl
-output [1:0] SPOperation,CarryFlag,fct
-output RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite,interrupt,reset
+output reg [3:0] ALUControl;
+output reg [1:0] SPOperation,CarryFlag,fct;
+output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite,interrupt,reset;
 
 always @(*) begin
 
@@ -24,7 +23,7 @@ always @(*) begin
   fct=2'bxx;
   interrupt=1'bx;
   reset=1'bx;
-  if(opCode == 4'b00000) begin
+  if(opCode == 5'b00000) begin
     // NOP
   SPOperation=2'b00;
   RegWrite=1'b0;
@@ -37,7 +36,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'b00001) begin
+  else if(opCode == 5'b00001) begin
     // SETC
   SPOperation=2'b00;
   RegWrite=1'b0;
@@ -51,7 +50,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'00010) begin
+  else if(opCode == 5'b00010) begin
     // CLRC
   SPOperation=2'b00;
   RegWrite=1'b0;
@@ -65,7 +64,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'00011) begin
+  else if(opCode == 5'b00011) begin
     // NOT Rdst
   SPOperation=2'b00;
   RegWrite=1'b1;
@@ -80,7 +79,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'00100) begin
+  else if(opCode == 5'b00100) begin
     // INC Rdst
   SPOperation=2'b00;
   RegWrite=1'b1;
@@ -95,7 +94,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'00101) begin
+  else if(opCode == 5'b00101) begin
     // DEC Rdst
   SPOperation=2'b00;
   RegWrite=1'b1;
@@ -110,7 +109,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'00110) begin
+  else if(opCode == 5'b00110) begin
     // OUT Rdst
   SPOperation=2'b00;
   RegWrite=1'b1;
@@ -124,7 +123,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'00111) begin
+  else if(opCode == 5'b00111) begin
     // IN Rdst
   SPOperation=2'b00;
   RegWrite=1'b1;
@@ -138,7 +137,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'01000) begin
+  else if(opCode == 5'b01000) begin
     // MOV Rsrc, Rdst
   SPOperation=2'b00;
   RegWrite=1'b1;
@@ -152,7 +151,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'01001) begin
+  else if(opCode == 5'b01001) begin
     // ADD Rsrc, Rdst
   SPOperation=2'b00;
   RegWrite=1'b1;
@@ -167,7 +166,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'01010) begin
+  else if(opCode == 5'b01010) begin
     // SUB Rsrc, Rdst
   SPOperation=2'b00;
   RegWrite=1'b1;
@@ -182,7 +181,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'01011) begin
+  else if(opCode == 5'b01011) begin
     // AND Rsrc, Rdst
   SPOperation=2'b00;
   RegWrite=1'b1;
@@ -197,7 +196,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'01100) begin
+  else if(opCode == 5'b01100) begin
     // OR Rsrc, Rdst
   SPOperation=2'b00;
   RegWrite=1'b1;
@@ -212,7 +211,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'01101) begin
+  else if(opCode == 5'b01101) begin
     // SHL Rsrc, Imm
   SPOperation=2'b00;
   RegWrite=1'b1;
@@ -227,7 +226,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'01110) begin
+  else if(opCode == 5'b01110) begin
     // SHR Rsrc, Imm
   SPOperation=2'b00;
   RegWrite=1'b1;
@@ -242,7 +241,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'01111) begin
+  else if(opCode == 5'b01111) begin
     // PUSH Rdst
   SPOperation=2'b01;
   RegWrite=1'b0;
@@ -254,7 +253,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'10000) begin
+  else if(opCode == 5'b10000) begin
     // POP Rdst
   SPOperation=2'b10;
   RegWrite=1'b1;
@@ -267,7 +266,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'10001) begin
+  else if(opCode == 5'b10001) begin
     // LDM Rdst, Imm
   SPOperation=2'b00;
   RegWrite=1'b1;
@@ -281,7 +280,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'10010) begin
+  else if(opCode == 5'b10010) begin
     // LDD Rsrc, Rdst
   SPOperation=2'b00;
   RegWrite=1'b1;
@@ -295,7 +294,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'10011) begin
+  else if(opCode == 5'b10011) begin
     // STD Rsrc, Rdst
   SPOperation=2'b00;
   RegWrite=1'b0;
@@ -309,7 +308,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'10100) begin
+  else if(opCode == 5'b10100) begin
     // JZ Rdst
   SPOperation=2'b00;
   RegWrite=1'b0;
@@ -322,7 +321,7 @@ always @(*) begin
   privateRegWrite=1'b0;
   fct=2'b00;
   end
-  else if(opCode == 4'10101) begin
+  else if(opCode == 5'b10101) begin
     // JN Rdst
   SPOperation=2'b00;
   RegWrite=1'b0;
@@ -335,7 +334,7 @@ always @(*) begin
   privateRegWrite=1'b0;
   fct=2'b01;
   end
-  else if(opCode == 4'10110) begin
+  else if(opCode == 5'b10110) begin
     // JC Rdst
   SPOperation=2'b00;
   RegWrite=1'b0;
@@ -348,7 +347,7 @@ always @(*) begin
   privateRegWrite=1'b0;
   fct=2'b10;
   end
-  else if(opCode == 4'10111) begin
+  else if(opCode == 5'b10111) begin
     // JMP Rdst
   SPOperation=2'b00;
   RegWrite=1'b0;
@@ -361,7 +360,7 @@ always @(*) begin
   privateRegWrite=1'b0;
   fct=2'b11;
   end
-  else if(opCode == 4'11000) begin
+  else if(opCode == 5'b11000) begin
     // CALL Rdst
   SPOperation=2'b01;
   RegWrite=1'b0;
@@ -373,7 +372,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b1;
   end
-  else if(opCode == 4'11001) begin
+  else if(opCode == 5'b11001) begin
     // Second part of CALL
   SPOperation=2'b01;
   RegWrite=1'b0;
@@ -387,7 +386,7 @@ always @(*) begin
   privateRegWrite=1'b0;
   fct=2'b11;
   end
-  else if(opCode == 4'11010) begin
+  else if(opCode == 5'b11010) begin
     // RET
   SPOperation=2'b10;
   RegWrite=1'b1;
@@ -400,7 +399,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'11011) begin
+  else if(opCode == 5'b11011) begin
     // Second part of RET
   SPOperation=2'b10;
   RegWrite=1'b1;
@@ -415,7 +414,7 @@ always @(*) begin
   privateRegWrite=1'b0;
   fct=2'b11;
   end
-  else if(opCode == 4'11100) begin
+  else if(opCode == 5'b11100) begin
     // RTI
   SPOperation=2'b10;
   RegWrite=1'b1;
@@ -428,7 +427,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   end
-  else if(opCode == 4'11101) begin
+  else if(opCode == 5'b11101) begin
     // Second part of RTI
   SPOperation=2'b10;
   RegWrite=1'b1;
@@ -444,7 +443,7 @@ always @(*) begin
   privateRegWrite=1'b0;
   fct=2'b11;
   end
-  else if(opCode == 4'11110) begin
+  else if(opCode == 5'b11110) begin
     // First part of interrupt
   SPOperation=2'b01;
   RegWrite=1'b0;
@@ -458,7 +457,7 @@ always @(*) begin
   interrupt=1'b1;
   reset=1'b0;
   end
-  else if(opCode == 4'11111) begin
+  else if(opCode == 5'b11111) begin
     // Second part of interrupt
   SPOperation=2'b01;
   RegWrite=1'b0;
