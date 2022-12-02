@@ -14,13 +14,14 @@ Functionality : Stage that fetch data from instruction memory
 module Fetch (
     stall,
     clk,
+    samePc,
     nextPc,
     instruction,
     immediate
 );
   input stall;
   input clk;
-  output [31:0] nextPc;
+  output [31:0] nextPc, samePc;
   output [15:0] instruction, immediate;
 
   wire [31:0] nextCount;
@@ -35,6 +36,7 @@ module Fetch (
   adder addPc (
       currentCount,
       4,
+      samePc,
       nextPc
   );
 

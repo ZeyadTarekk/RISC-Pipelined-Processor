@@ -9,7 +9,7 @@ Fetch  fet(
     .stall(stall),
     .clk(clk),
 
-    .samePC(PC),
+    .samePc(PC),
     .nextPc(NextPC),
     .instruction(Inst),
     .immediate(Imm)
@@ -178,7 +178,20 @@ MemWbBuffer MB(
 
 
 /// Write back
+wire [15:0] outputRes;
 
-//WriteBack()
+WriteBack Wb (
+      .regWrite(MEM_WB_RegWrite),
+      .memOrReg(MEM_WB_MemOrReg),
+      .dstOrPrivate(MEM_WB_DestOrPrivate),
+      .clk(clk),
+      .regDstAddress(MEM_WB_RegDestAddress),
+      .memData(MEM_WB_Data),
+      .aluDat(MEM_WB_DataRes),
+      
+      
+      
+      .outputRes(outputRes)
+  );
 
 endmodule

@@ -1,7 +1,9 @@
 module adder (
     input  [31:0] a,
     input  [31:0] b,
-    output [31:0] out
+    output [31:0] samePcOut,
+    nextPcOut
 );
-  assign out = a + b;
+  assign samePcOut = a;
+  assign nextPcOut = a + b;
 endmodule
