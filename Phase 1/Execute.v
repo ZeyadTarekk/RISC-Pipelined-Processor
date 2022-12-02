@@ -10,6 +10,7 @@ module ExecuteStage (
 	output reg [15:0] ALUResult
 );
   always @(*) begin
+		newStatus[2] = 1'bx;
 		if (ALUControl == 4'b0000) begin  // ADD
 			{newStatus[2], ALUResult} = RegSrc + RegDst;
 		end else if (ALUControl == 4'b0001) begin  // SUB
