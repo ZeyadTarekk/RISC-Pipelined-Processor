@@ -1,3 +1,9 @@
+/*
+Module name   : Program Counter
+Author	      : Ziad Sherif
+Functionality : Register we store next address instruction
+*/
+
 module ProgramCounter (
     clk,
     stall,

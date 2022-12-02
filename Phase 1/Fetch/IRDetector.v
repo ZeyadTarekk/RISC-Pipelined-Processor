@@ -1,3 +1,9 @@
+/*
+Module name   : Instruction Register Detector
+Author	      : Ziad Sherif
+Functionality : A block in which we detect we chooose 1st 16-bit and go on ,, or wait to next 16-bit to fetch whole 32-bit (immediate)
+*/
+
 module IRDetector (
     input [15:0] iR,
     input clk,

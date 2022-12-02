@@ -1,3 +1,9 @@
+/*
+Module name   : Fetch
+Author	      : Ziad Sherif
+Functionality : Stage that fetch data from instruction memory
+*/
+
 // includes
 `include "Mux32.v"
 `include "Pc.v"
