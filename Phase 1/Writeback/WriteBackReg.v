@@ -22,8 +22,8 @@ module WriteBack (
 
   always @(posedge clk) begin
     Mux16 DataChoosen (
-        memData,
         aluData,
+        memData,
         memOrReg,
         outputRes
     );
