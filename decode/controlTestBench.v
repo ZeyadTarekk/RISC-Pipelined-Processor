@@ -6,16 +6,16 @@ wire [3:0] ALUControl;
 wire [1:0] SPOperation,CarryFlag,fct;
 wire RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite,interrupt;
 
-localparam N = 10 ;
+  localparam N = 10;
 
 controlUnit controlObj(opCode,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite,fct,interrupt);
 
-initial begin
-  // $monitor("at time = %3d \nopCode = %d\nSPOperation = %d RegWrite = %d, MemRead = %d MemWrite = %d \nMemOrReg = %d write address = %d, data = %d \n\n\n",$time,opCode,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,write_addr,write_data);
+  initial begin
+    // $monitor("at time = %3d \nopCode = %d\nSPOperation = %d RegWrite = %d, MemRead = %d MemWrite = %d \nMemOrReg = %d write address = %d, data = %d \n\n\n",$time,opCode,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,write_addr,write_data);
 
-  opCode = 5'b00001;
-  #N
-  if(SPOperation==2'b00 && 
+    opCode = 5'b00001;
+    #N
+      if(SPOperation==2'b00 && 
   RegWrite==1'b0&&
   MemRead==1'b0&&
   MemWrite==1'b0&&
@@ -26,13 +26,12 @@ initial begin
   CarryFlag==2'b11&&
   PCControl==1'b0&&
   privateRegWrite==1'b0) begin
-  $display("SETC Passed");
-  end
-  else begin
-  $display("SETC Failed");
-  end
+            $display("SETC Passed");
+      end else begin
+        $display("SETC Failed");
+      end
 
 
-end
+  end
 
 endmodule

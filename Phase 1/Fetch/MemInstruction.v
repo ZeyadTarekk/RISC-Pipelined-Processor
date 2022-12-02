@@ -1,3 +1,9 @@
+/*
+Module name   : Memory Instruction
+Author	      : Ziad Sherif
+Functionality : Container where we store instructions in it
+*/
+
 module MemoryInstruction (
     readAddress,
     memInstruction
