@@ -34,13 +34,59 @@ IfIdBuffer ifoo(
     ,.oNextPC(IF_ID_NextPC)
     ,.oInstruction(IF_ID_Inst)
     ,.oimm(IF_ID_Imm)
-     );
+    );
 
 /// Decoding Stage
-wire RegWrite , MemOrReg, DestOrPrivate , MemWrite, MemRead, SPOrALUres, immOrReg, updateStatus;
+wire RegWrite , MemOrReg, DestOrPrivate , MemWrite, MemRead, SPOrALUres, immOrReg, updateStatus, BranchFlag, PCControl, privateRegWrite;
 wire [3:0] regDestAddress , regSrcAddress, AlUControl;
 wire [15:0] RegSrc ,RegDest , imm;
-wire [1:0] SPOpeartion, carryFlag, funCode ;
+wire [1:0] SPOpeartion, carryFlag, funCode, fct ;
+
+controlUnit control(
+  .opCode(IF_ID_Inst[15:11]),
+  .SPOperation(SPOpeartion),
+  .RegWrite(RegWrite),
+  .MemRead(MemRead),
+  .MemWrite(MemWrite),
+  .MemOrReg(MemOrReg),
+  .UpdateStatus(updateStatus),
+  .ImmOrReg(immOrReg),
+  .ALUControl(AlUControl),
+  .SPOrALUres(SPOrALUres),
+  .DestOrPrivate(DestOrPrivate),
+  .BranchFlag(BranchFlag),
+  .CarryFlag(carryFlag),
+  .PCControl(PCControl),
+  .privateRegWrite(privateRegWrite),
+  .fct(fct),
+  .interrupt(interrupt)  // TODO
+  );
+
+
+
+// Register file
+
+
+wire MEM_WB_RegWrite;
+wire [3:0] MEM_WB_RegDestAddress;
+wire [15:0] outputRes;
+
+regFile registerFile(
+  .write_enable(MEM_WB_RegWrite)
+  ,.write_data(outputRes)
+  ,.write_addr(MEM_WB_RegDestAddress)
+  ,.clk(clk)
+  ,.reset(reset)
+  ,.read_addr1(IF_ID_Inst[10:7])
+  ,.read_addr2(IF_ID_Inst[6:3])
+
+  ,.read_data1(RegSrc)
+  ,.read_data2(RegDest)
+  );
+
+
+
+
 //stall => output from Decoding
 
 
@@ -155,8 +201,7 @@ MemoryStage(
 );
 
 /// Memory WB Buffer
-wire MEM_WB_RegWrite ,MEM_WB_MemOrReg, MEM_WB_DestOrPrivate;
-wire [3:0] MEM_WB_RegDestAddress;
+wire MEM_WB_MemOrReg, MEM_WB_DestOrPrivate;
 wire [15:0] MEM_WB_DataRes ,MEM_WB_Data;
 
 MemWbBuffer MB(
@@ -178,7 +223,7 @@ MemWbBuffer MB(
 
 
 /// Write back
-wire [15:0] outputRes;
+
 
 WriteBack Wb (
       .regWrite(MEM_WB_RegWrite),

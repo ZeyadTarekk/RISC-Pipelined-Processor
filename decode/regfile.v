@@ -10,7 +10,7 @@ module regFile (
     write_addr
 );
   input write_enable, rst, clk;
-  input [4:0] read_addr, write_addr;
+  input [4:0] read_addr1,read_addr2, write_addr;
   input [15:0] write_data;
   output reg [15:0] read_data1;
   output reg [15:0] read_data2;
