@@ -18,6 +18,7 @@ module WriteBack (
   input regWrite, memOrReg, dstOrPrivate, clk;
   input [3:0] regDstAddress;
   input [15:0] memData, aluData;
+  output [15:0] outputRes;
 
   always @(posedge clk) begin
     Mux16 DataChoosen (
