@@ -12,20 +12,17 @@ module MemoryInstruction (
 
   input stall;
   input [31:0] readAddress;
-  output reg [15:0] memInstruction;
+  output  [15:0] memInstruction;
 
-  reg [15:0] memArray[2097152:0];
+  // reg [15:0] memArray[2097152:0];
+  reg [15:0] memArray[63:0];
 
 
-  integer fd;
   initial begin
-
-    // fd = $fopen("my_file.txt", "r");
-
-    $readmemh("instr.txt", memArray);
+    $readmemb("./instr.txt", memArray);
   end
 
-  // assign memInstruction = memArray[readAddress];
+  assign memInstruction = memArray[readAddress];
 
   always @(*) begin
     if (stall) memInstruction = 16'b0;

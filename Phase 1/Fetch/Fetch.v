@@ -6,9 +6,10 @@ Functionality : Stage that fetch data from instruction memory
 
 // includes
 `include "Mux32.v"
-`include "Pc.v"
+`include "PC.v"
 `include "MemInstruction.v"
 `include "IRDetector.v"
+
 
 module Fetch (
     stall,
@@ -17,70 +18,75 @@ module Fetch (
     rst,
     interruptBit,
     branchIR,
+    initPc,
     samePc,
     nextPc,
     instruction,
     immediate
 );
   input stall, clk, jumpBit, rst, interruptBit;
-  input [31:0] branchIR;
+  input [31:0] branchIR, initPc;
   output [31:0] nextPc, samePc;
   output [15:0] instruction, immediate;
 
 
-  wire [31:0] currentCount;
+
+  wire [31:0] currentCount[2:0];
+  wire [31:0] nextWire;
 
   /* first mux
     * param (next pc ,branch address , sel bit, output data)
     */
 
   Mux32 M1 (
-      nextPc,
+      initPc,
       branchIR,
       jumpBit,
-      currentCount
+      currentCount[0]
   );
 
   /* second mux
     * param (current pc ,first instruction after interrupt , sel bit, output data)
     */
   Mux32 M2 (
-      currentCount,
+      currentCount[0],
       32'h20,
       rst,
-      currentCount
+      currentCount[1]
   );
   /* third mux
     * param (current pc ,first address of interrupt memory , sel bit, output data)
     */
   Mux32 M3 (
-      currentCount,
-      0,
+      currentCount[1],
+      32'b0,
       interruptBit,
-      currentCount
+      currentCount[2]
   );
 
 
   PC addPc (
-      currentCount,
-      4,
-      samePc,
-      nextPc,
-      stall
+      .a(currentCount[2]),
+      .b(32'b1),
+      .samePcOut(samePc),
+      .nextPcOut(nextPc),
+      .stall(stall)
   );
+
+  assign nextWire = samePc;
 
   MemoryInstruction mem (
-      samePc,
-      instruction,
-      stall
+      .readAddress(nextWire),
+      .memInstruction(instruction),
+      .stall(stall)
   );
 
-  IRDetector iRImemediate (
-      instruction,
-      clk,
-      instruction,
-      immediate
-  );
+  // IRDetector iRImemediate (
+  //     instruction,
+  //     clk,
+  //     instruction,
+  //     immediate
+  // );
 
 
 

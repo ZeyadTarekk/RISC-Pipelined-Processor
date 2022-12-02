@@ -14,20 +14,20 @@ module MemoryInstruction (
   input [31:0] readAddress;
   output reg [15:0] memInstruction;
 
-  reg [15:0] memArray[2097152:0];
+  // reg [15:0] memArray[2097152:0];
+  reg [15:0] memArray[63:0];
 
 
+  integer i;
   initial begin
-
-    // fd = $fopen("my_file.txt", "r");
-
-    // $readmemb("./instr.txt", memArray);
-    $readmemb("./manga.txt", memArray);
+    // for (i = 0; i < 64; i = i + 1) memArray[i] = i;
+    $readmemb("./instr.txt", memArray);
   end
 
   // assign memInstruction = memArray[readAddress];
 
   always @(*) begin
+    memInstruction = memArray[readAddress];
     if (stall) memInstruction = 16'b0;
     else memInstruction = memArray[readAddress];
   end
