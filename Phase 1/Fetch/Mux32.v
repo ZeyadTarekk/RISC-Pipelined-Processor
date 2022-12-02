@@ -3,15 +3,15 @@ Module name   : mux 16-bit
 Author	      : Ziad Sherif
 Functionality : A simple multiplxer 16-bit 
 */
-module Mux16 (
+module Mux32 (
     firstOp,
     secondOp,
     sel,
     res
 );
-  input [15:0] firstOp;
-  input [15:0] secondOp;
+  input [31:0] firstOp;
+  input [31:0] secondOp;
   input sel;
-  output [15:0] res;
+  output [31:0] res;
   assign res = sel ? secondOp : firstOp;
 endmodule
