@@ -17,12 +17,12 @@ module MemoryInstruction (
   reg [15:0] memArray[2097152:0];
 
 
+  integer fd;
   initial begin
 
     // fd = $fopen("my_file.txt", "r");
 
-    // $readmemb("./instr.txt", memArray);
-    $readmemb("./manga.txt", memArray);
+    $readmemh("instr.txt", memArray);
   end
 
   // assign memInstruction = memArray[readAddress];
