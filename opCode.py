@@ -247,3 +247,6 @@ for x in f:
     f2.write("\n")
     f2.write(opCode2)
     f2.write("\n")
+
+f.close()
+f2.close()
