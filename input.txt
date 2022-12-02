@@ -1,2 +1,1 @@
-LDM R5,5 
-MOV R2,R1 
+MOV R1,R5
