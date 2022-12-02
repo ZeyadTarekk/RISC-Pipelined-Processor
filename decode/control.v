@@ -1,8 +1,8 @@
-module controlUnit(opCode,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite,fct,interrupt,reset);
+module controlUnit(opCode,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite,fct,interrupt);
 input[4:0] opCode;
 output reg [3:0] ALUControl;
 output reg [1:0] SPOperation,CarryFlag,fct;
-output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite,interrupt,reset;
+output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite,interrupt;
 
 always @(*) begin
 
@@ -22,7 +22,6 @@ always @(*) begin
   privateRegWrite=1'bx;
   fct=2'bxx;
   interrupt=1'bx;
-  reset=1'bx;
   if(opCode == 5'b00000) begin
     // NOP
   SPOperation=2'b00;
@@ -455,7 +454,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b1;
   interrupt=1'b1;
-  reset=1'b0;
+
   end
   else if(opCode == 5'b11111) begin
     // Second part of interrupt
@@ -469,7 +468,7 @@ always @(*) begin
   PCControl=1'b0;
   privateRegWrite=1'b0;
   interrupt=1'b0;
-  reset=1'b0;
+
   end
 end
 

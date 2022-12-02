@@ -4,11 +4,11 @@ module control_tb();
 reg [4:0] opCode;
 wire [3:0] ALUControl;
 wire [1:0] SPOperation,CarryFlag,fct;
-wire RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite,interrupt,reset;
+wire RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite,interrupt;
 
 localparam N = 10 ;
 
-controlUnit controlObj(opCode,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite,fct,interrupt,reset);
+controlUnit controlObj(opCode,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite,fct,interrupt);
 
 initial begin
   // $monitor("at time = %3d \nopCode = %d\nSPOperation = %d RegWrite = %d, MemRead = %d MemWrite = %d \nMemOrReg = %d write address = %d, data = %d \n\n\n",$time,opCode,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,write_addr,write_data);
