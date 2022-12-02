@@ -212,4 +212,18 @@
 
 
 ## comments 
-- in fetch we need same pc and next pc
+- in fetch we need same pc and next 
+
+
+## Forwarding unit
+- ALUSrcChoce =>
+  - 00 - if alusrc != memsrc & alusrc != wBsrc
+  - 01 - if alusrc != memsrc & alusrc == wBsrc 
+  - 10 - if alusrc == memsrc
+- ALUDestChoce =>
+    - 00 - if aludest != memsrc & aludest != wBsrc
+    - 01 - if aludest != memsrc & aludest == wBsrc 
+    - 10 - if aludest == memsrc
+
+## HazardDetection Unit
+-
