@@ -18,7 +18,7 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   DestOrPrivate=1'bx;
   BranchFlag=1'b0;
   CarryFlag=2'bxx;
-  PCControl=1'b1;
+  PCControl=1'b0;
   privateRegWrite=1'bx;
   fct=2'bxx;
   if(opCode == 5'b00000) begin

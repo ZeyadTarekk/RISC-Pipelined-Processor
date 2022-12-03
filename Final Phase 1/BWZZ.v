@@ -8,7 +8,7 @@ wire flush, choosedBitOutput;
 
 
 Fetch fetchStage(
-	.stall(stall),
+	.stall(1'b0),
 	.clk(clk),
 	.jumpBit(flush),
 	.rst(reset),
@@ -68,8 +68,7 @@ controlUnit ControlUnit(
   .CarryFlag(carryFlag),
   .PCControl(PCControl),
   .privateRegWrite(privateRegWrite),
-  .fct(fct),
-  .interrupt(interrupt)  // TODO
+  .fct(fct)
   );
 
 assign selectedPC = PCControl? PC : NextPC;

@@ -72,7 +72,8 @@ module Fetch (
       .b(32'b1),
       .samePcOut(samePc),
       .nextPcOut(nextPc),
-      .stall(stall)
+      .stall(stall),
+			.clk(clk)
   );
 
   assign nextWire = samePc;
