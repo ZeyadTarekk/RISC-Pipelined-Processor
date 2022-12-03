@@ -1,20 +1,23 @@
 module BWZZ_TB();
 
+localparam N = 10 ;
+
 reg clk, reset, interrupt;
 
-BWZZ yarb(clk, reset, interrupt)
+BWZZ yarb(clk, reset, interrupt);
 
 initial begin 	
-	clk = 0;
-	reset = 1;
-	#10
+	clk = 1'b1;
+	reset = 1'b1;
+	interrupt = 1'b0;
 
-	reset = 0;
+	#N
 
+	reset = 1'b0;
 
 
 end
 
-always #20 clk = !clk;
+always #N clk = !clk;
 
 endmodule
