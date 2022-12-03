@@ -16,7 +16,7 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   ALUControl=4'bxxxx;
   SPOrALUres=1'bx;
   DestOrPrivate=1'bx;
-  BranchFlag=1'bx;
+  BranchFlag=1'b0;
   CarryFlag=2'bxx;
   PCControl=1'bx;
   privateRegWrite=1'bx;
