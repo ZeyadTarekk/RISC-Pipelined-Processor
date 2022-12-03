@@ -34,7 +34,7 @@ module Fetch (
 
   wire [31:0] currentCount[2:0];
   wire [31:0] nextWire;
-  reg  [31:0] tempWire;
+  reg  [15:0] tempWire;
 
   /* first mux
     * param (next pc ,branch address , sel bit, output data)
@@ -83,13 +83,13 @@ module Fetch (
       .stall(stall)
   );
 
-  assign tempWire = instructionTest;
-  IRDetector iRImemediate (
-      .iR(tempWire),
-      .clk(clk),
-      .instruction(finalInstruction),
-      .immediate(immediate)
-  );
+  // assign tempWire = instructionTest;
+  // IRDetector iRImemediate (
+  //     .iR(tempWire),
+  //     .clk(clk),
+  //     .instruction(finalInstruction),
+  //     .immediate(immediate)
+  // );
 
 
 

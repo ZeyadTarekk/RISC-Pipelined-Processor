@@ -11,19 +11,15 @@ module IRDetector (
     immediate
 );
 
-  reg flag = 0;
-
-  always @(posedge clk) begin
-    if (iR[2]) flag = 1;
-
-    instruction = iR;
-
-    if (flag) begin
-      immediate = iR;
-      flag = 0;
-    end
+  always @(*) begin
+    if (iR[2] == 1'b1) begin
+      immediate   = iR;
+      instruction = 0;
+    end else instruction = iR;
 
   end
+
+
 
 
 endmodule
