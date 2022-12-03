@@ -28,9 +28,9 @@ def addressRegsiter(word):
 
 f = open("input.txt", "r")
 # content = f.read()
-if os.path.exists("opcodesconverted.txt"):
-    os.remove("opcodesconverted.txt")
-f2 = open("opcodesconverted.txt", "a")
+if os.path.exists("Final Phase 1/instr.txt"):
+    os.remove("Final Phase 1/instr.txt")
+f2 = open("Final Phase 1/instr.txt", "a")
 
 for x in f:
     opCode = ""
@@ -47,7 +47,7 @@ for x in f:
         f2.write("\n")
     elif instructionParts[0] == "CLRC":
         print("CLRC")
-        opCode = "0001100000000000"
+        opCode = "0001000000000000"
         f2.write(opCode)
         f2.write("\n")
     elif instructionParts[0] == "NOT":
