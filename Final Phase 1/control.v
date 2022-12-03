@@ -1,8 +1,8 @@
-module controlUnit(opCode,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite,fct,interrupt);
+module controlUnit(opCode,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite,fct);
 input[4:0] opCode;
 output reg [3:0] ALUControl;
 output reg [1:0] SPOperation,CarryFlag,fct;
-output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite,interrupt;
+output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite;
 
   always @(*) begin
 
@@ -21,7 +21,6 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   PCControl=1'b1;
   privateRegWrite=1'bx;
   fct=2'bxx;
-  interrupt=1'bx;
   if(opCode == 5'b00000) begin
     // NOP
   SPOperation=2'b00;
@@ -453,7 +452,6 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   BranchFlag=1'b0;
   PCControl=1'b0;
   privateRegWrite=1'b1;
-  interrupt=1'b1;
 
   end
   else if(opCode == 5'b11111) begin
@@ -467,7 +465,6 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   BranchFlag=1'b0;
   PCControl=1'b0;
   privateRegWrite=1'b0;
-  interrupt=1'b0;
 
   end
 end
