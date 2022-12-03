@@ -5,41 +5,57 @@ Functionality : Recieve two operands and apply an operations on them then update
 */
 module ExecuteStage (
 	input ImmOrReg,
+	input [1:0] selectSrc, selectDst,
 	input [3:0] ALUControl,
-	input [15:0] RegSrc, RegDst, immediate,
+	input [15:0] RegSrc, RegDst, immediate, RegSrcFromEx, RegDstFromEx, RegSrcFromMem, RegDstFromMem,
 	output reg [3:0] newStatus,
 	output reg [15:0] ALUResult
 );
+
+	wire [15:0] RegDstOrImm, Operand1, Operand2;
+
+	assign RegDstOrImm = ImmOrReg? RegDst : immediate;
+
+	assign Operand1 =  (selectSrc == 2'b00)? RegSrc
+										:(selectSrc == 2'b01)? RegSrcFromEx
+										:(selectSrc == 2'b10)? RegSrcFromMem
+										: RegSrc;
+
+	assign Operand2 =  (selectSrc == 2'b00)? RegDstOrImm
+										:(selectSrc == 2'b01)? RegDstFromEx
+										:(selectSrc == 2'b10)? RegDstFromMem
+										: RegDstOrImm;
+
   always @(*) begin
 		if (ALUControl == 4'b0000) begin  // ADD
-			{newStatus[2], ALUResult} = RegSrc + RegDst;
+			{newStatus[2], ALUResult} = Operand1 + Operand2;
 		end else if (ALUControl == 4'b0001) begin  // SUB
-			{newStatus[2], ALUResult} = RegDst - RegSrc;
+			{newStatus[2], ALUResult} = Operand2 - Operand1;
 		end else if (ALUControl == 4'b0010) begin  // AND
-			ALUResult = RegSrc & RegDst;
+			ALUResult = Operand1 & Operand2;
 		end else if (ALUControl == 4'b0011) begin  // OR
-			ALUResult = RegSrc | RegDst;
+			ALUResult = Operand1 | Operand2;
 		end else if (ALUControl == 4'b0100) begin  // SHL
-			{newStatus[2], ALUResult} = RegSrc << immediate;
+			{newStatus[2], ALUResult} = Operand1 << Operand2;
 		end else if (ALUControl == 4'b0101) begin  // SHR
-			if (immediate > 16 || immediate < 0) begin
+			if (Operand2 > 16 || Operand2 < 0) begin
 				newStatus[2] = 0;
 			end else begin
-				newStatus[2] = RegSrc[immediate - 1];
+				newStatus[2] = Operand1[Operand2 - 1];
 			end
-			ALUResult = RegSrc >> immediate;
+			ALUResult = Operand1 >> Operand2;
 		end else if (ALUControl == 4'b0110) begin  // NOT
-			ALUResult = ~RegSrc;
+			ALUResult = ~Operand1;
 		end else if (ALUControl == 4'b0111) begin  // PASS Second
-			ALUResult = ImmOrReg? RegDst : immediate;
+			ALUResult = Operand2;
 		end else if (ALUControl == 4'b1000) begin  // INC
-			{newStatus[2], ALUResult} = RegSrc + 1;
+			{newStatus[2], ALUResult} = Operand1 + 1;
 		end else if (ALUControl == 4'b1001) begin  // DEC
-			{newStatus[2], ALUResult} = RegSrc - 1;
+			{newStatus[2], ALUResult} = Operand1 - 1;
 		end else if (ALUControl == 4'b1010) begin  // PASS First
-			ALUResult = RegSrc;
+			ALUResult = Operand1;
 		end else begin  // ADD
-			{newStatus[2], ALUResult} = RegSrc + RegDst;
+			{newStatus[2], ALUResult} = Operand1 + Operand2;
 		end
 
 		// update the status flag
