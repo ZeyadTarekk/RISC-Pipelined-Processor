@@ -14,14 +14,6 @@ output reg[15:0] firstRegValue;
 output reg[15:0] immediateValue;
 
 
-controlUnit control(instruction[15:11],SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite,fct,interrupt,reset);
-
-reg write_enable;
-reg [4:0] read_addr, write_addr;
-reg [15:0] write_data;
-wire [15:0] read_data;
-
-regFile testReg(write_enable,read_data,write_data,clk,reset,read_addr,write_addr);
 
 always @ (posedge clk) begin
   if(opCode == 5'b00011) begin
