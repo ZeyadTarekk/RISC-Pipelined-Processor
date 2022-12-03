@@ -61,7 +61,7 @@ module Fetch (
     */
   Mux32 M3 (
       currentCount[1],
-      32'h20,
+      32'b0,
       rst,
       currentCount[2]
   );
