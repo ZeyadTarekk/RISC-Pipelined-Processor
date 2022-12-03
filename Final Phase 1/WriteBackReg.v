@@ -17,7 +17,8 @@ module WriteBack (
   output reg [15:0] outputRes;
 
   always @(posedge clk) begin
-		outputRes = memOrReg ? memData : aluData;
+		#1
+		outputRes = memOrReg ? aluData : memData;
   end
 
 endmodule
