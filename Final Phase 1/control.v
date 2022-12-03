@@ -1,7 +1,7 @@
-module controlUnit(opCode,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite,fct);
+module controlUnit(opCode,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite);
 input[4:0] opCode;
 output reg [3:0] ALUControl;
-output reg [1:0] SPOperation,CarryFlag,fct;
+output reg [1:0] SPOperation,CarryFlag;
 output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite;
 
   always @(*) begin
@@ -20,7 +20,6 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   CarryFlag=2'bxx;
   PCControl=1'b0;
   privateRegWrite=1'bx;
-  fct=2'bxx;
   if(opCode == 5'b00000) begin
     // NOP
   SPOperation=2'b00;
@@ -317,7 +316,6 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   BranchFlag=1'b1;
   PCControl=1'b0;
   privateRegWrite=1'b0;
-  fct=2'b00;
   end
   else if(opCode == 5'b10101) begin
     // JN Rdst
@@ -330,7 +328,6 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   BranchFlag=1'b1;
   PCControl=1'b0;
   privateRegWrite=1'b0;
-  fct=2'b01;
   end
   else if(opCode == 5'b10110) begin
     // JC Rdst
@@ -343,7 +340,6 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   BranchFlag=1'b1;
   PCControl=1'b0;
   privateRegWrite=1'b0;
-  fct=2'b10;
   end
   else if(opCode == 5'b10111) begin
     // JMP Rdst
@@ -356,7 +352,6 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   BranchFlag=1'b1;
   PCControl=1'b0;
   privateRegWrite=1'b0;
-  fct=2'b11;
   end
   else if(opCode == 5'b11000) begin
     // CALL Rdst
@@ -382,7 +377,6 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   BranchFlag=1'b1;
   PCControl=1'b0;
   privateRegWrite=1'b0;
-  fct=2'b11;
   end
   else if(opCode == 5'b11010) begin
     // RET
@@ -410,7 +404,6 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   BranchFlag=1'b1;
   PCControl=1'b0;
   privateRegWrite=1'b0;
-  fct=2'b11;
   end
   else if(opCode == 5'b11100) begin
     // RTI
@@ -439,7 +432,6 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   CarryFlag=2'b10;
   PCControl=1'b0;
   privateRegWrite=1'b0;
-  fct=2'b11;
   end
   else if(opCode == 5'b11110) begin
     // First part of interrupt
