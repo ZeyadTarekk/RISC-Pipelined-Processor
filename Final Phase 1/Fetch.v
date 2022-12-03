@@ -52,8 +52,8 @@ module Fetch (
     */
   Mux32 M2 (
       currentCount[0],
-      32'h20,
-      rst,
+      32'b0,
+      interruptBit,
       currentCount[1]
   );
   /* third mux
@@ -61,8 +61,8 @@ module Fetch (
     */
   Mux32 M3 (
       currentCount[1],
-      32'b0,
-      interruptBit,
+      32'h20,
+      rst,
       currentCount[2]
   );
 
@@ -83,9 +83,9 @@ module Fetch (
       .stall(stall)
   );
 
-	always @(*) begin
+  always @(*) begin
     tempWire = instructionTest;
-	end
+  end
   IRDetector iRImemediate (
       .iR(tempWire),
       .clk(clk),
