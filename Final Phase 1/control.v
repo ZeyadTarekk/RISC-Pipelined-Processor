@@ -18,7 +18,7 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   DestOrPrivate=1'bx;
   BranchFlag=1'b0;
   CarryFlag=2'bxx;
-  PCControl=1'bx;
+  PCControl=1'b1;
   privateRegWrite=1'bx;
   fct=2'bxx;
   interrupt=1'bx;
