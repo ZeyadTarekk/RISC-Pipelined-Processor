@@ -83,13 +83,13 @@ module Fetch (
       .stall(stall)
   );
 
-  // assign tempWire = instructionTest;
-  // IRDetector iRImemediate (
-  //     .iR(tempWire),
-  //     .clk(clk),
-  //     .instruction(finalInstruction),
-  //     .immediate(immediate)
-  // );
+  assign tempWire = instructionTest;
+  IRDetector iRImemediate (
+      .iR(tempWire),
+      .clk(clk),
+      .instruction(finalInstruction),
+      .immediate(immediate)
+  );
 
 
 
