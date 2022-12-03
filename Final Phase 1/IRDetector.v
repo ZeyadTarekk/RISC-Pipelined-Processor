@@ -1,7 +1,7 @@
 /*
 Module name   : Instruction Register Detector
 Author	      : Ziad Sherif
-Functionality : A block in which we detect we choose 1st 16-bit and go on ,, or wait to next 16-bit to fetch whole 32-bit (immediate)
+Functionality : A block in which we detect we choose 1st 16-bit and go on, or wait to next 16-bit to fetch whole 32-bit (immediate)
 */
 
 module IRDetector (
@@ -10,16 +10,23 @@ module IRDetector (
     output reg [15:0] instruction,
     immediate
 );
+	reg flag;
 
-  always @(*) begin
+	initial begin
+		flag = 0;
+	end
+
+  always @(posedge clk) begin
+		if (flag) begin
+			immediate   = iR;
+			instruction = 0;
+			flag = 0;
+		end else instruction = iR;
+
     if (iR[2] == 1'b1) begin
-      immediate   = iR;
-      instruction = 0;
-    end else instruction = iR;
-
+			flag = 1;
+		end
   end
-
-
 
 
 endmodule

@@ -1,6 +1,6 @@
 <mxfile host="65bd71144e">
     <diagram id="QYowPjIThc93Avb0dmg9" name="Full design">
-        <mxGraphModel dx="1731" dy="1769" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+        <mxGraphModel dx="2015" dy="1769" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
             <root>
                 <mxCell id="0"/>
                 <mxCell id="1" parent="0"/>
@@ -1167,11 +1167,11 @@
                         <mxPoint as="offset"/>
                     </mxGeometry>
                 </mxCell>
-                <mxCell id="354" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=14;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="429" target="350" edge="1">
+                <mxCell id="354" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=14;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" parent="1" source="429" target="377" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <mxPoint x="-200" y="-510" as="sourcePoint"/>
                         <Array as="points">
-                            <mxPoint x="-405" y="-130"/>
+                            <mxPoint x="-525" y="-130"/>
                         </Array>
                     </mxGeometry>
                 </mxCell>
@@ -1188,15 +1188,16 @@
                 <mxCell id="350" value="MUX" style="shape=trapezoid;perimeter=trapezoidPerimeter;whiteSpace=wrap;html=1;fixedSize=1;fontSize=16;direction=south;" parent="1" vertex="1">
                     <mxGeometry x="-440" y="15" width="70" height="75" as="geometry"/>
                 </mxCell>
-                <mxCell id="352" style="edgeStyle=none;html=1;entryX=0.75;entryY=1;entryDx=0;entryDy=0;fontSize=14;" parent="1" source="351" target="350" edge="1">
+                <mxCell id="352" style="edgeStyle=none;html=1;entryX=0.75;entryY=1;entryDx=0;entryDy=0;fontSize=14;exitX=0.489;exitY=-0.049;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="380" target="350" edge="1">
                     <mxGeometry relative="1" as="geometry">
                         <Array as="points">
-                            <mxPoint x="-470" y="71"/>
+                            <mxPoint x="-476" y="71"/>
                         </Array>
+                        <mxPoint x="-530" y="130" as="sourcePoint"/>
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="351" value="&lt;font style=&quot;font-size: 16px&quot;&gt;0&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=14;" parent="1" vertex="1">
-                    <mxGeometry x="-480" y="137.5" width="20" height="20" as="geometry"/>
+                    <mxGeometry x="-600" y="125" width="20" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="357" value="" style="endArrow=classic;html=1;fontSize=12;entryX=-0.059;entryY=0.985;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="43" edge="1">
                     <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -1278,13 +1279,15 @@
                     </mxGeometry>
                 </mxCell>
                 <mxCell id="380" value="&lt;font style=&quot;font-size: 16px&quot;&gt;2**5&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=14;" parent="1" vertex="1">
-                    <mxGeometry x="-615" y="132.5" width="50" height="20" as="geometry"/>
+                    <mxGeometry x="-500" y="125" width="50" height="20" as="geometry"/>
                 </mxCell>
-                <mxCell id="382" style="edgeStyle=none;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=16;" parent="1" source="381" target="377" edge="1">
-                    <mxGeometry relative="1" as="geometry"/>
+                <mxCell id="382" style="edgeStyle=none;html=1;fontSize=16;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" parent="1" source="381" target="350" edge="1">
+                    <mxGeometry relative="1" as="geometry">
+                        <mxPoint x="-500" y="-100" as="targetPoint"/>
+                    </mxGeometry>
                 </mxCell>
                 <mxCell id="381" value="reset 1-bit" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;fontSize=16;" parent="1" vertex="1">
-                    <mxGeometry x="-570" y="-560" width="90" height="20" as="geometry"/>
+                    <mxGeometry x="-450" y="-550" width="90" height="20" as="geometry"/>
                 </mxCell>
                 <mxCell id="390" style="edgeStyle=none;html=1;entryX=0.25;entryY=0;entryDx=0;entryDy=0;fontSize=16;" parent="1" source="384" target="62" edge="1">
                     <mxGeometry relative="1" as="geometry">
