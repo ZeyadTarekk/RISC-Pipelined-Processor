@@ -209,12 +209,6 @@
 - check passRegister bits if it 1 i will put the 16-bit instruction in imm else will be in instruction
 - at decoding if i found iam 32-bit instruction i will flush my self as (bubble) then make register (passRegister) to be one then at next cycle will come with the whole 32-bit instruction and will check the passRegister nad make it zero again
 
-
-
-## comments 
-- in fetch we need same pc and next 
-
-
 ## Forwarding unit
 - ALUSrcChoce =>
   - 00 - if alusrc != memsrc & alusrc != wBsrc
@@ -226,4 +220,6 @@
     - 10 - if aludest == memsrc
 
 ## HazardDetection Unit
--
+- we should insert bubble before our self as MakeMeBubble then execute the instrution itself in next cycle
+-  if MemRead of next instruction is read from memory and the current src or the dest is the register will load on it 
+-  MakeMeBubble = MemRead && (ALUDest == DecodeSrc || ALUDest == DecodeDest);
