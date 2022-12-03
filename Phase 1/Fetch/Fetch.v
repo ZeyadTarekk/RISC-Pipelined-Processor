@@ -17,6 +17,7 @@ module Fetch (
     jumpBit,
     rst,
     interruptBit,
+    finalInstruction,
     branchIR,
     initPc,
     samePc,
@@ -27,12 +28,13 @@ module Fetch (
   input stall, clk, jumpBit, rst, interruptBit;
   input [31:0] branchIR, initPc;
   output [31:0] nextPc, samePc;
-  output [15:0] instruction, immediate;
+  output [15:0] instruction, immediate, finalInstruction;
 
 
 
   wire [31:0] currentCount[2:0];
   wire [31:0] nextWire;
+  reg  [31:0] tempWire;
 
   /* first mux
     * param (next pc ,branch address , sel bit, output data)
@@ -81,12 +83,13 @@ module Fetch (
       .stall(stall)
   );
 
-  // IRDetector iRImemediate (
-  //     instruction,
-  //     clk,
-  //     instruction,
-  //     immediate
-  // );
+  assign tempWire = instruction;
+  IRDetector iRImemediate (
+      .IR(tempWire),
+      .clk(clk),
+      .instruction(finalInstruction),
+      .immediate(immediate)
+  );
 
 
 

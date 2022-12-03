@@ -7,7 +7,6 @@ module fetch_tb ();
   wire [31:0] samePc, nextPc;
   wire [15:0] instruction, immediate;
 
-  localparam N = 10;
 
   Fetch fetch (
       .stall(stall),
@@ -15,12 +14,14 @@ module fetch_tb ();
       .jumpBit(jumpBit),
       .rst(rst),
       .interruptBit(interruptBit),
+      .finalInstruction(finalInstruction),
       .branchIR(branchIR),
       .initPc(initPc),
       .samePc(samePc),
       .nextPc(nextPc),
       .instruction(instruction),
-      .immediate(instruction)
+      .immediate(immediate)
+
   );
   initial begin
 
@@ -32,7 +33,6 @@ module fetch_tb ();
     branchIR = 32'b0;
     initPc = 32'h0;
 
-    // #N clk = 1'b1;
     stall = 1'b0;
     jumpBit = 1'b0;
     rst = 1'b0;
@@ -45,7 +45,6 @@ module fetch_tb ();
       $display("IR Failed");
     end
 
-    // #N clk = 1'b0;
 
     if (instruction == 16'b0000000000000100) begin
       $display("IR Passed");
@@ -54,8 +53,6 @@ module fetch_tb ();
     end
     $display("Immediate: ", immediate);
 
-
-    // #N clk = 1'b1;
 
     if (instruction == 16'b0000000000000100) begin
       $display("IR Passed");
