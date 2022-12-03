@@ -5,7 +5,7 @@ module fetch_tb ();
   reg stall, clk, jumpBit, rst, interruptBit;
   reg [31:0] branchIR, initPc;
   wire [31:0] samePc, nextPc;
-  wire [15:0] instruction, immediate;
+  wire [15:0] instruction, immediate, finalInstruction;
 
 
   Fetch fetch (
@@ -19,7 +19,7 @@ module fetch_tb ();
       .initPc(initPc),
       .samePc(samePc),
       .nextPc(nextPc),
-      .instruction(instruction),
+      .instructionTest(instruction),
       .immediate(immediate)
 
   );

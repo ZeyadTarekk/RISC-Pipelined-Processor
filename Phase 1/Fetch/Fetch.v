@@ -22,13 +22,13 @@ module Fetch (
     initPc,
     samePc,
     nextPc,
-    instruction,
+    instructionTest,
     immediate
 );
   input stall, clk, jumpBit, rst, interruptBit;
   input [31:0] branchIR, initPc;
   output [31:0] nextPc, samePc;
-  output [15:0] instruction, immediate, finalInstruction;
+  output [15:0] instructionTest, immediate, finalInstruction;
 
 
 
@@ -79,13 +79,13 @@ module Fetch (
 
   MemoryInstruction mem (
       .readAddress(nextWire),
-      .memInstruction(instruction),
+      .memInstruction(instructionTest),
       .stall(stall)
   );
 
-  assign tempWire = instruction;
+  assign tempWire = instructionTest;
   IRDetector iRImemediate (
-      .IR(tempWire),
+      .iR(tempWire),
       .clk(clk),
       .instruction(finalInstruction),
       .immediate(immediate)
