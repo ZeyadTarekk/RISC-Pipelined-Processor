@@ -1,5 +1,6 @@
-module controlUnit(opCode,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite);
+module controlUnit(opCode,makeMeBubble,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite);
 input[4:0] opCode;
+input makeMeBubble;
 output reg [3:0] ALUControl;
 output reg [1:0] SPOperation,CarryFlag;
 output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite;
@@ -20,7 +21,22 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   CarryFlag=2'bxx;
   PCControl=1'b0;
   privateRegWrite=1'bx;
-  if(opCode == 5'b00000) begin
+  if(makeMeBubble == 1'b1) begin
+  SPOperation=2'b00;
+  RegWrite=1'b0;
+  MemRead=1'b0;
+  MemWrite=1'b0;
+  MemOrReg=1'b0;
+  UpdateStatus=1'b0;
+  ImmOrReg=1'b0;
+  ALUControl=4'b0000;
+  SPOrALUres=1'b0;
+  DestOrPrivate=1'b0;
+  BranchFlag=1'b0;
+  CarryFlag=2'b00;
+  PCControl=1'b1;
+  end
+  else if(opCode == 5'b00000) begin
     // NOP
   SPOperation=2'b00;
   RegWrite=1'b0;
