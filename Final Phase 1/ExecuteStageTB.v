@@ -1,16 +1,18 @@
 module ExecuteStageTB();
 
 reg clk;
+reg immOrReg;
 reg [3:0] ALUControl;
 reg [15:0] RegSrc, RegDst, immediate;
 wire [3:0] newStatus;
 wire [15:0] ALUResult;
 
-ExecuteStage exe (ALUControl,RegSrc, RegDst, immediate, newStatus, ALUResult);
+ExecuteStage exe (immOrReg, ALUControl,RegSrc, RegDst, immediate, newStatus, ALUResult);
 
 initial begin 	
 	clk = 0;
-
+	immOrReg = 1;
+	
 	// ADD
 	ALUControl = 4'b0000;
 	RegSrc = 5;

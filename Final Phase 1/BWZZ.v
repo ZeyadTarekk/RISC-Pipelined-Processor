@@ -1,3 +1,4 @@
+// TODO : Remove immediate value from first two buffers
 module BWZZ(input clk, reset, interrupt);
 
 ///// if
@@ -50,7 +51,7 @@ wire RegWrite , MemOrReg, DestOrPrivate , MemWrite, MemRead, SPOrALUres, immOrRe
 wire [3:0] regDestAddress, regSrcAddress, AlUControl;
 wire [15:0] RegSrc, RegDest, imm;
 wire [2:0] funCode;
-wire [1:0] SPOpeartion, carryFlag, fct;
+wire [1:0] SPOpeartion, carryFlag;
 
 controlUnit ControlUnit(
   .opCode(IF_ID_Inst[15:11]),
@@ -67,13 +68,16 @@ controlUnit ControlUnit(
   .BranchFlag(BranchFlag),
   .CarryFlag(carryFlag),
   .PCControl(PCControl),
-  .privateRegWrite(privateRegWrite),
-  .fct(fct)
+  .privateRegWrite(privateRegWrite)
   );
 
 assign selectedPC = PCControl? PC : NextPC;
 assign flush = BranchFlag & choosedBitOutput;
 
+assign regSrcAddress = IF_ID_Inst[10:7];
+assign regDestAddress = IF_ID_Inst[6:3];
+
+assign funCode = IF_ID_Inst[2:0];
 
 // Register file
 wire MEM_WB_RegWrite;
@@ -100,10 +104,12 @@ regFile RegisterFile(
 
 /// Decodeing Ex Buffer
 wire ID_EX_RegWrite, ID_EX_MemOrReg, ID_EX_DestOrPrivate, ID_EX_MemWrite, ID_EX_MemRead, ID_EX_SPOrALUres, ID_EX_immOrReg, ID_EX_updateStatus;
-wire [3:0] ID_EX_regDestAddress, ID_EX_regSrcAddress, ID_EX_AlUControl;
+wire [3:0] ID_EX_AlUControl;
 wire [15:0] ID_EX_RegSrc ,ID_EX_RegDest , ID_EX_imm;
 wire [2:0] ID_EX_funCode;
 wire [1:0] ID_EX_SPOpeartion, ID_EX_carryFlag;
+
+wire [3:0] regDestAddressID_EX, regSrcAddressID_EX;
 
 IdExBuffer ID_EX_Buffer(
 	.RegWrite(RegWrite),
@@ -120,7 +126,7 @@ IdExBuffer ID_EX_Buffer(
 	.AlUControl(AlUControl),
 	.RegSrc(RegSrc),
 	.RegDest(RegDest),
-	.imm(imm),
+	.imm(IF_ID_Imm),
 	.SPOpeartion(SPOpeartion),
 	.carryFlag(carryFlag),
 	.funCode(funCode),
@@ -130,11 +136,11 @@ IdExBuffer ID_EX_Buffer(
 	.oMemWrite(ID_EX_MemWrite),
 	.oMemRead(ID_EX_MemRead),
 	.oDestOrPrivate(ID_EX_DestOrPrivate),
-	.oSPOrALUres(ID_EX_DestOrPrivate),
+	.oSPOrALUres(ID_EX_SPOrALUres),
 	.oimmOrReg(ID_EX_immOrReg),
 	.oupdateStatus(ID_EX_updateStatus),
-	.oRegDestAddress(ID_EX_RegDestAddress),
-	.oRegSrcAddress(ID_EX_RegSrcAddress),
+	.oRegDestAddress(regDestAddressID_EX),
+	.oRegSrcAddress(regSrcAddressID_EX),
 	.oAlUControl(ID_EX_AlUControl),
 	.oRegSrc(ID_EX_RegSrc),
 	.oRegDest(ID_EX_RegDest),
@@ -170,10 +176,11 @@ SavedFlages savedFlag (
 wire [15:0] ALUResult;
 
 ExecuteStage ALUStage(
+	.ImmOrReg(ID_EX_immOrReg),
 	.ALUControl(ID_EX_AlUControl),
 	.RegSrc(ID_EX_RegSrc),
 	.RegDst(ID_EX_RegDest),
-	.immediate(ID_EX_imm),
+	.immediate(Imm),
 
 	.newStatus(updatedStatusOutput),
 	.ALUResult(ALUResult)
@@ -193,7 +200,7 @@ ExMemBuffer EX_MEM_Buffer(
 	.MemRead(ID_EX_MemRead),
 	.clk(clk),
 	.SPOrALUres(ID_EX_SPOrALUres),  
-	.regDestAddress(ID_EX_RegDestAddress),
+	.regDestAddress(regDestAddressID_EX),
 	.ALUResult(ALUResult), 
 	.RegSrc(ID_EX_RegSrc),
 	.SPOpeartion(ID_EX_SPOpeartion),

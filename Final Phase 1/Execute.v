@@ -4,13 +4,13 @@ Author	      : Beshoy Morad
 Functionality : Recieve two operands and apply an operations on them then update the status flag
 */
 module ExecuteStage (
+	input ImmOrReg,
 	input [3:0] ALUControl,
 	input [15:0] RegSrc, RegDst, immediate,
 	output reg [3:0] newStatus,
 	output reg [15:0] ALUResult
 );
   always @(*) begin
-		newStatus[2] = 1'bx;
 		if (ALUControl == 4'b0000) begin  // ADD
 			{newStatus[2], ALUResult} = RegSrc + RegDst;
 		end else if (ALUControl == 4'b0001) begin  // SUB
@@ -29,9 +29,9 @@ module ExecuteStage (
 			end
 			ALUResult = RegSrc >> immediate;
 		end else if (ALUControl == 4'b0110) begin  // NOT
-			ALUResult = !RegSrc;
+			ALUResult = ~RegSrc;
 		end else if (ALUControl == 4'b0111) begin  // PASS Second
-			ALUResult = RegDst;
+			ALUResult = ImmOrReg? RegDst : immediate;
 		end else if (ALUControl == 4'b1000) begin  // INC
 			{newStatus[2], ALUResult} = RegSrc + 1;
 		end else if (ALUControl == 4'b1001) begin  // DEC
