@@ -136,7 +136,7 @@ IdExBuffer ID_EX_Buffer(
 	.oMemWrite(ID_EX_MemWrite),
 	.oMemRead(ID_EX_MemRead),
 	.oDestOrPrivate(ID_EX_DestOrPrivate),
-	.oSPOrALUres(ID_EX_DestOrPrivate),
+	.oSPOrALUres(ID_EX_SPOrALUres),
 	.oimmOrReg(ID_EX_immOrReg),
 	.oupdateStatus(ID_EX_updateStatus),
 	.oRegDestAddress(regDestAddressID_EX),
@@ -176,6 +176,7 @@ SavedFlages savedFlag (
 wire [15:0] ALUResult;
 
 ExecuteStage ALUStage(
+	.ImmOrReg(ID_EX_immOrReg),
 	.ALUControl(ID_EX_AlUControl),
 	.RegSrc(ID_EX_RegSrc),
 	.RegDst(ID_EX_RegDest),
