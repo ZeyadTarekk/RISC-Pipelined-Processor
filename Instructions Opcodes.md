@@ -214,11 +214,12 @@
   - 00 - if alusrc != memsrc & alusrc != wBsrc
   - 01 - if alusrc != memsrc & alusrc == wBsrc 
   - 10 - if alusrc == memsrc
+  - SrcChange = ALURegsrc == AlUMEMres ? 10 : ( ALURegsrc == MEMWBres ? 01 : 00 );
 - ALUDestChoce =>
     - 00 - if aludest != memsrc & aludest != wBsrc
     - 01 - if aludest != memsrc & aludest == wBsrc 
     - 10 - if aludest == memsrc
-
+    - DestChange = ALURegdest == AlUMEMres ? 10 : ( ALURegdest == MEMWBres ? 01 : 00 );
 ## HazardDetection Unit
 - we should insert bubble before our self as MakeMeBubble then execute the instrution itself in next cycle
 -  if MemRead of next instruction is read from memory and the current src or the dest is the register will load on it 
