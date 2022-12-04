@@ -1,6 +1,6 @@
 // TODO : Remove immediate value from first two buffers
-// TODO : Forwarding unit
-// TODO : Hazard Detection
+// TESTING : Forwarding unit
+// TESTING : Hazard Detection
 
 module BWZZ(input clk, reset, interrupt);
 
@@ -27,7 +27,6 @@ Fetch fetchStage(
 	);
 
 
-
 /// IF-ID
 wire [31:0] IF_ID_PC, IF_ID_NextPC;
 wire [15:0] IF_ID_Inst, IF_ID_Imm;
@@ -36,14 +35,12 @@ IfIdBuffer IF_ID_Buffer(
 	.clk(clk) 
 	,.flush(flush)
 	,.instruction(Inst)
-	,.imm(Imm)
 	,.pc(PC) 
 	,.nextPC(NextPC)
 
 	,.oPc(IF_ID_PC)
 	,.oNextPC(IF_ID_NextPC)
 	,.oInstruction(IF_ID_Inst)
-	,.oimm(IF_ID_Imm)
 	);
 
 
@@ -62,7 +59,7 @@ wire MakeMeBubble,ID_EX_MemRead;
 
 HazardDetectionUnit detectHazard(
 	.MemRead(ID_EX_MemRead),
-    .ALUDest(regDestAddressID_EX),
+	.ALUDest(regDestAddressID_EX),
 	.DecodeSrc(regSrcAddress),
 	.DecodeDest(regDestAddress),
 
@@ -91,9 +88,6 @@ controlUnit ControlUnit(
 
 assign selectedPC = PCControl ? PC : NextPC;
 assign flush = BranchFlag & choosedBitOutput;
-
-
-
 assign funCode = IF_ID_Inst[2:0];
 
 // Register file
@@ -102,9 +96,9 @@ wire [3:0] MEM_WB_RegDestAddress;
 wire [15:0] outputRes;
 
 regFile RegisterFile(
-  	.write_enable(MEM_WB_RegWrite),
+	.write_enable(MEM_WB_RegWrite),
 	.rst(reset),
-  	.clk(clk),
+	.clk(clk),
 	.privateRegWrite(privateRegWrite),
 	.PC(selectedPC),
 	.write_data(outputRes),
@@ -191,12 +185,12 @@ wire [1:0] SrcChange, DestChange;
 
 // Forwarding UNit
 ForwardingUnit Forwarding(
- 	.ALURegsrc(regSrcAddressID_EX),
+	.ALURegsrc(regSrcAddressID_EX),
 	.ALURegdest(regDestAddressID_EX),
 	.AlUMEMres(EX_MEM_RegDestAddress),
 	.MEMWBres(MEM_WB_RegDestAddress),
 
-   	.SrcChange(SrcChange),
+	.SrcChange(SrcChange),
 	.DestChange(DestChange)
 );
 
@@ -292,9 +286,6 @@ MemWbBuffer MEM_WB_Buffer(
 	.oDataRes(MEM_WB_DataRes),
 	.oData(MEM_WB_Data) 
 	);
-
-
-
 
 
 /// Write back
