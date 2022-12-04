@@ -22,7 +22,7 @@ module regFile (
   integer i;
   reg [10:0] registers[15:0];
 
-  always @(posedge clk, rst) begin
+  always @(posedge clk, rst, write_data) begin
     // check first if the rst is set as it has highest priority
     if (rst == 1'b1) begin
       for (i = 0; i < 32; i = i + 1) begin
