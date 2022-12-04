@@ -28,7 +28,7 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   MemOrReg=1'b0;
   UpdateStatus=1'b0;
   ImmOrReg=1'b0;
-  ALUControl=4'b0000;
+  ALUControl=4'b1111;
   SPOrALUres=1'b0;
   DestOrPrivate=1'b0;
   BranchFlag=1'b0;

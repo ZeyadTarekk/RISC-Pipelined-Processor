@@ -54,8 +54,8 @@ module ExecuteStage (
 			{newStatus[2], ALUResult} = Operand1 - 1;
 		end else if (ALUControl == 4'b1010) begin  // PASS First
 			ALUResult = Operand1;
-		end else begin  // ADD
-			{newStatus[2], ALUResult} = Operand1 + Operand2;
+		end else if (ALUControl == 4'b1111) begin  // Do Nothing
+			ALUResult = ALUResult;
 		end
 
 		// update the status flag
