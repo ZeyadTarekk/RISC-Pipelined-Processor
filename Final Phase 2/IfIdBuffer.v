@@ -12,10 +12,10 @@ module IfIdBuffer (
 );
 
   initial begin
-    oimm = 0;
-    oInstruction = 0;
-    oNextPC = 0;
-    oPc = 0;
+    oimm=0;
+    oInstruction=32'b0;
+    oNextPC=0;
+    oPc=0;
   end
 
   always @(posedge clk) begin

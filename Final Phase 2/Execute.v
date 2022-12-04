@@ -9,7 +9,7 @@ module ExecuteStage (
 	input [3:0] ALUControl,
 	input [15:0] RegSrc, RegDst, immediate, RegSrcFromEx, RegDstFromEx, RegSrcFromMem, RegDstFromMem,
 	output reg [3:0] newStatus,
-	output reg [15:0] ALUResult
+	output reg [15:0] ALUResult, ALUfirstOperand
 );
 
 	wire [15:0] RegDstOrImm, Operand1, Operand2;
@@ -20,10 +20,10 @@ module ExecuteStage (
 										:(selectSrc == 2'b01)? RegSrcFromEx
 										:(selectSrc == 2'b10)? RegSrcFromMem
 										: RegSrc;
-
-	assign Operand2 =  (selectSrc == 2'b00)? RegDstOrImm
-										:(selectSrc == 2'b01)? RegDstFromEx
-										:(selectSrc == 2'b10)? RegDstFromMem
+	assign ALUfirstOperand = Operand1;
+	assign Operand2 =  (selectDst == 2'b00)? RegDstOrImm
+										:(selectDst == 2'b01)? RegDstFromEx
+										:(selectDst == 2'b10)? RegDstFromMem
 										: RegDstOrImm;
 
   always @(*) begin

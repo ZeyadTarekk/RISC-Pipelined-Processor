@@ -224,3 +224,9 @@
 - we should insert bubble before our self as MakeMeBubble then execute the instrution itself in next cycle
 -  if MemRead of next instruction is read from memory and the current src or the dest is the register will load on it 
 -  MakeMeBubble = MemRead && (ALUDest == DecodeSrc || ALUDest == DecodeDest);
+
+
+F D D E M W
+  F F D D E M W
+      F F D E M W
+          F D E M W

@@ -1,4 +1,7 @@
 // TODO : Remove immediate value from first two buffers
+// TODO : Forwarding unit
+// TODO : Hazard Detection
+
 module BWZZ(input clk, reset, interrupt);
 
 ///// if
@@ -44,16 +47,31 @@ IfIdBuffer IF_ID_Buffer(
 	);
 
 
-
-
 /// Decoding Stage
 wire RegWrite , MemOrReg, DestOrPrivate , MemWrite, MemRead, SPOrALUres, immOrReg, updateStatus, BranchFlag, PCControl, privateRegWrite;
 wire [3:0] regDestAddress, regSrcAddress, AlUControl;
 wire [15:0] RegSrc, RegDest, imm;
 wire [2:0] funCode;
 wire [1:0] SPOpeartion, carryFlag;
+wire [3:0] regDestAddressID_EX, regSrcAddressID_EX;
+
+assign regSrcAddress = IF_ID_Inst[10:7];
+assign regDestAddress = IF_ID_Inst[6:3];
+
+wire MakeMeBubble,ID_EX_MemRead;
+
+HazardDetectionUnit detectHazard(
+	.MemRead(ID_EX_MemRead),
+    .ALUDest(regDestAddressID_EX),
+	.DecodeSrc(regSrcAddress),
+	.DecodeDest(regDestAddress),
+
+	.MakeMeBubble(MakeMeBubble)
+);
+
 
 controlUnit ControlUnit(
+  .makeMeBubble(MakeMeBubble),
   .opCode(IF_ID_Inst[15:11]),
   .SPOperation(SPOpeartion),
   .RegWrite(RegWrite),
@@ -71,11 +89,10 @@ controlUnit ControlUnit(
   .privateRegWrite(privateRegWrite)
   );
 
-assign selectedPC = PCControl? PC : NextPC;
+assign selectedPC = PCControl ? PC : NextPC;
 assign flush = BranchFlag & choosedBitOutput;
 
-assign regSrcAddress = IF_ID_Inst[10:7];
-assign regDestAddress = IF_ID_Inst[6:3];
+
 
 assign funCode = IF_ID_Inst[2:0];
 
@@ -85,31 +102,29 @@ wire [3:0] MEM_WB_RegDestAddress;
 wire [15:0] outputRes;
 
 regFile RegisterFile(
-  .write_enable(MEM_WB_RegWrite),
+  	.write_enable(MEM_WB_RegWrite),
 	.rst(reset),
-  .clk(clk),
+  	.clk(clk),
 	.privateRegWrite(privateRegWrite),
 	.PC(selectedPC),
-  .write_data(outputRes),
-  .read_addr1(IF_ID_Inst[10:7]),
-  .read_addr2(IF_ID_Inst[6:3]),
-  .write_addr(MEM_WB_RegDestAddress),
+	.write_data(outputRes),
+	.read_addr1(IF_ID_Inst[10:7]),
+	.read_addr2(IF_ID_Inst[6:3]),
+	.write_addr(MEM_WB_RegDestAddress),
 
-  .read_data1(RegSrc),
-  .read_data2(RegDest),
+	.read_data1(RegSrc),
+	.read_data2(RegDest),
 	.privateRegResult(privateRegResultOutput)
   );
 
 
-
 /// Decodeing Ex Buffer
-wire ID_EX_RegWrite, ID_EX_MemOrReg, ID_EX_DestOrPrivate, ID_EX_MemWrite, ID_EX_MemRead, ID_EX_SPOrALUres, ID_EX_immOrReg, ID_EX_updateStatus;
+wire ID_EX_RegWrite, ID_EX_MemOrReg, ID_EX_DestOrPrivate, ID_EX_MemWrite, ID_EX_SPOrALUres, ID_EX_immOrReg, ID_EX_updateStatus;
 wire [3:0] ID_EX_AlUControl;
 wire [15:0] ID_EX_RegSrc ,ID_EX_RegDest , ID_EX_imm;
 wire [2:0] ID_EX_funCode;
 wire [1:0] ID_EX_SPOpeartion, ID_EX_carryFlag;
 
-wire [3:0] regDestAddressID_EX, regSrcAddressID_EX;
 
 IdExBuffer ID_EX_Buffer(
 	.RegWrite(RegWrite),
@@ -126,7 +141,7 @@ IdExBuffer ID_EX_Buffer(
 	.AlUControl(AlUControl),
 	.RegSrc(RegSrc),
 	.RegDest(RegDest),
-	.imm(IF_ID_Imm),
+	.imm(Imm),
 	.SPOpeartion(SPOpeartion),
 	.carryFlag(carryFlag),
 	.funCode(funCode),
@@ -150,7 +165,6 @@ IdExBuffer ID_EX_Buffer(
 	.ofunCode(ID_EX_funCode)
 	);
 
-
 ///// Status register
 wire [3:0] StatusFlagsOutput, savedFlagsOutput, updatedStatusOutput;
 
@@ -172,25 +186,49 @@ SavedFlages savedFlag (
 );
 
 
+wire [3:0] EX_MEM_RegDestAddress;
+wire [1:0] SrcChange, DestChange;
+
+// Forwarding UNit
+ForwardingUnit Forwarding(
+ 	.ALURegsrc(regSrcAddressID_EX),
+	.ALURegdest(regDestAddressID_EX),
+	.AlUMEMres(EX_MEM_RegDestAddress),
+	.MEMWBres(MEM_WB_RegDestAddress),
+
+   	.SrcChange(SrcChange),
+	.DestChange(DestChange)
+);
+
 // Execute
 wire [15:0] ALUResult;
+wire [15:0] EX_MEM_ALUResult ,EX_MEM_RegSrc ;
+wire [15:0] ALUfirstOperand;
 
 ExecuteStage ALUStage(
 	.ImmOrReg(ID_EX_immOrReg),
 	.ALUControl(ID_EX_AlUControl),
 	.RegSrc(ID_EX_RegSrc),
 	.RegDst(ID_EX_RegDest),
-	.immediate(Imm),
+	.immediate(ID_EX_imm),
+	.selectSrc(SrcChange),
+	.selectDst(DestChange),
+	.RegSrcFromEx(EX_MEM_ALUResult),
+	.RegDstFromEx(EX_MEM_ALUResult),
+	.RegSrcFromMem(outputRes),
+	.RegDstFromMem(outputRes),
 
+	.ALUfirstOperand(ALUfirstOperand),
 	.newStatus(updatedStatusOutput),
 	.ALUResult(ALUResult)
 	);
 
+
+
+
 // Execute - Memory 
 wire EX_MEM_RegWrite ,EX_MEM_MemOrReg ,EX_MEM_DestOrPrivate ,EX_MEM_MemWrite ,EX_MEM_MemRead ,EX_MEM_SPOrALUres ;
-wire [3:0] EX_MEM_RegDestAddress ;
 wire [1:0] EX_MEM_SPOpeartion;
-wire [15:0] EX_MEM_ALUResult ,EX_MEM_RegSrc ;
 
 ExMemBuffer EX_MEM_Buffer(
 	.RegWrite(ID_EX_RegWrite), 
@@ -202,7 +240,7 @@ ExMemBuffer EX_MEM_Buffer(
 	.SPOrALUres(ID_EX_SPOrALUres),  
 	.regDestAddress(regDestAddressID_EX),
 	.ALUResult(ALUResult), 
-	.RegSrc(ID_EX_RegSrc),
+	.RegSrc(ALUfirstOperand),
 	.SPOpeartion(ID_EX_SPOpeartion),
 
 	.oRegWrite(EX_MEM_RegWrite),
@@ -254,6 +292,9 @@ MemWbBuffer MEM_WB_Buffer(
 	.oDataRes(MEM_WB_DataRes),
 	.oData(MEM_WB_Data) 
 	);
+
+
+
 
 
 /// Write back
