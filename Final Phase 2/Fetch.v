@@ -23,10 +23,10 @@ module Fetch (
   reg  [15:0] tempWire;
 
   assign currentCount[0] = jumpBit ? branchIR : initPc;
- 
+
   assign currentCount[1] = interruptBit ? 32'b0 : currentCount[0];
 
-  assign currentCount[2] = rst ? -1 : currentCount[1];
+  assign currentCount[2] = rst ? 32'b0 : currentCount[1];
 
   PC addPc (
       .CurrentPC(currentCount[2]),

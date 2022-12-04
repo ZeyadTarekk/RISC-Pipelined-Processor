@@ -16,7 +16,7 @@ module IRDetector (
 		flag = 0;
 	end
 
-  always @(posedge clk) begin
+  always @(iR) begin
 		if (flag) begin
 			immediate   = iR;
 			instruction = 16'b0000011111111000;
