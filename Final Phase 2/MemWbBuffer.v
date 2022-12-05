@@ -23,7 +23,7 @@ module MemWbBuffer (
     oData = 0;
   end
 
-  always @(posedge clk) begin
+  always @(negedge clk) begin
     oRegWrite = RegWrite;
     oMemOrReg = MemOrReg;
     oDestOrPrivate = DestOrPrivate;
