@@ -32,6 +32,10 @@ if os.path.exists("Final Phase 2/instr.txt"):
     os.remove("Final Phase 2/instr.txt")
 f2 = open("Final Phase 2/instr.txt", "a")
 
+for i in range(32):
+    f2.write("0000000000000000")
+    f2.write("\n")
+
 for x in f:
     opCode = ""
     instructionParts = x.split(" ")

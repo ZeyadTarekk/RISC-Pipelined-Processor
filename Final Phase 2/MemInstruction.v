@@ -14,9 +14,8 @@ module MemoryInstruction (
   input [31:0] readAddress;
   output reg [15:0] memInstruction;
 
-  // reg [15:0] memArray[2097152:0];
-  reg [15:0] memArray[63:0];
-
+  reg [15:0] memArray[2097152:0];
+  // reg [15:0] memArray[63:0];
 
   integer i;
   initial begin

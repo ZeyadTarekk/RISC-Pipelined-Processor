@@ -1,5 +1,7 @@
 *.mti
 *.mpf
 *.wlf
+*.vstf
+*.v.bak
 */work
 transcript
