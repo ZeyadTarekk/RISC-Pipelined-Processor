@@ -10,11 +10,10 @@ module MemoryStage (
     output reg [15:0] Data
 );
 
-
-
   wire [31:0] spvaule;
   wire [31:0] ActualAddress;
   reg [15:0] mem_array[4095:0];
+
   SP spmManager (
       .SPOpeartion(SPOpeartion),
       .clk(clk),
@@ -24,7 +23,7 @@ module MemoryStage (
 
   integer i;
   always @(posedge rst) begin
-    for (i =0 ;i< 4096;i=i+1 ) begin
+    for (i = 0; i < 4096; i = i + 1) begin
         mem_array[i] = 0;
     end
   end

@@ -136,6 +136,7 @@ IdExBuffer ID_EX_Buffer(
 	.carryFlag(carryFlag),
 	.funCode(funCode),
 	.BranchFlag(BranchFlag),
+	.makeMeBubble(MakeMeBubble),
 
 
 	.oRegWrite(ID_EX_RegWrite),

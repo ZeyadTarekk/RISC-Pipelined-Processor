@@ -127,6 +127,7 @@
 | 1000   | INC           |
 | 1001   | DEC           |
 | 1010   | PASS First    |
+| 1111   | Do Nothing    |
 
 ## Instructions bits details
 
@@ -210,23 +211,25 @@
 - at decoding if i found iam 32-bit instruction i will flush my self as (bubble) then make register (passRegister) to be one then at next cycle will come with the whole 32-bit instruction and will check the passRegister nad make it zero again
 
 ## Forwarding unit
+
 - ALUSrcChoce =>
   - 00 - if alusrc != memsrc & alusrc != wBsrc
-  - 01 - if alusrc != memsrc & alusrc == wBsrc 
+  - 01 - if alusrc != memsrc & alusrc == wBsrc
   - 10 - if alusrc == memsrc
   - SrcChange = ALURegsrc == AlUMEMres ? 10 : ( ALURegsrc == MEMWBres ? 01 : 00 );
 - ALUDestChoce =>
-    - 00 - if aludest != memsrc & aludest != wBsrc
-    - 01 - if aludest != memsrc & aludest == wBsrc 
-    - 10 - if aludest == memsrc
-    - DestChange = ALURegdest == AlUMEMres ? 10 : ( ALURegdest == MEMWBres ? 01 : 00 );
-## HazardDetection Unit
-- we should insert bubble before our self as MakeMeBubble then execute the instrution itself in next cycle
--  if MemRead of next instruction is read from memory and the current src or the dest is the register will load on it 
--  MakeMeBubble = MemRead && (ALUDest == DecodeSrc || ALUDest == DecodeDest);
+  - 00 - if aludest != memsrc & aludest != wBsrc
+  - 01 - if aludest != memsrc & aludest == wBsrc
+  - 10 - if aludest == memsrc
+  - DestChange = ALURegdest == AlUMEMres ? 10 : ( ALURegdest == MEMWBres ? 01 : 00 );
 
+## HazardDetection Unit
+
+- we should insert bubble before our self as MakeMeBubble then execute the instrution itself in next cycle
+- if MemRead of next instruction is read from memory and the current src or the dest is the register will load on it
+- MakeMeBubble = MemRead && (ALUDest == DecodeSrc || ALUDest == DecodeDest);
 
 F D D E M W
-  F F D D E M W
-      F F D E M W
-          F D E M W
+F F D D E M W
+F F D E M W
+F D E M W

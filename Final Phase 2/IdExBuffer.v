@@ -9,6 +9,7 @@ module IdExBuffer (
     immOrReg,
     updateStatus,
     BranchFlag,
+		makeMeBubble,
 
     input [3:0] regDestAddress, regSrcAddress, AlUControl,
     input [2:0] funCode,
@@ -55,8 +56,6 @@ module IdExBuffer (
     oRegWrite = RegWrite;
     oMemOrReg = MemOrReg;
     oDestOrPrivate = DestOrPrivate;
-    oRegDestAddress = regDestAddress;
-    oRegSrcAddress = regSrcAddress;
     oSPOpeartion = SPOpeartion;
     oMemWrite = MemWrite;
     oMemRead = MemRead;
@@ -70,6 +69,14 @@ module IdExBuffer (
     ofunCode = funCode;
     oimm = imm;
     oBranchFlag = BranchFlag;
+
+		if (makeMeBubble == 1'b1) begin
+			oRegDestAddress = 4'b1111;
+			oRegSrcAddress = 4'b1111;
+		end else begin
+			oRegDestAddress = regDestAddress;
+			oRegSrcAddress = regSrcAddress;
+		end
   end
 
 endmodule
