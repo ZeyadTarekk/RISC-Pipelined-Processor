@@ -16,6 +16,8 @@ add wave -position end sim:/BWZZ_TB/yarb/ALUStage/*
 
 add wave sim:/BWZZ_TB/yarb/DataMemory/Data_result
 add wave sim:/BWZZ_TB/yarb/DataMemory/Data
+add wave sim:/BWZZ_TB/yarb/DataMemory/*
+
 
 add wave sim:/BWZZ_TB/yarb/MEM_WB_Buffer/oRegWrite
 add wave sim:/BWZZ_TB/yarb/MEM_WB_Buffer/oMemOrReg
@@ -29,19 +31,3 @@ add wave sim:/BWZZ_TB/yarb/WriteBackStage/outputRes
 
 add wave sim:/BWZZ_TB/yarb/StatusRegisterBank/CCR
 add wave sim:/BWZZ_TB/yarb/StatusRegisterBank/carryFlag
-
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
-run
