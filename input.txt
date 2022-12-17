@@ -1,7 +1,3 @@
-NOP 
-NOP 
-NOP 
-NOP 
 LDM R2,7 
 ADD R2,R2 
 INC R1 

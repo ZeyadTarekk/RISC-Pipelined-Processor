@@ -1,16 +1,16 @@
 module IRDetector (
-    input [15:0] iR,
-    input clk,
-    output reg [15:0] instruction,
-    immediate
+	input [15:0] iR,
+	input clk,
+	output reg [15:0] instruction, immediate
 );
 	reg flag;
 	reg [15:0] prevReg;
 
 	initial begin
 		flag = 0;
-    	immediate = 0;
+		immediate = 0;
 		prevReg = 0;
+		instruction = 0;
 	end
 
 

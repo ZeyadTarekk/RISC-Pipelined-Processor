@@ -1,8 +1,3 @@
-/*
-Module name   : ExecuteStage
-Author	      : Beshoy Morad
-Functionality : Recieve two operands and apply an operations on them then update the status flag
-*/
 module ExecuteStage (
 	input ImmOrReg,
 	input [1:0] selectSrc, selectDst,

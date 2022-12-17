@@ -24,5 +24,3 @@ add wave sim:/BWZZ_TB/yarb/WriteBackStage/outputRes
 
 add wave sim:/BWZZ_TB/yarb/StatusRegisterBank/CCR
 add wave sim:/BWZZ_TB/yarb/StatusRegisterBank/carryFlag
-
-add wave sim:/BWZZ_TB/yarb/*

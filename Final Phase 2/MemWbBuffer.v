@@ -1,16 +1,10 @@
 module MemWbBuffer (
-    input RegWrite,
-    MemOrReg,
-    DestOrPrivate,
-    clk,
-    input [3:0] regDestAddress,
-    input [15:0] dataRes,
-    data,
-    output reg oRegWrite,
-    oMemOrReg,
-    oDestOrPrivate,
-    output reg [3:0] oRegDestAddress,
-    output reg [15:0] oDataRes, oData
+	input RegWrite, MemOrReg, DestOrPrivate, clk,
+	input [3:0] regDestAddress,
+	input [15:0] dataRes, data,
+	output reg oRegWrite, oMemOrReg, oDestOrPrivate,
+	output reg [3:0] oRegDestAddress,
+	output reg [15:0] oDataRes, oData
 );
 
   initial begin

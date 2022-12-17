@@ -6,7 +6,7 @@ reg clk, reset, interrupt;
 
 BWZZ yarb(clk, reset, interrupt);
 
-initial begin 	
+initial begin
 	clk = 1'b0;
 	reset = 1'b1;
 	interrupt = 1'b0;
