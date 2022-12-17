@@ -16,11 +16,15 @@ module StatusRegister (
 	
 	initial begin
     CCR = 4'b1000;
+	choosedBit = 0;
+	StatusFlags = 0;
   end
 
 	always @(*) begin
 		if (reset) begin
 			CCR = 4'b1000;
+			choosedBit = 0;
+			StatusFlags = 0;
 		end else begin
 			if (updateStatus) begin
 				case (carryFlag)

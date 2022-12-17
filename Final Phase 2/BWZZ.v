@@ -1,7 +1,3 @@
-// TODO : Remove immediate value from first two buffers
-// TESTING : Forwarding unit
-// TESTING : Hazard Detection
-
 module BWZZ(input clk, reset, interrupt);
 
 ///// if
@@ -24,12 +20,12 @@ Fetch fetchStage(
 	.nextPc(NextPC),
 	.instructionTest(),
 	.immediate(Imm)
-	);
+);
 
 
 /// IF-ID
 wire [31:0] IF_ID_PC, IF_ID_NextPC;
-wire [15:0] IF_ID_Inst, IF_ID_Imm;
+wire [15:0] IF_ID_Inst;
 
 IfIdBuffer IF_ID_Buffer(
 	.clk(clk) 
@@ -87,8 +83,8 @@ controlUnit ControlUnit(
   );
 
 assign selectedPC = PCControl ? PC : NextPC;
-assign flush = BranchFlag & choosedBitOutput;
 assign funCode = IF_ID_Inst[2:0];
+
 
 // Register file
 wire MEM_WB_RegWrite;
@@ -139,7 +135,9 @@ IdExBuffer ID_EX_Buffer(
 	.SPOpeartion(SPOpeartion),
 	.carryFlag(carryFlag),
 	.funCode(funCode),
-	
+	.BranchFlag(BranchFlag),
+
+
 	.oRegWrite(ID_EX_RegWrite),
 	.oMemOrReg(ID_EX_MemOrReg),
 	.oMemWrite(ID_EX_MemWrite),
@@ -156,8 +154,12 @@ IdExBuffer ID_EX_Buffer(
 	.oimm(ID_EX_imm),
 	.oSPOpeartion(ID_EX_SPOpeartion),
 	.ocarryFlag(ID_EX_carryFlag),
-	.ofunCode(ID_EX_funCode)
+	.ofunCode(ID_EX_funCode),
+	.oBranchFlag(ID_EX_BranchFlag)
 	);
+
+assign flush = ID_EX_BranchFlag & choosedBitOutput;
+
 
 ///// Status register
 wire [3:0] StatusFlagsOutput, savedFlagsOutput, updatedStatusOutput;
@@ -293,6 +295,7 @@ WriteBack WriteBackStage(
 	.memOrReg(MEM_WB_MemOrReg),
 	.memData(MEM_WB_Data),
 	.aluData(MEM_WB_DataRes),
+	
 	.outputRes(outputRes),
 	.clk(clk)
   );
@@ -300,10 +303,11 @@ WriteBack WriteBackStage(
 
 /// Branch address selector
 BranchAddressSelector BranchSelector(
-	.RegDst(RegDest),
+	.RegDst(ALUResult),
 	.privateRegResult(privateRegResultOutput),
-	.DecodeDestOrPrivate(DestOrPrivate),
+	.DecodeDestOrPrivate(ID_EX_DestOrPrivate),
 	.WBDestOrPrivate(MEM_WB_DestOrPrivate),
+
 	.branchAddress(branchAddress)
 );
 

@@ -5,21 +5,22 @@ output reg [3:0] ALUControl;
 output reg [1:0] SPOperation,CarryFlag;
 output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite;
 
+
   always @(*) begin
-  SPOperation=2'bxx;
-  RegWrite=1'bx;
-  MemRead=1'bx;
-  MemWrite=1'bx;
-  MemOrReg=1'bx;
-  UpdateStatus=1'bx;
-  ImmOrReg=1'bx;
-  ALUControl=4'bxxxx;
-  SPOrALUres=1'bx;
-  DestOrPrivate=1'bx;
+  SPOperation=2'b00;
+  RegWrite=1'b0;
+  MemRead=1'b0;
+  MemWrite=1'b0;
+  MemOrReg=1'b0;
+  UpdateStatus=1'b0;
+  ImmOrReg=1'b1;
+  ALUControl=4'b0000;
+  SPOrALUres=1'b0;
+  DestOrPrivate=1'b0;
   BranchFlag=1'b0;
-  CarryFlag=2'bxx;
+  CarryFlag=2'b00;
   PCControl=1'b0;
-  privateRegWrite=1'bx;
+  privateRegWrite=1'b0;
   if(makeMeBubble == 1'b1) begin
   SPOperation=2'b00;
   RegWrite=1'b0;
@@ -332,6 +333,11 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   BranchFlag=1'b1;
   PCControl=1'b0;
   privateRegWrite=1'b0;
+  // edits for jumps
+  ALUControl=4'b0111;
+  ImmOrReg=1'b1;
+
+
   end
   else if(opCode == 5'b10101) begin
     // JN Rdst

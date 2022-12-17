@@ -8,6 +8,7 @@ module IdExBuffer (
     SPOrALUres,
     immOrReg,
     updateStatus,
+    BranchFlag,
 
     input [3:0] regDestAddress, regSrcAddress, AlUControl,
     input [2:0] funCode,
@@ -22,6 +23,7 @@ module IdExBuffer (
     oSPOrALUres,
     oimmOrReg,
     oupdateStatus,
+    oBranchFlag,
     output reg [3:0] oRegDestAddress, oRegSrcAddress, oAlUControl,
     output reg [15:0] oRegSrc, oRegDest, oimm,
     output reg [1:0] oSPOpeartion, ocarryFlag,
@@ -46,6 +48,7 @@ module IdExBuffer (
     ocarryFlag = 0;
     ofunCode = 0;
     oimm = 0;
+    oBranchFlag = 0;
   end
 
   always @(posedge clk) begin
@@ -66,6 +69,7 @@ module IdExBuffer (
     ocarryFlag = carryFlag;
     ofunCode = funCode;
     oimm = imm;
+    oBranchFlag = BranchFlag;
   end
 
 endmodule

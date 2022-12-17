@@ -1,6 +1,9 @@
 restart
 
 add wave sim:/BWZZ_TB/clk
+add wave sim:/BWZZ_TB/yarb/PC
+add wave sim:/BWZZ_TB/yarb/NextPC
+
 add wave sim:/BWZZ_TB/reset
 add wave sim:/BWZZ_TB/yarb/fetchStage/finalInstruction
 add wave sim:/BWZZ_TB/yarb/IF_ID_Buffer/oInstruction
@@ -21,3 +24,5 @@ add wave sim:/BWZZ_TB/yarb/WriteBackStage/outputRes
 
 add wave sim:/BWZZ_TB/yarb/StatusRegisterBank/CCR
 add wave sim:/BWZZ_TB/yarb/StatusRegisterBank/carryFlag
+
+add wave sim:/BWZZ_TB/yarb/*

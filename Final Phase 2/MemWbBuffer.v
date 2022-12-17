@@ -10,8 +10,7 @@ module MemWbBuffer (
     oMemOrReg,
     oDestOrPrivate,
     output reg [3:0] oRegDestAddress,
-    output reg [15:0] oDataRes,
-    oData
+    output reg [15:0] oDataRes, oData
 );
 
   initial begin

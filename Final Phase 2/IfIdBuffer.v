@@ -12,17 +12,15 @@ module IfIdBuffer (
     oInstruction=32'b0;
   end
 
+  always @(posedge flush) begin
+      oInstruction = 0;
+      oNextPC = 0;
+      oPc = 0;
+  end
   always @(posedge clk) begin
     oInstruction = instruction;
     oNextPC = nextPC;
     oPc = pc;
-
-    if (flush) begin
-      oInstruction = 0;
-      oNextPC = 0;
-      oPc = 0;
-    end
-
   end
 
 endmodule
