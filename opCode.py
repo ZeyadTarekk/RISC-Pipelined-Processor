@@ -242,7 +242,7 @@ for x in f:
     elif instructionParts[0] == "CALL":
         print("CALL")
         opCode = "11000"
-        opCode = opCode + "1001" + addressRegsiter(instructionParts[1])
+        opCode = opCode + "1001" + "1111"
         opCode = opCode + "000"
         opCode2 = "11001" + "1010" + \
             addressRegsiter(instructionParts[1]) + "011"

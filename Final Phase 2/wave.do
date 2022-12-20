@@ -9,6 +9,10 @@ add wave sim:/BWZZ_TB/yarb/NextPC
 add wave sim:/BWZZ_TB/yarb/fetchStage/finalInstruction
 add wave sim:/BWZZ_TB/yarb/IF_ID_Buffer/oInstruction
 
+add wave sim:/BWZZ_TB/yarb/RegisterFile/*
+
+add wave sim:/BWZZ_TB/yarb/DataMemory/*
+
 add wave sim:/BWZZ_TB/yarb/StatusRegisterBank/CCR
 
 add wave sim:/BWZZ_TB/yarb/BranchSelector/*

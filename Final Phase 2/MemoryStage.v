@@ -31,6 +31,7 @@ module MemoryStage (
   assign ActualAddress = SPOrALUres ? {16'b0, Data_result} : spvaule;
   always @(*) begin
     if (MemWrite) begin
+			#2;
       mem_array[ActualAddress] = RegSrc;
     end else if (MemRead) begin
       Data = mem_array[ActualAddress];

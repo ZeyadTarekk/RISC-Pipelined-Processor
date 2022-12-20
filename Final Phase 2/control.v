@@ -399,6 +399,7 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   BranchFlag=1'b1;
   PCControl=1'b0;
   privateRegWrite=1'b0;
+	ALUControl=4'b0111;
   end
   else if(opCode == 5'b11010) begin
     // RET

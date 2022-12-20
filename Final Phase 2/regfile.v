@@ -22,17 +22,20 @@ module regFile (
   integer i;
   reg [10:0] registers[15:0];
 
+	always @(privateRegWrite) begin
+		#2;
+    if(privateRegWrite == 1'b1) begin
+      registers[9] = PC[15:0];
+      registers[10] = PC[31:16];
+    end
+	end
+
   always @(posedge clk, rst) begin
     // check first if the rst is set as it has highest priority
     if (rst == 1'b1) begin
       for (i = 0; i < 32; i = i + 1) begin
         registers[i] = 0;
       end
-    end
-
-    if(privateRegWrite == 1'b1) begin
-      registers[10] = PC[31:16];
-      registers[9] = PC[15:0];
     end
 
     if (write_enable == 1'b1) begin
