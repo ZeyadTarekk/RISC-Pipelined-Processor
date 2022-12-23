@@ -1,9 +1,9 @@
-module controlUnit(opCode,makeMeBubble,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite);
+module controlUnit(opCode,makeMeBubble,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite,iamTwoInstruction);
 input[4:0] opCode;
 input makeMeBubble;
 output reg [3:0] ALUControl;
 output reg [1:0] SPOperation,CarryFlag;
-output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite;
+output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite,iamTwoInstruction;
 
 
   always @(*) begin
@@ -21,6 +21,7 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   CarryFlag=2'b00;
   PCControl=1'b0;
   privateRegWrite=1'b0;
+  iamTwoInstruction=1'b0;
   if(makeMeBubble == 1'b1) begin
   SPOperation=2'b00;
   RegWrite=1'b0;
@@ -400,6 +401,7 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   PCControl=1'b0;
   privateRegWrite=1'b0;
 	ALUControl=4'b0111;
+  iamTwoInstruction=1'b1;
   end
   else if(opCode == 5'b11010) begin
     // RET
@@ -427,6 +429,7 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   BranchFlag=1'b1;
   PCControl=1'b0;
   privateRegWrite=1'b0;
+  iamTwoInstruction=1'b1;
   end
   else if(opCode == 5'b11100) begin
     // RTI
@@ -455,6 +458,7 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   CarryFlag=2'b10;
   PCControl=1'b0;
   privateRegWrite=1'b0;
+  iamTwoInstruction=1'b1;
   end
   else if(opCode == 5'b11110) begin
     // First part of interrupt
@@ -480,6 +484,7 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   BranchFlag=1'b0;
   PCControl=1'b0;
   privateRegWrite=1'b0;
+  iamTwoInstruction=1'b1;
 
   end
 end

@@ -2,7 +2,8 @@ module Fetch (
     input stall, clk, jumpBit, rst, interruptBit,
     input [31:0] branchIR,initPc,
     output [15:0] finalInstruction,instructionTest,immediate,
-    output [31:0] samePc,nextPc
+    output [31:0] samePc,nextPc,
+    output iamBubble
 );
 
   wire [31:0] currentCount[2:0];
@@ -38,7 +39,8 @@ module Fetch (
       .iR(tempWire),
       .clk(clk),
       .instruction(finalInstruction),
-      .immediate(immediate)
+      .immediate(immediate),
+      .iamBubble(iamBubble)
   );
 
 

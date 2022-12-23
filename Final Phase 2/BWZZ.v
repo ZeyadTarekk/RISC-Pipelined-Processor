@@ -4,7 +4,7 @@ module BWZZ(input clk, reset, interrupt);
 wire stall;
 wire [31:0] PC, NextPC, selectedPC, branchAddress, privateRegResultOutput;
 wire [15:0] Inst, Imm;
-wire flush, choosedBitOutput;
+wire flush, choosedBitOutput, iamBubble;
 
 
 Fetch fetchStage(
@@ -19,13 +19,15 @@ Fetch fetchStage(
 	.samePc(PC),
 	.nextPc(NextPC),
 	.instructionTest(),
-	.immediate(Imm)
+	.immediate(Imm),
+	.iamBubble(iamBubble)
 );
 
 
 /// IF-ID
 wire [31:0] IF_ID_PC, IF_ID_NextPC;
 wire [15:0] IF_ID_Inst;
+wire IF_ID_iamBubble;
 
 IfIdBuffer IF_ID_Buffer(
 	.clk(clk) 
@@ -33,10 +35,12 @@ IfIdBuffer IF_ID_Buffer(
 	,.instruction(Inst)
 	,.pc(PC) 
 	,.nextPC(NextPC)
+	,.iamBubble(iamBubble)
 
 	,.oPc(IF_ID_PC)
 	,.oNextPC(IF_ID_NextPC)
 	,.oInstruction(IF_ID_Inst)
+	,.oiamBubble(IF_ID_iamBubble)
 	);
 
 
@@ -63,6 +67,8 @@ HazardDetectionUnit detectHazard(
 );
 
 
+wire iamTwoInstruction;
+
 controlUnit ControlUnit(
   .makeMeBubble(MakeMeBubble),
   .opCode(IF_ID_Inst[15:11]),
@@ -79,7 +85,8 @@ controlUnit ControlUnit(
   .BranchFlag(BranchFlag),
   .CarryFlag(carryFlag),
   .PCControl(PCControl),
-  .privateRegWrite(privateRegWrite)
+  .privateRegWrite(privateRegWrite),
+  .iamTwoInstruction(iamTwoInstruction)
   );
 
 assign selectedPC = PCControl ? PC : NextPC;
@@ -109,7 +116,7 @@ regFile RegisterFile(
 
 
 /// Decodeing Ex Buffer
-wire ID_EX_RegWrite, ID_EX_MemOrReg, ID_EX_DestOrPrivate, ID_EX_MemWrite, ID_EX_SPOrALUres, ID_EX_immOrReg, ID_EX_updateStatus;
+wire ID_EX_RegWrite, ID_EX_MemOrReg, ID_EX_DestOrPrivate, ID_EX_MemWrite, ID_EX_SPOrALUres, ID_EX_immOrReg, ID_EX_updateStatus, ID_EX_iamTwoInstruction,ID_EX_iamBubble;
 wire [3:0] ID_EX_AlUControl;
 wire [15:0] ID_EX_RegSrc ,ID_EX_RegDest , ID_EX_imm;
 wire [2:0] ID_EX_funCode;
@@ -117,6 +124,7 @@ wire [1:0] ID_EX_SPOpeartion, ID_EX_carryFlag;
 
 
 IdExBuffer ID_EX_Buffer(
+	.iamTwoInstruction(iamTwoInstruction),
 	.RegWrite(RegWrite),
 	.MemOrReg(MemOrReg),
 	.DestOrPrivate(DestOrPrivate),
@@ -137,6 +145,7 @@ IdExBuffer ID_EX_Buffer(
 	.funCode(funCode),
 	.BranchFlag(BranchFlag),
 	.makeMeBubble(MakeMeBubble),
+	.iamBubble(IF_ID_iamBubble),
 
 
 	.oRegWrite(ID_EX_RegWrite),
@@ -156,7 +165,9 @@ IdExBuffer ID_EX_Buffer(
 	.oSPOpeartion(ID_EX_SPOpeartion),
 	.ocarryFlag(ID_EX_carryFlag),
 	.ofunCode(ID_EX_funCode),
-	.oBranchFlag(ID_EX_BranchFlag)
+	.oBranchFlag(ID_EX_BranchFlag),
+	.oiamTwoInstruction(ID_EX_iamTwoInstruction),
+	.oiamBubble(ID_EX_iamBubble)
 	);
 
 assign flush = ID_EX_BranchFlag & choosedBitOutput;
@@ -185,9 +196,12 @@ SavedFlages savedFlag (
 
 wire [3:0] EX_MEM_RegDestAddress;
 wire [1:0] SrcChange, DestChange;
+wire EX_MEM_iamBubble;
 
 // Forwarding UNit
 ForwardingUnit Forwarding(
+	.doesntRequirdForwarding(ID_EX_iamTwoInstruction),
+	.Afterbubble(EX_MEM_iamBubble),
 	.ALURegsrc(regSrcAddressID_EX),
 	.ALURegdest(regDestAddressID_EX),
 	.AlUMEMres(EX_MEM_RegDestAddress),
@@ -224,7 +238,7 @@ ExecuteStage ALUStage(
 
 
 // Execute - Memory 
-wire EX_MEM_RegWrite ,EX_MEM_MemOrReg ,EX_MEM_DestOrPrivate ,EX_MEM_MemWrite ,EX_MEM_MemRead ,EX_MEM_SPOrALUres ;
+wire EX_MEM_RegWrite ,EX_MEM_MemOrReg ,EX_MEM_DestOrPrivate ,EX_MEM_MemWrite ,EX_MEM_MemRead ,EX_MEM_SPOrALUres;
 wire [1:0] EX_MEM_SPOpeartion;
 
 ExMemBuffer EX_MEM_Buffer(
@@ -239,6 +253,7 @@ ExMemBuffer EX_MEM_Buffer(
 	.ALUResult(ALUResult), 
 	.RegSrc(ALUfirstOperand),
 	.SPOpeartion(ID_EX_SPOpeartion),
+	.iamBubble(ID_EX_iamBubble),
 
 	.oRegWrite(EX_MEM_RegWrite),
 	.oMemOrReg(EX_MEM_MemOrReg),
@@ -249,7 +264,8 @@ ExMemBuffer EX_MEM_Buffer(
 	.oRegDestAddress(EX_MEM_RegDestAddress),
 	.oALUResult(EX_MEM_ALUResult),
 	.oRegSrc(EX_MEM_RegSrc),  
-	.oSPOpeartion(EX_MEM_SPOpeartion)
+	.oSPOpeartion(EX_MEM_SPOpeartion),
+	.oiamBubble(EX_MEM_iamBubble)
 	);
 
 

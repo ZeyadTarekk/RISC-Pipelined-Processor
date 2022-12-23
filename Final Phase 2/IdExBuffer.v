@@ -10,6 +10,8 @@ module IdExBuffer (
     updateStatus,
     BranchFlag,
 		makeMeBubble,
+    iamTwoInstruction,
+    iamBubble,
 
     input [3:0] regDestAddress, regSrcAddress, AlUControl,
     input [2:0] funCode,
@@ -25,6 +27,8 @@ module IdExBuffer (
     oimmOrReg,
     oupdateStatus,
     oBranchFlag,
+    oiamTwoInstruction,
+    oiamBubble,
     output reg [3:0] oRegDestAddress, oRegSrcAddress, oAlUControl,
     output reg [15:0] oRegSrc, oRegDest, oimm,
     output reg [1:0] oSPOpeartion, ocarryFlag,
@@ -50,6 +54,8 @@ module IdExBuffer (
     ofunCode = 0;
     oimm = 0;
     oBranchFlag = 0;
+    oiamTwoInstruction = 0;
+    oiamBubble=0;
   end
 
   always @(posedge clk) begin
@@ -69,6 +75,8 @@ module IdExBuffer (
     ofunCode = funCode;
     oimm = imm;
     oBranchFlag = BranchFlag;
+    oiamTwoInstruction = iamTwoInstruction;
+    oiamBubble = iamBubble;
 
 		if (makeMeBubble == 1'b1) begin
 			oRegDestAddress = 4'b1111;
