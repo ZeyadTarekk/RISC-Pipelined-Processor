@@ -200,6 +200,7 @@ wire EX_MEM_iamBubble;
 
 // Forwarding UNit
 ForwardingUnit Forwarding(
+	.clk(clk),
 	.doesntRequirdForwarding(ID_EX_iamTwoInstruction),
 	.Afterbubble(EX_MEM_iamBubble),
 	.ALURegsrc(regSrcAddressID_EX),

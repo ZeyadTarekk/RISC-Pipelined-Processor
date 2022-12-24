@@ -19,10 +19,12 @@ module IRDetector (
 		if (flag) begin
 			immediate   = iR;
 			instruction = 16'b0000011111111000;
-			instruction[6:3] = prevReg[6:3];	// used for forwarding the imm value from the bubble
+			instruction[6:3] = prevReg[6:3];	// used for forwarding the imm value from the bubble]
+			iamBubble = 1;
 			flag = 0;
 		end else begin
 			instruction = iR;
+			iamBubble = 0;
 		end 
 
     if (instruction[2] == 1'b1) begin
