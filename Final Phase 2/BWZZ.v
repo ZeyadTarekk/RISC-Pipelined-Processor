@@ -67,7 +67,7 @@ HazardDetectionUnit detectHazard(
 );
 
 
-wire iamTwoInstruction;
+wire iamTwoInstruction,iamNop;
 
 controlUnit ControlUnit(
   .makeMeBubble(MakeMeBubble),
@@ -86,7 +86,8 @@ controlUnit ControlUnit(
   .CarryFlag(carryFlag),
   .PCControl(PCControl),
   .privateRegWrite(privateRegWrite),
-  .iamTwoInstruction(iamTwoInstruction)
+  .iamTwoInstruction(iamTwoInstruction),
+  .iamNop(iamNop)
   );
 
 assign selectedPC = PCControl ? PC : NextPC;
@@ -95,7 +96,7 @@ assign funCode = IF_ID_Inst[2:0];
 
 // Register file
 wire MEM_WB_RegWrite;
-wire [3:0] MEM_WB_RegDestAddress;
+wire [3:0] MEM_WB_RegDestAddress , MEM_WB_RegDestAddressForward;
 wire [15:0] outputRes;
 
 regFile RegisterFile(
@@ -124,6 +125,7 @@ wire [1:0] ID_EX_SPOpeartion, ID_EX_carryFlag;
 
 
 IdExBuffer ID_EX_Buffer(
+	.iamNop(iamNop),
 	.iamTwoInstruction(iamTwoInstruction),
 	.RegWrite(RegWrite),
 	.MemOrReg(MemOrReg),
@@ -196,17 +198,18 @@ SavedFlages savedFlag (
 
 wire [3:0] EX_MEM_RegDestAddress;
 wire [1:0] SrcChange, DestChange;
-wire EX_MEM_iamBubble;
+wire EX_MEM_iamBubble, MEM_WB_iamBubble;
 
 // Forwarding UNit
 ForwardingUnit Forwarding(
 	.clk(clk),
 	.doesntRequirdForwarding(ID_EX_iamTwoInstruction),
-	.Afterbubble(EX_MEM_iamBubble),
+	.bubbleFromEX_MEM(EX_MEM_iamBubble),
+	.bubbleFromMEM_WB(MEM_WB_iamBubble),
 	.ALURegsrc(regSrcAddressID_EX),
 	.ALURegdest(regDestAddressID_EX),
 	.AlUMEMres(EX_MEM_RegDestAddress),
-	.MEMWBres(MEM_WB_RegDestAddress),
+	.MEMWBres(MEM_WB_RegDestAddressForward),
 
 	.SrcChange(SrcChange),
 	.DestChange(DestChange)
@@ -298,13 +301,16 @@ MemWbBuffer MEM_WB_Buffer(
 	.regDestAddress(EX_MEM_RegDestAddress),
 	.dataRes(EX_MEM_ALUResult),
 	.data(MemoryRes),
+	.iamBubble(EX_MEM_iamBubble),
 
 	.oRegWrite(MEM_WB_RegWrite),
 	.oMemOrReg(MEM_WB_MemOrReg),
 	.oDestOrPrivate(MEM_WB_DestOrPrivate),
 	.oRegDestAddress(MEM_WB_RegDestAddress),
+	.oRegDestAddressForward(MEM_WB_RegDestAddressForward),
 	.oDataRes(MEM_WB_DataRes),
-	.oData(MEM_WB_Data) 
+	.oData(MEM_WB_Data),
+	.oiamBubble(MEM_WB_iamBubble)
 	);
 
 

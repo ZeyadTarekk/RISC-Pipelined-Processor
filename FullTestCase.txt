@@ -1,6 +1,5 @@
-LDM R1,46 
+LDM R1,45 
 CALL R1 
-INC R1 
 LDM R1,35 
 INC R2 
 STD R1,R2 
@@ -16,7 +15,11 @@ INC R7
 
 
 
-LDM R0,6 f d e m w
-           f d e m w
+
+
+
+
+
+LDM R0,6 
 ADD R0,R0 
 RET 

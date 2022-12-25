@@ -1,9 +1,9 @@
-module controlUnit(opCode,makeMeBubble,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite,iamTwoInstruction);
+module controlUnit(opCode,makeMeBubble,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite,iamTwoInstruction,iamNop);
 input[4:0] opCode;
 input makeMeBubble;
 output reg [3:0] ALUControl;
 output reg [1:0] SPOperation,CarryFlag;
-output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite,iamTwoInstruction;
+output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite,iamTwoInstruction,iamNop;
 
 
   always @(*) begin
@@ -22,6 +22,7 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   PCControl=1'b0;
   privateRegWrite=1'b0;
   iamTwoInstruction=1'b0;
+  iamNop = !(|opCode);
   if(makeMeBubble == 1'b1) begin
   SPOperation=2'b00;
   RegWrite=1'b0;

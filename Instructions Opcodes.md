@@ -245,6 +245,7 @@
 
 
 
-LDM R2,36 : F D E M W
-Bubble    :   F D E M W
-MOV R3,R2 :     F D E M W
+## Full testCase 
+- Data Hazard
+- Control Hazard
+- Load Use Case

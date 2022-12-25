@@ -21,3 +21,5 @@ add wave sim:/BWZZ_TB/yarb/BranchSelector/*
 add wave sim:/BWZZ_TB/yarb/Forwarding/*
 add wave sim:/BWZZ_TB/yarb/MakeMeBubble
 add wave sim:/BWZZ_TB/yarb/ControlUnit/*
+add wave sim:/BWZZ_TB/yarb/WriteBackStage/*
+add wave sim:/BWZZ_TB/yarb/fetchStage/iRImemediate/*

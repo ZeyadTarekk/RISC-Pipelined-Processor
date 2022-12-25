@@ -12,6 +12,7 @@ module IdExBuffer (
 		makeMeBubble,
     iamTwoInstruction,
     iamBubble,
+    iamNop,
 
     input [3:0] regDestAddress, regSrcAddress, AlUControl,
     input [2:0] funCode,
@@ -76,14 +77,15 @@ module IdExBuffer (
     oimm = imm;
     oBranchFlag = BranchFlag;
     oiamTwoInstruction = iamTwoInstruction;
-    oiamBubble = iamBubble;
 
-		if (makeMeBubble == 1'b1) begin
+		if (makeMeBubble || iamNop) begin
 			oRegDestAddress = 4'b1111;
 			oRegSrcAddress = 4'b1111;
+      oiamBubble = 1;
 		end else begin
 			oRegDestAddress = regDestAddress;
 			oRegSrcAddress = regSrcAddress;
+      oiamBubble = iamBubble;
 		end
   end
 
