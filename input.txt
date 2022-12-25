@@ -16,7 +16,6 @@ INC R7
 
 
 
-LDM R0,6 f d e m w
-           f d e m w
+LDM R0,6 
 ADD R0,R0 
 RET 

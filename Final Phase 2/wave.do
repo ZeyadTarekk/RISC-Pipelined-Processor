@@ -1,10 +1,9 @@
-restart
+vsim -gui work.BWZZ_TB
 
 add wave sim:/BWZZ_TB/clk
 add wave sim:/BWZZ_TB/reset
 
 add wave sim:/BWZZ_TB/yarb/PC
-add wave sim:/BWZZ_TB/yarb/NextPC
 
 add wave sim:/BWZZ_TB/yarb/fetchStage/finalInstruction
 add wave sim:/BWZZ_TB/yarb/IF_ID_Buffer/oInstruction
@@ -23,3 +22,4 @@ add wave sim:/BWZZ_TB/yarb/MakeMeBubble
 add wave sim:/BWZZ_TB/yarb/ControlUnit/*
 add wave sim:/BWZZ_TB/yarb/WriteBackStage/*
 add wave sim:/BWZZ_TB/yarb/fetchStage/iRImemediate/*
+add wave sim:/BWZZ_TB/yarb/*
