@@ -8,18 +8,6 @@ INC R5
 PUSH R5 
 POP R7 
 INC R7 
-
-
-
-
-
-
-
-
-
-
-
-
 LDM R0,6 
 ADD R0,R0 
 RET 

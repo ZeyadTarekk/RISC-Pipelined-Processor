@@ -1,6 +1,5 @@
-LDM R1,46 
+LDM R1,45 
 CALL R1 
-INC R1 
 LDM R1,35 
 INC R2 
 STD R1,R2 
@@ -9,13 +8,6 @@ INC R5
 PUSH R5 
 POP R7 
 INC R7 
-
-
-
-
-
-
-
 LDM R0,6 
 ADD R0,R0 
 RET 
