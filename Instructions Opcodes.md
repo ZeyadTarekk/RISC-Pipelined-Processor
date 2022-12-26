@@ -229,23 +229,7 @@
 - if MemRead of next instruction is read from memory and the current src or the dest is the register will load on it
 - MakeMeBubble = MemRead && (ALUDest == DecodeSrc || ALUDest == DecodeDest);
 
+## Solving the Forwarding Unit problem
 
-
-
-## Solving the Forwarding Unit problem 
 - we need wire walk the instruction ot tell us if its Bubble From IRDetector then oring with (Flush in IFIDbuffer) oring with (makeMEBubble in IDEXBuffer)
 - check inforwarding unit if the signali check for is bubble or not
-
-
-## iamTwoInstruction
-- this signal is used to detcet operations with 2 instructions used for solving the case of 
-- LDM 
-- CALL
-- which case the second part of the instruciotn to forwarding the imm value of the imm althoght he aleread read it correctly  
-
-
-
-## Full testCase 
-- Data Hazard
-- Control Hazard
-- Load Use Case
