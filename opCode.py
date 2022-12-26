@@ -144,7 +144,7 @@ for x in f:
         f2.write("\n")
     elif instructionParts[0] == "SHL":
         print("SHL")
-        opCode = "01100"
+        opCode = "01101"
         registers = instructionParts[1].split(",")
         opCode = opCode + \
             addressRegsiter(registers[0]) + addressRegsiter(registers[0])
