@@ -344,8 +344,6 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   // edits for jumps
   ALUControl=4'b0111;
   ImmOrReg=1'b1;
-
-
   end
   else if(opCode == 5'b10101) begin
     // JN Rdst
@@ -358,9 +356,12 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   BranchFlag=1'b1;
   PCControl=1'b0;
   privateRegWrite=1'b0;
+	// edits for jumps
+  ALUControl=4'b0111;
+  ImmOrReg=1'b1;
   end
   else if(opCode == 5'b10110) begin
-    // JC Rdst
+	// JC Rdst
   SPOperation=2'b00;
   RegWrite=1'b0;
   MemRead=1'b0;
@@ -370,6 +371,9 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   BranchFlag=1'b1;
   PCControl=1'b0;
   privateRegWrite=1'b0;
+	// edits for jumps
+  ALUControl=4'b0111;
+  ImmOrReg=1'b1;
   end
   else if(opCode == 5'b10111) begin
     // JMP Rdst
@@ -382,6 +386,9 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   BranchFlag=1'b1;
   PCControl=1'b0;
   privateRegWrite=1'b0;
+	// edits for jumps
+  ALUControl=4'b0111;
+  ImmOrReg=1'b1;
   end
   else if(opCode == 5'b11000) begin
     // CALL Rdst
