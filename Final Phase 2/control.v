@@ -1,4 +1,9 @@
-module controlUnit(opCode,makeMeBubble,SPOperation,RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,ALUControl,SPOrALUres,DestOrPrivate,BranchFlag,CarryFlag,PCControl,privateRegWrite,iamTwoInstruction,iamNop);
+module controlUnit(
+	opCode, makeMeBubble, SPOperation, RegWrite, 
+	MemRead, MemWrite, MemOrReg, UpdateStatus,
+	ImmOrReg, ALUControl, SPOrALUres, DestOrPrivate,
+	BranchFlag, CarryFlag, PCControl, privateRegWrite,
+	iamTwoInstruction, iamNop);
 input[4:0] opCode;
 input makeMeBubble;
 output reg [3:0] ALUControl;
@@ -295,6 +300,7 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   BranchFlag=1'b0;
   PCControl=1'b0;
   privateRegWrite=1'b0;
+	iamTwoInstruction=1'b1;
   end
   else if(opCode == 5'b10010) begin
     // LDD Rsrc, Rdst

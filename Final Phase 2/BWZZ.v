@@ -67,7 +67,7 @@ HazardDetectionUnit detectHazard(
 );
 
 
-wire iamTwoInstruction,iamNop;
+wire iamTwoInstruction, iamNop;
 
 controlUnit ControlUnit(
   .makeMeBubble(MakeMeBubble),
@@ -216,8 +216,8 @@ ForwardingUnit Forwarding(
 );
 
 // Execute
-wire [15:0] ALUResult;
-wire [15:0] EX_MEM_ALUResult ,EX_MEM_RegSrc ;
+wire [15:0] ALUResult, outputToEx;
+wire [15:0] EX_MEM_ALUResult, EX_MEM_RegSrc;
 wire [15:0] ALUfirstOperand;
 
 ExecuteStage ALUStage(
@@ -230,8 +230,8 @@ ExecuteStage ALUStage(
 	.selectDst(DestChange),
 	.RegSrcFromEx(EX_MEM_ALUResult),
 	.RegDstFromEx(EX_MEM_ALUResult),
-	.RegSrcFromMem(outputRes),
-	.RegDstFromMem(outputRes),
+	.RegSrcFromMem(outputToEx),
+	.RegDstFromMem(outputToEx),
 
 	.ALUfirstOperand(ALUfirstOperand),
 	.newStatus(updatedStatusOutput),
@@ -319,9 +319,10 @@ WriteBack WriteBackStage(
 	.memOrReg(MEM_WB_MemOrReg),
 	.memData(MEM_WB_Data),
 	.aluData(MEM_WB_DataRes),
+	.clk(clk),
 	
 	.outputRes(outputRes),
-	.clk(clk)
+	.outputToEx(outputToEx)
   );
 
 
