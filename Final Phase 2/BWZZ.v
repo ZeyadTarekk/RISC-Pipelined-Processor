@@ -23,11 +23,14 @@ Fetch fetchStage(
 	.iamBubble(iamBubble)
 );
 
-
+// IF_ID_Inst
 /// IF-ID
 wire [31:0] IF_ID_PC, IF_ID_NextPC;
 wire [15:0] IF_ID_Inst;
 wire IF_ID_iamBubble;
+wire [15:0] SELECTED_INSTRUCTION;
+wire [15:0] interruptInstruction;
+
 
 IfIdBuffer IF_ID_Buffer(
 	.clk(clk) 
@@ -44,6 +47,16 @@ IfIdBuffer IF_ID_Buffer(
 	);
 
 
+interruptHandler interruptHandler(
+	.clk(clk)
+	,.functionBits(IF_ID_Inst[2:0])
+	,.interruptBit(interrupt)
+	,.interruptInstruction(interruptInstruction)
+);
+
+assign SELECTED_INSTRUCTION = interrupt ? interruptInstruction : IF_ID_Inst;
+
+
 /// Decoding Stage
 wire RegWrite , MemOrReg, DestOrPrivate , MemWrite, MemRead, SPOrALUres, immOrReg, updateStatus, BranchFlag, PCControl, privateRegWrite;
 wire [3:0] regDestAddress, regSrcAddress, AlUControl;
@@ -52,8 +65,8 @@ wire [2:0] funCode;
 wire [1:0] SPOpeartion, carryFlag;
 wire [3:0] regDestAddressID_EX, regSrcAddressID_EX;
 
-assign regSrcAddress = IF_ID_Inst[10:7];
-assign regDestAddress = IF_ID_Inst[6:3];
+assign regSrcAddress = SELECTED_INSTRUCTION[10:7];
+assign regDestAddress = SELECTED_INSTRUCTION[6:3];
 
 wire MakeMeBubble,ID_EX_MemRead;
 
@@ -71,7 +84,7 @@ wire iamTwoInstruction, iamNop;
 
 controlUnit ControlUnit(
   .makeMeBubble(MakeMeBubble),
-  .opCode(IF_ID_Inst[15:11]),
+  .opCode(SELECTED_INSTRUCTION[15:11]),
   .SPOperation(SPOpeartion),
   .RegWrite(RegWrite),
   .MemRead(MemRead),
@@ -91,7 +104,7 @@ controlUnit ControlUnit(
   );
 
 assign selectedPC = PCControl ? PC : NextPC;
-assign funCode = IF_ID_Inst[2:0];
+assign funCode = SELECTED_INSTRUCTION[2:0];
 
 
 // Register file
@@ -106,8 +119,8 @@ regFile RegisterFile(
 	.privateRegWrite(privateRegWrite),
 	.PC(selectedPC),
 	.write_data(outputRes),
-	.read_addr1(IF_ID_Inst[10:7]),
-	.read_addr2(IF_ID_Inst[6:3]),
+	.read_addr1(SELECTED_INSTRUCTION[10:7]),
+	.read_addr2(SELECTED_INSTRUCTION[6:3]),
 	.write_addr(MEM_WB_RegDestAddress),
 
 	.read_data1(RegSrc),

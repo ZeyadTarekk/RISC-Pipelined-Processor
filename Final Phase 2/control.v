@@ -9,7 +9,7 @@ input makeMeBubble;
 output reg [3:0] ALUControl;
 output reg [1:0] SPOperation,CarryFlag;
 output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite,iamTwoInstruction,iamNop;
-
+// reg iamJMP;
 
   always @(*) begin
   SPOperation=2'b00;
@@ -27,6 +27,7 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   PCControl=1'b0;
   privateRegWrite=1'b0;
   iamTwoInstruction=1'b0;
+  // iamJMP = 1'b0;
   iamNop = !(|opCode);
   if(makeMeBubble == 1'b1) begin
   SPOperation=2'b00;
@@ -344,6 +345,7 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   // edits for jumps
   ALUControl=4'b0111;
   ImmOrReg=1'b1;
+  // iamJMP = 1'b1;
   end
   else if(opCode == 5'b10101) begin
     // JN Rdst
@@ -359,6 +361,7 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
 	// edits for jumps
   ALUControl=4'b0111;
   ImmOrReg=1'b1;
+  // iamJMP = 1'b1;
   end
   else if(opCode == 5'b10110) begin
 	// JC Rdst
@@ -374,6 +377,8 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
 	// edits for jumps
   ALUControl=4'b0111;
   ImmOrReg=1'b1;
+  // iamJMP = 1'b1;
+
   end
   else if(opCode == 5'b10111) begin
     // JMP Rdst
@@ -389,6 +394,7 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
 	// edits for jumps
   ALUControl=4'b0111;
   ImmOrReg=1'b1;
+  // iamJMP = 1'b1;
   end
   else if(opCode == 5'b11000) begin
     // CALL Rdst
@@ -416,6 +422,8 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   privateRegWrite=1'b0;
 	ALUControl=4'b0111;
   iamTwoInstruction=1'b1;
+  // iamJMP = 1'b1;
+
   end
   else if(opCode == 5'b11010) begin
     // RET

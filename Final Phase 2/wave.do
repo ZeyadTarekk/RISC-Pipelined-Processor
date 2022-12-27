@@ -1,14 +1,20 @@
 vsim -gui work.BWZZ_TB
 
+add wave sim:/BWZZ_TB/interrupt
 add wave sim:/BWZZ_TB/clk
 add wave sim:/BWZZ_TB/reset
+add wave sim:/BWZZ_TB/yarb/interruptHandler/functionBits
+add wave sim:/BWZZ_TB/yarb/interruptHandler/interruptBit
+add wave sim:/BWZZ_TB/yarb/interruptHandler/interruptInstruction
+add wave sim:/BWZZ_TB/yarb/interruptHandler/nextStateFlag
+add wave sim:/BWZZ_TB/yarb/SELECTED_INSTRUCTION
 
 add wave sim:/BWZZ_TB/yarb/PC
-
 add wave sim:/BWZZ_TB/yarb/fetchStage/finalInstruction
 add wave sim:/BWZZ_TB/yarb/IF_ID_Buffer/oInstruction
 
 add wave sim:/BWZZ_TB/yarb/ALUStage/*
+
 
 add wave sim:/BWZZ_TB/yarb/RegisterFile/*
 
