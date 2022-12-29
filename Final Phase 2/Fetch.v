@@ -1,8 +1,16 @@
 module Fetch (
-    input stall, clk, jumpBit, rst, interruptBit,
-    input [31:0] branchIR,initPc,
-    output [15:0] finalInstruction,instructionTest,immediate,
-    output [31:0] samePc,nextPc,
+    input stall,
+    clk,
+    jumpBit,
+    rst,
+    interruptBit,
+    input [31:0] branchIR,
+    initPc,
+    output [15:0] finalInstruction,
+    instructionTest,
+    immediate,
+    output [31:0] samePc,
+    nextPc,
     output iamBubble
 );
 
@@ -21,7 +29,7 @@ module Fetch (
       .samePc(samePc),
       .nextPc(nextPc),
       .stall(stall),
-			.clk(clk)
+      .clk(clk)
   );
 
   assign nextWire = samePc;
@@ -38,7 +46,7 @@ module Fetch (
   IRDetector iRImemediate (
       .iR(tempWire),
       .clk(clk),
-			.jumpBit(jumpBit),
+      .jumpBit(jumpBit),
       .instruction(finalInstruction),
       .immediate(immediate),
       .iamBubble(iamBubble)

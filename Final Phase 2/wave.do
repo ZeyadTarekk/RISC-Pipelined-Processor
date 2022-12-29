@@ -1,6 +1,7 @@
 vsim -gui work.BWZZ_TB
 
 add wave sim:/BWZZ_TB/interrupt
+add wave sim:/BWZZ_TB/yarb/interruptHandler/interruptRaisedToFetch
 add wave sim:/BWZZ_TB/clk
 add wave sim:/BWZZ_TB/reset
 add wave sim:/BWZZ_TB/yarb/interruptHandler/functionBits
