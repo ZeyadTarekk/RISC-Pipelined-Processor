@@ -5,6 +5,9 @@ add wave sim:/BWZZ_TB/yarb/interruptHandler/interruptRaisedToFetch
 add wave sim:/BWZZ_TB/clk
 add wave sim:/BWZZ_TB/reset
 add wave sim:/BWZZ_TB/yarb/interruptHandler/functionBits
+add wave sim:/BWZZ_TB/yarb/interruptHandler/myFunctionBits
+add wave sim:/BWZZ_TB/yarb/interruptHandler/interruptRaisedInstruction
+add wave sim:/BWZZ_TB/yarb/interruptHandler/startWork
 add wave sim:/BWZZ_TB/yarb/interruptHandler/interruptBit
 add wave sim:/BWZZ_TB/yarb/interruptHandler/interruptInstruction
 add wave sim:/BWZZ_TB/yarb/interruptHandler/nextStateFlag

@@ -5,7 +5,7 @@ module BWZZ (
 );
 
   ///// if
-  wire stall, interruptRaisedToFetch;
+  wire stall, interruptRaisedToFetch,interruptRaisedInstruction;
   wire [31:0] PC, NextPC, selectedPC, branchAddress, privateRegResultOutput;
   wire [15:0] Inst, Imm;
   wire flush, choosedBitOutput, iamBubble;
@@ -55,10 +55,11 @@ module BWZZ (
       .functionBits(IF_ID_Inst[2:0]),
       .interruptBit(interrupt),
       .interruptInstruction(interruptInstruction),
-      .interruptRaisedToFetch(interruptRaisedToFetch)
+      .interruptRaisedToFetch(interruptRaisedToFetch),
+      .interruptRaisedInstruction(interruptRaisedInstruction)
   );
 
-  assign SELECTED_INSTRUCTION = interrupt ? interruptInstruction : IF_ID_Inst;
+  assign SELECTED_INSTRUCTION = interruptRaisedInstruction ? interruptInstruction : IF_ID_Inst;
 
 
   /// Decoding Stage

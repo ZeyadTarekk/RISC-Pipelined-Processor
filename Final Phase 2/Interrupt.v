@@ -3,45 +3,62 @@ module interruptHandler (
     functionBits,
     interruptBit,
     interruptInstruction,
-    interruptRaisedToFetch
+    interruptRaisedToFetch,
+    interruptRaisedInstruction
 
 );
   // I am jump from the decode stage => stall one cycle only
   input interruptBit, clk;
   input [2:0] functionBits;
-  output reg interruptRaisedToFetch;
+  output reg interruptRaisedToFetch,interruptRaisedInstruction;
   output reg [15:0] interruptInstruction;
 
   reg [2:0] nextStateFlag;
 
-  // ? 000 means that I will stall one time
+  reg startWork;
+  reg [2:0] myFunctionBits;
+
+
+  // ? 000 means that I am ready
   // ? 001 means that I will stall 2 times then
+  // ? 110 means that  I will stall one time
   // ? 010 means that I will add the first part of the interrupt
   // ? 011 means that I will add the second part of the interrupt
   // ? 100 means that I have executed of the second  of interrupt ,then i will raise interrupt signal to fetch
+  // ? 101 means that I will make interruptRaisedToFetch zero again and make the state back to the first state
+
   initial begin
     nextStateFlag = 3'b000;
     interruptRaisedToFetch = 1'b0;
+    startWork = 1'b0;
+    interruptRaisedInstruction = 1'b0;
   end
+
+always @(posedge interruptBit) begin
+  startWork = 1'b1;
+  myFunctionBits = functionBits;
+  interruptRaisedInstruction = 1'b1;
+end
 
   // ! check the condition of the always block
   always @(posedge clk) begin
 
-    if (interruptBit == 1'b1) begin
+    if (startWork == 1'b1) begin
 
-      if (functionBits == 3'b100) begin
+      if (myFunctionBits == 3'b100 && nextStateFlag==3'b000) begin
         // Need Imm value
         nextStateFlag = 3'b001;
 
         // Make a bubble
         interruptInstruction = 16'b0000011111111000;
-
+      end else if(myFunctionBits != 3'b100 && nextStateFlag==3'b000) begin
+        nextStateFlag = 3'b110;
       end
 
       if (nextStateFlag == 3'b001) begin
         // chnage the state and don't make a bubble
-        nextStateFlag = 3'b000;
-      end else if (nextStateFlag == 3'b000) begin
+        nextStateFlag = 3'b110;
+      end else if (nextStateFlag == 3'b110) begin
         // make a bubble
         interruptInstruction = 16'b0000011111111000;
         nextStateFlag = 3'b010;
@@ -60,6 +77,8 @@ module interruptHandler (
       end else if (nextStateFlag == 3'b101) begin
         interruptRaisedToFetch = 1'b0;
         nextStateFlag = 3'b000;
+        startWork = 1'b0;
+        interruptRaisedInstruction = 1'b0;
       end
 
 
