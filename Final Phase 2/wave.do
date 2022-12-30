@@ -9,6 +9,11 @@ add wave sim:/BWZZ_TB/yarb/interruptHandler/myFunctionBits
 add wave sim:/BWZZ_TB/yarb/interruptHandler/interruptRaisedInstruction
 add wave sim:/BWZZ_TB/yarb/interruptHandler/startWork
 add wave sim:/BWZZ_TB/yarb/interruptHandler/interruptBit
+add wave sim:/BWZZ_TB/yarb/interruptHandler/nextPC
+add wave sim:/BWZZ_TB/yarb/interruptHandler/interruptPC
+add wave sim:/BWZZ_TB/yarb/SELECTED_NEXT_PC
+add wave sim:/BWZZ_TB/yarb/interruptHandler/savedPc
+add wave sim:/BWZZ_TB/yarb/interruptHandler/interruptRaisedPC
 add wave sim:/BWZZ_TB/yarb/interruptHandler/interruptInstruction
 add wave sim:/BWZZ_TB/yarb/interruptHandler/nextStateFlag
 add wave sim:/BWZZ_TB/yarb/SELECTED_INSTRUCTION

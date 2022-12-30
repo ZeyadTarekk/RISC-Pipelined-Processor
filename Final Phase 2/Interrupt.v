@@ -4,17 +4,24 @@ module interruptHandler (
     interruptBit,
     interruptInstruction,
     interruptRaisedToFetch,
-    interruptRaisedInstruction
-
+    interruptRaisedInstruction,
+    nextPC,
+    interruptPC,
+    interruptRaisedPC
 );
   // I am jump from the decode stage => stall one cycle only
   input interruptBit, clk;
   input [2:0] functionBits;
-  output reg interruptRaisedToFetch,interruptRaisedInstruction;
+  input [31:0] nextPC;
+  output reg interruptRaisedToFetch,interruptRaisedInstruction,interruptRaisedPC;
   output reg [15:0] interruptInstruction;
+  output reg [31:0] interruptPC;
 
   reg [2:0] nextStateFlag;
 
+  reg [31:0] savedPc;
+
+  reg functionBitsFlag;
   reg startWork;
   reg [2:0] myFunctionBits;
 
@@ -32,23 +39,31 @@ module interruptHandler (
     interruptRaisedToFetch = 1'b0;
     startWork = 1'b0;
     interruptRaisedInstruction = 1'b0;
+    interruptRaisedPC = 1'b0;
   end
 
 always @(posedge interruptBit) begin
   startWork = 1'b1;
-  myFunctionBits = functionBits;
+  functionBitsFlag = 1'b1;
+  // myFunctionBits = functionBits;
   interruptRaisedInstruction = 1'b1;
 end
 
   // ! check the condition of the always block
   always @(posedge clk) begin
+    if(functionBitsFlag == 1'b1) begin
+      #2
+      myFunctionBits = functionBits;
+      functionBitsFlag = 1'b0;
+      savedPc = nextPC;
+    end
 
     if (startWork == 1'b1) begin
 
       if (myFunctionBits == 3'b100 && nextStateFlag==3'b000) begin
         // Need Imm value
         nextStateFlag = 3'b001;
-
+        savedPc = nextPC + 1'b1;
         // Make a bubble
         interruptInstruction = 16'b0000011111111000;
       end else if(myFunctionBits != 3'b100 && nextStateFlag==3'b000) begin
@@ -65,6 +80,8 @@ end
       end else if (nextStateFlag == 3'b010) begin
         // first part of the interrupt opCode
         interruptInstruction = 16'b1111010010000000;
+        interruptRaisedPC = 1'b1;
+        interruptPC = savedPc;
         nextStateFlag = 3'b011;
       end else if (nextStateFlag == 3'b011) begin
         // second part of the interrupt opCode
@@ -79,6 +96,7 @@ end
         nextStateFlag = 3'b000;
         startWork = 1'b0;
         interruptRaisedInstruction = 1'b0;
+        interruptRaisedPC = 1'b0;
       end
 
 

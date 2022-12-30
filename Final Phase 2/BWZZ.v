@@ -10,7 +10,7 @@ module BWZZ (
 
 
   ///// if
-  wire stall, interruptRaisedToFetch,interruptRaisedInstruction;
+  wire stall, interruptRaisedToFetch,interruptRaisedInstruction, interruptRaisedPC;
   wire [31:0] PC, NextPC, selectedPC, branchAddress, privateRegResultOutput;
   wire [15:0] Inst, Imm;
   wire flush, choosedBitOutput, iamBubble;
@@ -25,7 +25,9 @@ module BWZZ (
       .finalInstruction(Inst),
       .branchIR(branchAddress),
       .initPc(selectedPC),
+			// same pc is ready in case of jmp after entering the alu
       .samePc(PC),
+			// next pc for the instruction in the fetch
       .nextPc(NextPC),
       .instructionTest(),
       .immediate(Imm),
@@ -38,6 +40,8 @@ module BWZZ (
   wire [15:0] IF_ID_Inst;
   wire IF_ID_iamBubble;
   wire [15:0] SELECTED_INSTRUCTION;
+  wire [31:0] SELECTED_NEXT_PC;
+  wire [31:0] interruptPC;
   wire [15:0] interruptInstruction;
 
 
@@ -45,8 +49,9 @@ module BWZZ (
       .clk(clk),
       .flush(flush),
       .instruction(Inst),
+			// this pc is pushed when the first interrupt instruction is added
       .pc(PC),
-      .nextPC(NextPC),
+      .nextPC(SELECTED_NEXT_PC),
       .iamBubble(iamBubble),
       .oPc(IF_ID_PC),
       .oNextPC(IF_ID_NextPC),
@@ -61,10 +66,14 @@ module BWZZ (
       .interruptBit(interrupt),
       .interruptInstruction(interruptInstruction),
       .interruptRaisedToFetch(interruptRaisedToFetch),
-      .interruptRaisedInstruction(interruptRaisedInstruction)
+      .interruptRaisedInstruction(interruptRaisedInstruction),
+      .nextPC(NextPC),
+      .interruptRaisedPC(interruptRaisedPC),
+      .interruptPC(interruptPC)
   );
 
   assign SELECTED_INSTRUCTION = interruptRaisedInstruction ? interruptInstruction : IF_ID_Inst;
+  assign SELECTED_NEXT_PC = interruptRaisedPC ? interruptPC : NextPC;
 
 
   /// Decoding Stage
@@ -113,7 +122,7 @@ module BWZZ (
       .iamNop(iamNop)
   );
 
-  assign selectedPC = PCControl ? PC : NextPC;
+  assign selectedPC = PCControl ? PC : SELECTED_NEXT_PC;
   assign funCode = SELECTED_INSTRUCTION[2:0];
 
 
