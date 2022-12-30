@@ -42,6 +42,8 @@ f2.write("1110100001001011")
 f2.write("\n")
 
 for x in f:
+    if x[0]=="#":
+        continue
     opCode = ""
     instructionParts = x.split(" ")
 
