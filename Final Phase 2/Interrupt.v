@@ -29,6 +29,7 @@ module interruptHandler (
   reg functionBitsFlag;
   reg startWork, myIamJmpFlag;
   reg [2:0] myFunctionBits;
+  reg [4:0] myOpCode;
 
 
   // ? 000 means that I am ready          0
@@ -61,6 +62,7 @@ end
     if(functionBitsFlag == 1'b1) begin
       #2
       myFunctionBits = functionBits;
+      myOpCode = opCode;
       functionBitsFlag = 1'b0;
       savedPc = nextPC;
       myIamJmpFlag = iamJMP;
@@ -80,7 +82,7 @@ end
       end
 
       // ? check here for the ret first part and the call first part also
-      if ((myFunctionBits == 3'b100 ||opCode == 5'b11010 ||opCode == 5'b11000)&& nextStateFlag==3'b000) begin
+      if ((myFunctionBits == 3'b100 ||myOpCode == 5'b11010 ||myOpCode == 5'b11000)&& nextStateFlag==3'b000) begin
         // Need Imm value or first part of call or first part of ret
         nextStateFlag = 3'b001;
         savedPc = nextPC + 1'b1;
