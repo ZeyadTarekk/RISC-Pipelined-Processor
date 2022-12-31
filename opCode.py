@@ -43,7 +43,7 @@ def fillFirst32(num):
     f2.write("\n")
     f2.write("1110100001001011")
     f2.write("\n")
-    for i in range(int(32 - num - 2)):
+    for i in range(int(32 - num - 4)):
         f2.write("0000000000000000")
         f2.write("\n")
 

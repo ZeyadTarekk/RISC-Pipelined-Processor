@@ -22,7 +22,7 @@ module Fetch (
 
   assign currentCount[1] = interruptBit ? 32'b0 : currentCount[0];
 
-  assign currentCount[2] = rst ? 32'b0000_0000_0000_0000_0000_0000_0010_0000 : currentCount[1];
+  assign currentCount[2] = rst ? 32'b0000_0000_0000_0000_0000_0000_0001_1111 : currentCount[1];
 
   PC addPc (
       .CurrentPC(currentCount[2]),

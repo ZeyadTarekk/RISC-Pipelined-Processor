@@ -39,6 +39,8 @@ module BWZZ (
   wire [31:0] IF_ID_PC, IF_ID_NextPC;
   wire [15:0] IF_ID_Inst;
   wire IF_ID_iamBubble;
+  wire interruptIamBubble;
+  wire SELECTED_IAM_BUBBLE;
   wire [15:0] SELECTED_INSTRUCTION;
   wire [31:0] SELECTED_NEXT_PC;
   wire [31:0] interruptPC;
@@ -71,11 +73,12 @@ module BWZZ (
       .interruptRaisedPC(interruptRaisedPC),
       .interruptPC(interruptPC),
       .iamJMP(iamJMP)
+      // .interruptIamBubble(interruptIamBubble)
   );
 
   assign SELECTED_INSTRUCTION = interruptRaisedInstruction ? interruptInstruction : IF_ID_Inst;
   assign SELECTED_NEXT_PC = interruptRaisedPC ? interruptPC : NextPC;
-
+  // assign SELECTED_IAM_BUBBLE = interruptRaisedInstruction ? interruptIamBubble:IF_ID_iamBubble;
 
   /// Decoding Stage
   wire RegWrite , MemOrReg, DestOrPrivate , MemWrite, MemRead, SPOrALUres, immOrReg, updateStatus, BranchFlag, PCControl, privateRegWrite;

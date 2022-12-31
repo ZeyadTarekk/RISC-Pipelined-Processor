@@ -95,6 +95,7 @@ end
         interruptInstruction = 16'b0000011111111000;
         nextStateFlag = 3'b010;
       end else if(nextStateFlag == 3'b010 && myIamJmpFlag == 1'b1 )begin
+        #1
         savedPc = nextPC - 1'b1;
         interruptRaisedInstruction = 1'b1;
         // first part of the interrupt opCode
