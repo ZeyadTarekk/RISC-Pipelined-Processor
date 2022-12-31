@@ -32,21 +32,33 @@ if os.path.exists("Final Phase 2/instr.txt"):
     os.remove("Final Phase 2/instr.txt")
 f2 = open("Final Phase 2/instr.txt", "a")
 
-for i in range(30):
-    f2.write("0000000000000000")
+
+# for i in range(30):
+#     f2.write("0000000000000000")
+#     f2.write("\n")
+
+
+def fillFirst32(num):
+    f2.write("1110000001010000")
     f2.write("\n")
+    f2.write("1110100001001011")
+    f2.write("\n")
+    for i in range(int(32 - num - 2)):
+        f2.write("0000000000000000")
+        f2.write("\n")
 
-f2.write("1110000001010000")
-f2.write("\n")
-f2.write("1110100001001011")
-f2.write("\n")
 
+num = 0
 for x in f:
-    if x[0]=="#":
+    if x[0] == "#" or x.strip() == ".ORG 0":
         continue
     opCode = ""
+    if x.strip() == ".ORG 20":
+        fillFirst32(num)
+        continue
     instructionParts = x.split(" ")
 
+    num = num + 1
     if instructionParts[0] == "NOP":
         print("NOP")
         opCode = "0000000000000000"
@@ -64,43 +76,35 @@ for x in f:
     elif instructionParts[0] == "NOT":
         print("NOT")
         opCode = "00011"
-        opCode = opCode + \
-            addressRegsiter(instructionParts[1]) + \
-            addressRegsiter(instructionParts[1])
+        opCode = opCode + addressRegsiter(instructionParts[1]) + addressRegsiter(instructionParts[1])
         opCode = opCode + "000"
         f2.write(opCode)
         f2.write("\n")
     elif instructionParts[0] == "INC":
         print("INC")
         opCode = "00100"
-        opCode = opCode + \
-            addressRegsiter(instructionParts[1]) + \
-            addressRegsiter(instructionParts[1])
+        opCode = opCode + addressRegsiter(instructionParts[1]) + addressRegsiter(instructionParts[1])
         opCode = opCode + "000"
         f2.write(opCode)
         f2.write("\n")
     elif instructionParts[0] == "DEC":
         print("DEC")
         opCode = "00101"
-        opCode = opCode + \
-            addressRegsiter(instructionParts[1]) + \
-            addressRegsiter(instructionParts[1])
+        opCode = opCode + addressRegsiter(instructionParts[1]) + addressRegsiter(instructionParts[1])
         opCode = opCode + "000"
         f2.write(opCode)
         f2.write("\n")
     elif instructionParts[0] == "OUT":
         print("OUT")
         opCode = "00110"
-        opCode = opCode + \
-            addressRegsiter(instructionParts[1]) + addressRegsiter("PORT")
+        opCode = opCode + addressRegsiter(instructionParts[1]) + addressRegsiter("PORT")
         opCode = opCode + "000"
         f2.write(opCode)
         f2.write("\n")
     elif instructionParts[0] == "IN":
         print("IN")
         opCode = "00111"
-        opCode = opCode + \
-            addressRegsiter("PORT") + addressRegsiter(instructionParts[1])
+        opCode = opCode + addressRegsiter("PORT") + addressRegsiter(instructionParts[1])
         opCode = opCode + "000"
         f2.write(opCode)
         f2.write("\n")
@@ -108,8 +112,7 @@ for x in f:
         print("MOV")
         opCode = "01000"
         registers = instructionParts[1].split(",")
-        opCode = opCode + \
-            addressRegsiter(registers[0]) + addressRegsiter(registers[1])
+        opCode = opCode + addressRegsiter(registers[0]) + addressRegsiter(registers[1])
         opCode = opCode + "000"
         f2.write(opCode)
         f2.write("\n")
@@ -117,8 +120,7 @@ for x in f:
         print("ADD")
         opCode = "01001"
         registers = instructionParts[1].split(",")
-        opCode = opCode + \
-            addressRegsiter(registers[0]) + addressRegsiter(registers[1])
+        opCode = opCode + addressRegsiter(registers[0]) + addressRegsiter(registers[1])
         opCode = opCode + "000"
         f2.write(opCode)
         f2.write("\n")
@@ -126,8 +128,7 @@ for x in f:
         print("SUB")
         opCode = "01010"
         registers = instructionParts[1].split(",")
-        opCode = opCode + \
-            addressRegsiter(registers[0]) + addressRegsiter(registers[1])
+        opCode = opCode + addressRegsiter(registers[0]) + addressRegsiter(registers[1])
         opCode = opCode + "000"
         f2.write(opCode)
         f2.write("\n")
@@ -135,8 +136,7 @@ for x in f:
         print("AND")
         opCode = "01011"
         registers = instructionParts[1].split(",")
-        opCode = opCode + \
-            addressRegsiter(registers[0]) + addressRegsiter(registers[1])
+        opCode = opCode + addressRegsiter(registers[0]) + addressRegsiter(registers[1])
         opCode = opCode + "000"
         f2.write(opCode)
         f2.write("\n")
@@ -144,8 +144,7 @@ for x in f:
         print("OR")
         opCode = "01100"
         registers = instructionParts[1].split(",")
-        opCode = opCode + \
-            addressRegsiter(registers[0]) + addressRegsiter(registers[1])
+        opCode = opCode + addressRegsiter(registers[0]) + addressRegsiter(registers[1])
         opCode = opCode + "000"
         f2.write(opCode)
         f2.write("\n")
@@ -153,8 +152,7 @@ for x in f:
         print("SHL")
         opCode = "01101"
         registers = instructionParts[1].split(",")
-        opCode = opCode + \
-            addressRegsiter(registers[0]) + addressRegsiter(registers[0])
+        opCode = opCode + addressRegsiter(registers[0]) + addressRegsiter(registers[0])
         opCode = opCode + "100"
         binaryNumber = str(DecimalToBinary(int(registers[1]))).zfill(16)
         f2.write(opCode)
@@ -165,8 +163,7 @@ for x in f:
         print("SHR")
         opCode = "01110"
         registers = instructionParts[1].split(",")
-        opCode = opCode + \
-            addressRegsiter(registers[0]) + addressRegsiter(registers[0])
+        opCode = opCode + addressRegsiter(registers[0]) + addressRegsiter(registers[0])
         opCode = opCode + "100"
         binaryNumber = str(DecimalToBinary(int(registers[1]))).zfill(16)
         f2.write(opCode)
@@ -204,8 +201,7 @@ for x in f:
         print("LDD")
         opCode = "10010"
         registers = instructionParts[1].split(",")
-        opCode = opCode + \
-            addressRegsiter(registers[0]) + addressRegsiter(registers[1])
+        opCode = opCode + addressRegsiter(registers[0]) + addressRegsiter(registers[1])
         opCode = opCode + "000"
         f2.write(opCode)
         f2.write("\n")
@@ -213,8 +209,7 @@ for x in f:
         print("STD")
         opCode = "10011"
         registers = instructionParts[1].split(",")
-        opCode = opCode + \
-            addressRegsiter(registers[0]) + addressRegsiter(registers[1])
+        opCode = opCode + addressRegsiter(registers[0]) + addressRegsiter(registers[1])
         opCode = opCode + "000"
         f2.write(opCode)
         f2.write("\n")
@@ -251,8 +246,7 @@ for x in f:
         opCode = "11000"
         opCode = opCode + "1001" + "1111"
         opCode = opCode + "000"
-        opCode2 = "11001" + "1010" + \
-            addressRegsiter(instructionParts[1]) + "011"
+        opCode2 = "11001" + "1010" + addressRegsiter(instructionParts[1]) + "011"
         f2.write(opCode)
         f2.write("\n")
         f2.write(opCode2)

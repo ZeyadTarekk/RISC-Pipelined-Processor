@@ -1,4 +1,7 @@
 #comment
+.ORG 0 
+MOV R1,R2 
+.ORG 20
 LDM R1,34 
 MOV R1,R2 
 MOV R2,R3 
