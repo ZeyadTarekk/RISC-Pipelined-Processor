@@ -65,6 +65,7 @@ module BWZZ (
   interruptHandler interruptHandler (
       .clk(clk),
       .functionBits(IF_ID_Inst[2:0]),
+      .opCode(IF_ID_Inst[15:11]),
       .interruptBit(interrupt),
       .interruptInstruction(interruptInstruction),
       .interruptRaisedToFetch(interruptRaisedToFetch),

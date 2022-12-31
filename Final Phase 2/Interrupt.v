@@ -1,6 +1,7 @@
 module interruptHandler (
     clk,
     functionBits,
+    opCode,
     interruptBit,
     interruptInstruction,
     interruptRaisedToFetch,
@@ -15,6 +16,7 @@ module interruptHandler (
   // I am jump from the decode stage => stall one cycle only
   input interruptBit, clk, iamJMP;
   input [2:0] functionBits;
+  input [4:0] opCode;
   input [31:0] nextPC;
   output reg interruptRaisedToFetch,interruptRaisedInstruction,interruptRaisedPC,interruptIamBubble,interruptRaisedBubble;
   output reg [15:0] interruptInstruction;
@@ -77,15 +79,16 @@ end
         interruptRaisedInstruction = 1'b1;
       end
 
-      if (myFunctionBits == 3'b100 && nextStateFlag==3'b000) begin
-        // Need Imm value
+      // ? check here for the ret first part and the call first part also
+      if ((myFunctionBits == 3'b100 ||opCode == 5'b11010 ||opCode == 5'b11000)&& nextStateFlag==3'b000) begin
+        // Need Imm value or first part of call or first part of ret
         nextStateFlag = 3'b001;
         savedPc = nextPC + 1'b1;
         // Make a bubble
         interruptInstruction = 16'b0000011111111000;
         interruptIamBubble = 1'b1;
         interruptRaisedBubble = 1'b1;
-      end else if(myFunctionBits != 3'b100 && nextStateFlag==3'b000) begin
+      end else if(nextStateFlag==3'b000) begin
         nextStateFlag = 3'b110;
       end
 
