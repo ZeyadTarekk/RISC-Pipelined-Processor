@@ -13,7 +13,7 @@ module BWZZ (
   wire stall, interruptRaisedToFetch,interruptRaisedInstruction, interruptRaisedPC;
   wire [31:0] PC, NextPC, selectedPC, branchAddress, privateRegResultOutput;
   wire [15:0] Inst, Imm;
-  wire flush, choosedBitOutput, iamBubble;
+  wire flush, choosedBitOutput, iamBubble, iamJMP;
 
 
   Fetch fetchStage (
@@ -69,7 +69,8 @@ module BWZZ (
       .interruptRaisedInstruction(interruptRaisedInstruction),
       .nextPC(NextPC),
       .interruptRaisedPC(interruptRaisedPC),
-      .interruptPC(interruptPC)
+      .interruptPC(interruptPC),
+      .iamJMP(iamJMP)
   );
 
   assign SELECTED_INSTRUCTION = interruptRaisedInstruction ? interruptInstruction : IF_ID_Inst;
@@ -119,7 +120,8 @@ module BWZZ (
       .PCControl(PCControl),
       .privateRegWrite(privateRegWrite),
       .iamTwoInstruction(iamTwoInstruction),
-      .iamNop(iamNop)
+      .iamNop(iamNop),
+      .iamJMP(iamJMP)
   );
 
   assign selectedPC = PCControl ? PC : SELECTED_NEXT_PC;
