@@ -8,13 +8,15 @@ module interruptHandler (
     nextPC,
     interruptPC,
     interruptRaisedPC,
-    iamJMP
+    iamJMP,
+    interruptIamBubble,
+    interruptRaisedBubble
 );
   // I am jump from the decode stage => stall one cycle only
   input interruptBit, clk, iamJMP;
   input [2:0] functionBits;
   input [31:0] nextPC;
-  output reg interruptRaisedToFetch,interruptRaisedInstruction,interruptRaisedPC;
+  output reg interruptRaisedToFetch,interruptRaisedInstruction,interruptRaisedPC,interruptIamBubble,interruptRaisedBubble;
   output reg [15:0] interruptInstruction;
   output reg [31:0] interruptPC;
 
@@ -42,6 +44,7 @@ module interruptHandler (
     startWork = 1'b0;
     interruptRaisedInstruction = 1'b0;
     interruptRaisedPC = 1'b0;
+    interruptRaisedBubble = 1'b0;
   end
 
 always @(posedge interruptBit) begin
@@ -62,7 +65,8 @@ end
     end
 
     if (startWork == 1'b1) begin
-      
+
+      interruptIamBubble = 1'b0;
 
       if(myIamJmpFlag == 1'b1 && nextStateFlag == 3'b000)begin
         nextStateFlag = 3'b111;
@@ -79,6 +83,8 @@ end
         savedPc = nextPC + 1'b1;
         // Make a bubble
         interruptInstruction = 16'b0000011111111000;
+        interruptIamBubble = 1'b1;
+        interruptRaisedBubble = 1'b1;
       end else if(myFunctionBits != 3'b100 && nextStateFlag==3'b000) begin
         nextStateFlag = 3'b110;
       end
@@ -93,6 +99,8 @@ end
       end else if (nextStateFlag == 3'b110) begin
         // make a bubble
         interruptInstruction = 16'b0000011111111000;
+        interruptIamBubble = 1'b1;
+        interruptRaisedBubble = 1'b1;
         nextStateFlag = 3'b010;
       end else if(nextStateFlag == 3'b010 && myIamJmpFlag == 1'b1 )begin
         #1
@@ -122,7 +130,9 @@ end
         interruptRaisedToFetch = 1'b0;
         nextStateFlag = 3'b000;
         startWork = 1'b0;
+        interruptIamBubble = 1'b0;
         interruptRaisedInstruction = 1'b0;
+        interruptRaisedBubble = 1'b0;
         interruptRaisedPC = 1'b0;
       end
 

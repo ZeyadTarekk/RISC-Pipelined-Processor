@@ -10,7 +10,7 @@ module BWZZ (
 
 
   ///// if
-  wire stall, interruptRaisedToFetch,interruptRaisedInstruction, interruptRaisedPC;
+  wire stall, interruptRaisedToFetch,interruptRaisedInstruction, interruptRaisedPC,interruptRaisedBubble;
   wire [31:0] PC, NextPC, selectedPC, branchAddress, privateRegResultOutput;
   wire [15:0] Inst, Imm;
   wire flush, choosedBitOutput, iamBubble, iamJMP;
@@ -72,13 +72,14 @@ module BWZZ (
       .nextPC(NextPC),
       .interruptRaisedPC(interruptRaisedPC),
       .interruptPC(interruptPC),
-      .iamJMP(iamJMP)
-      // .interruptIamBubble(interruptIamBubble)
+      .iamJMP(iamJMP),
+      .interruptIamBubble(interruptIamBubble),
+      .interruptRaisedBubble(interruptRaisedBubble)
   );
 
   assign SELECTED_INSTRUCTION = interruptRaisedInstruction ? interruptInstruction : IF_ID_Inst;
   assign SELECTED_NEXT_PC = interruptRaisedPC ? interruptPC : NextPC;
-  // assign SELECTED_IAM_BUBBLE = interruptRaisedInstruction ? interruptIamBubble:IF_ID_iamBubble;
+  assign SELECTED_IAM_BUBBLE = interruptRaisedBubble ? interruptIamBubble:IF_ID_iamBubble;
 
   /// Decoding Stage
   wire RegWrite , MemOrReg, DestOrPrivate , MemWrite, MemRead, SPOrALUres, immOrReg, updateStatus, BranchFlag, PCControl, privateRegWrite;
@@ -184,7 +185,7 @@ module BWZZ (
       .funCode(funCode),
       .BranchFlag(BranchFlag),
       .makeMeBubble(MakeMeBubble),
-      .iamBubble(IF_ID_iamBubble),
+      .iamBubble(SELECTED_IAM_BUBBLE),
 
 
       .oRegWrite(ID_EX_RegWrite),
