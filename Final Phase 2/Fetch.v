@@ -46,6 +46,7 @@ module Fetch (
   IRDetector iRImemediate (
       .iR(tempWire),
       .clk(clk),
+      .interruptBit(interruptBit),
       .jumpBit(jumpBit),
       .instruction(finalInstruction),
       .immediate(immediate),

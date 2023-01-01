@@ -17,6 +17,7 @@ add wave sim:/BWZZ_TB/yarb/interruptHandler/myOpCode
 add wave sim:/BWZZ_TB/yarb/interruptHandler/interruptInstruction
 add wave sim:/BWZZ_TB/yarb/interruptHandler/nextStateFlag
 add wave sim:/BWZZ_TB/yarb/SELECTED_INSTRUCTION
+add wave sim:/BWZZ_TB/yarb/DataMemory/spmManager/sp
 
 add wave sim:/BWZZ_TB/yarb/PC
 add wave sim:/BWZZ_TB/yarb/fetchStage/finalInstruction
@@ -38,3 +39,10 @@ add wave sim:/BWZZ_TB/yarb/MakeMeBubble
 add wave sim:/BWZZ_TB/yarb/ControlUnit/*
 add wave sim:/BWZZ_TB/yarb/WriteBackStage/*
 add wave sim:/BWZZ_TB/yarb/fetchStage/iRImemediate/*
+
+add wave sim:/BWZZ_TB/yarb/RegisterFile/*
+add wave sim:/BWZZ_TB/yarb/RegisterFile/registers
+
+add wave sim:/BWZZ_TB/yarb/DataMemory/spmManager/*
+
+add wave sim:/BWZZ_TB/yarb/fetchStage/*

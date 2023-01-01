@@ -233,3 +233,13 @@
 
 - we need wire walk the instruction ot tell us if its Bubble From IRDetector then oring with (Flush in IFIDbuffer) oring with (makeMEBubble in IDEXBuffer)
 - check inforwarding unit if the signali check for is bubble or not
+
+
+## intrrupt road
+- look at fetch 
+    - normal instrction => pass current instructiom
+                            - look at Decode if it have jump  stall one cycle
+                            - look at Decode if it Not have jump No stalling
+    - instruction need other half => fetch second part then check if its jump ( call )
+
+    - jump stall 2 cycles
