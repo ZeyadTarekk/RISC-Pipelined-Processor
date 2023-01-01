@@ -18,7 +18,7 @@ module regFile (
   input [31:0] PC;
   output reg [15:0] read_data1;
   output reg [15:0] read_data2;
-  output reg [31:0] privateRegResult;
+  output [31:0] privateRegResult;
   integer i;
   reg [10:0] registers[15:0];
 
@@ -52,8 +52,7 @@ module regFile (
     end
     read_data1 = registers[read_addr1];
     read_data2 = registers[read_addr2];
-    privateRegResult = {registers[10], registers[9]};
-
   end
+	assign privateRegResult = {registers[10], registers[9]};
 
 endmodule

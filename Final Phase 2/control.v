@@ -3,12 +3,14 @@ module controlUnit(
 	MemRead, MemWrite, MemOrReg, UpdateStatus,
 	ImmOrReg, ALUControl, SPOrALUres, DestOrPrivate,
 	BranchFlag, CarryFlag, PCControl, privateRegWrite,
-	iamTwoInstruction, iamNop, iamJMP, pushFlags);
+	iamTwoInstruction, iamNop, iamJMP, pushFlags, retSignal);
 input[4:0] opCode;
 input makeMeBubble;
 output reg [3:0] ALUControl;
 output reg [1:0] SPOperation,CarryFlag;
-output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite,iamTwoInstruction,iamNop, iamJMP, pushFlags;
+output reg  RegWrite, MemRead, MemWrite, MemOrReg, UpdateStatus,
+						ImmOrReg, SPOrALUres, DestOrPrivate, BranchFlag, PCControl,
+						privateRegWrite, iamTwoInstruction, iamNop, iamJMP, pushFlags, retSignal;
 
 
   always @(*) begin
@@ -29,6 +31,7 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   iamTwoInstruction=1'b0;
   iamJMP = 1'b0;
   pushFlags = 1'b0;
+	retSignal = 1'b0;
   iamNop = !(|opCode);
   if(makeMeBubble == 1'b1) begin
   SPOperation=2'b00;
@@ -449,10 +452,12 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   UpdateStatus=1'b0;
   SPOrALUres=1'b0;
   DestOrPrivate=1'b1;
-  BranchFlag=1'b1;
   PCControl=1'b0;
   privateRegWrite=1'b0;
   iamTwoInstruction=1'b1;
+	// changes
+  BranchFlag=1'b0;
+	retSignal=1'b1;
   end
   else if(opCode == 5'b11100) begin
     // RTI
@@ -477,11 +482,13 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   UpdateStatus=1'b1;
   SPOrALUres=1'b0;
   DestOrPrivate=1'b1;
-  BranchFlag=1'b1;
   CarryFlag=2'b10;
   PCControl=1'b0;
   privateRegWrite=1'b0;
   iamTwoInstruction=1'b1;
+	// changes
+  BranchFlag=1'b0;
+	retSignal=1'b1;
   end
   else if(opCode == 5'b11110) begin
     // First part of interrupt

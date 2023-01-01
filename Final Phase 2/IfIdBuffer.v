@@ -21,10 +21,16 @@ module IfIdBuffer (
   end
 
   always @(posedge clk) begin
-    oInstruction = instruction;
-    oNextPC = nextPC;
-    oPc = pc;
-    oiamBubble = iamBubble;
+		if (flush) begin
+      oInstruction = 0;
+      oNextPC = 0;
+      oPc = 0;
+		end else begin
+			oInstruction = instruction;
+			oNextPC = nextPC;
+			oPc = pc;
+			oiamBubble = iamBubble;
+		end
   end
 
 endmodule

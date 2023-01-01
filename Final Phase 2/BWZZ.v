@@ -8,13 +8,13 @@ module BWZZ (
   wire stall, interruptRaisedToFetch,interruptRaisedInstruction, interruptRaisedPC,interruptRaisedBubble;
   wire [31:0] PC, NextPC, selectedPC, branchAddress, privateRegResultOutput;
   wire [15:0] Inst, Imm;
-  wire flush, choosedBitOutput, iamBubble, iamJMP,pushFlags,interruptStall;
+  wire flush, choosedBitOutput, iamBubble, iamJMP, pushFlags, interruptStall, MEM_WB_DestOrPrivate;
 
 
   Fetch fetchStage (
       .stall(1'b0),
       .clk(clk),
-      .jumpBit(flush),
+      .jumpBit(flush || MEM_WB_DestOrPrivate),
       .rst(reset),
       .interruptBit(interruptRaisedToFetch),
       .finalInstruction(Inst),
@@ -42,7 +42,7 @@ module BWZZ (
 
   // assign SELECTED_IAM_BUBBLE = interruptRaisedBubble ? interruptIamBubble:MakeMeBubble;
 assign SELECTED_IAM_BUBBLE = iamBubble || interruptIamBubble;
-  IfIdBuffer IF_ID_Buffer (
+IfIdBuffer IF_ID_Buffer (
       .clk(clk),
       .flush(flush),
       .instruction(SELECTED_INSTRUCTION),
@@ -120,8 +120,16 @@ assign SELECTED_IAM_BUBBLE = iamBubble || interruptIamBubble;
       .iamTwoInstruction(iamTwoInstruction),
       .iamNop(iamNop),
       .iamJMP(iamJMP),
-      .pushFlags(pushFlags)
+      .pushFlags(pushFlags),
+			.retSignal(retSignal)
   );
+
+	wire retFlush;
+	RetStateMachine flushRet (
+		.clk(clk),
+		.retSignal(retSignal),
+		.flushSignal(retFlush)
+	);
 
   assign selectedPC = (PCControl || interruptStall) ? PC : NextPC;
   assign funCode = IF_ID_Inst[2:0];
@@ -180,7 +188,7 @@ assign SELECTED_IAM_BUBBLE = iamBubble || interruptIamBubble;
       .funCode(funCode),
       .BranchFlag(BranchFlag),
       .makeMeBubble(MakeMeBubble),
-      .iamBubble(SELECTED_IAM_BUBBLE),
+      .iamBubble(IF_ID_iamBubble),
 
 
       .oRegWrite(ID_EX_RegWrite),
@@ -205,7 +213,7 @@ assign SELECTED_IAM_BUBBLE = iamBubble || interruptIamBubble;
       .oiamBubble(ID_EX_iamBubble)
   );
 
-  assign flush = ID_EX_BranchFlag & choosedBitOutput;
+  assign flush = (ID_EX_BranchFlag & choosedBitOutput) || retFlush;
 
 
   ///// Status register
@@ -324,7 +332,7 @@ assign SELECTED_IAM_BUBBLE = iamBubble || interruptIamBubble;
   );
 
   /// Memory WB Buffer
-  wire MEM_WB_MemOrReg, MEM_WB_DestOrPrivate;
+  wire MEM_WB_MemOrReg;
   wire [15:0] MEM_WB_DataRes, MEM_WB_Data;
 
   MemWbBuffer MEM_WB_Buffer (

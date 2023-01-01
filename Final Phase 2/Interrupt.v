@@ -38,7 +38,6 @@ module interruptHandler (
   // ? 101 means that I will make interruptRaisedToFetch zero again and make the state back to the first state      5
   // ? 111 means that I will pass the next intruction as it is the second half of the last incturction then go to the normal state of the interrupt 
 
-
   initial begin
     nextStateFlag = 3'b000;
     interruptRaisedToFetch = 1'b0;
@@ -46,6 +45,7 @@ module interruptHandler (
     interruptRaisedInstruction = 1'b0;
     interruptRaisedBubble = 1'b0;
     interruptStall = 1'b0;
+		interruptIamBubble = 1'b0;
   end
 
   always @(posedge interruptBit) begin
