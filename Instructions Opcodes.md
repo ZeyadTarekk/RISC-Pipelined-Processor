@@ -2,12 +2,12 @@
 
 ## Team Members
 
-| Name           | Section | BN  |
-| -------------- | ------- | --- |
-| Beshoy Morad   | 1       | 20  |
-| Ziad Sherif    | 1       | 27  |
-| Zeyad Tarek    | 1       | 28  |
-| Youssef Khaled | 2       | 38  |
+| Name           | Section | BN |
+| -------------- | ------- | -- |
+| Beshoy Morad   | 1       | 20 |
+| Ziad Sherif    | 1       | 27 |
+| Zeyad Tarek    | 1       | 28 |
+| Youssef Khaled | 2       | 38 |
 
 ## Control Unit Signals
 
@@ -15,14 +15,14 @@
 
 | Instruction | SPOperation | RegWrite | MemRead | MemWrite | MemOrReg | UpdateStatus | ImmOrReg | ALUControl | SPOrALUres | DestOrPrivate | BranchFlag | CarryFlag | PCControl | privateRegWrite |
 | :---------: | :---------: | :------: | :-----: | :------: | :------: | :----------: | :------: | :--------: | :--------: | :-----------: | :--------: | :-------: | :-------: | :-------------: |
-|     NOP     |     00      |    0     |    0    |    0     |    0     |      0       |    0     |    xxxx    |     x      |       x       |     0      |    xx     |     0     |        0        |
-|    SETC     |     00      |    0     |    0    |    0     |    0     |      1       |    0     |    xxxx    |     x      |       x       |     0      |    11     |     0     |        0        |
-|    CLRC     |     00      |    0     |    0    |    0     |    0     |      1       |    0     |    xxxx    |     x      |       x       |     0      |    01     |     0     |        0        |
-|  NOT Rdst   |     00      |    1     |    0    |    0     |    1     |      1       |    1     |    0110    |     x      |       x       |     0      |    00     |     0     |        0        |
-|  INC Rdst   |     00      |    1     |    0    |    0     |    1     |      1       |    1     |    1000    |     x      |       x       |     0      |    00     |     0     |        0        |
-|  DEC Rdst   |     00      |    1     |    0    |    0     |    1     |      1       |    1     |    1001    |     x      |       x       |     0      |    00     |     0     |        0        |
-|  OUT Rdst   |     00      |    1     |    0    |    0     |    1     |      0       |    1     |    1010    |     x      |       x       |     0      |    xx     |     0     |        0        |
-|   IN Rdst   |     00      |    1     |    0    |    0     |    1     |      0       |    1     |    1010    |     x      |       x       |     0      |    xx     |     0     |        0        |
+|     NOP     |     00     |    0    |    0    |    0    |    0    |      0      |    0    |    xxxx    |     x     |       x       |     0     |    xx    |     0     |        0        |
+|    SETC    |     00     |    0    |    0    |    0    |    0    |      1      |    0    |    xxxx    |     x     |       x       |     0     |    11    |     0     |        0        |
+|    CLRC    |     00     |    0    |    0    |    0    |    0    |      1      |    0    |    xxxx    |     x     |       x       |     0     |    01    |     0     |        0        |
+|  NOT Rdst  |     00     |    1    |    0    |    0    |    1    |      1      |    1    |    0110    |     x     |       x       |     0     |    00    |     0     |        0        |
+|  INC Rdst  |     00     |    1    |    0    |    0    |    1    |      1      |    1    |    1000    |     x     |       x       |     0     |    00    |     0     |        0        |
+|  DEC Rdst  |     00     |    1    |    0    |    0    |    1    |      1      |    1    |    1001    |     x     |       x       |     0     |    00    |     0     |        0        |
+|  OUT Rdst  |     00     |    1    |    0    |    0    |    1    |      0      |    1    |    1010    |     x     |       x       |     0     |    xx    |     0     |        0        |
+|   IN Rdst   |     00     |    1    |    0    |    0    |    1    |      0      |    1    |    1010    |     x     |       x       |     0     |    xx    |     0     |        0        |
 
 ### Two Operand Instructions
 
@@ -195,13 +195,13 @@
 | Second part of RET       | 11011  | OP\| 0000 \| PCholder0 \| 011   |                  |
 | RTI                      | 11100  | OP\| 0000 \| PCholder1 \| 000   |                  |
 | Second part of RTI       | 11101  | OP\| 0000 \| PCholder0 \| 011   |                  |
-| First part of interrupt  | 11110  | OP\| PCholder0 \| 0000 \| 000   |                  |
-| Second part of interrupt | 11111  | OP\| PCholder1 \| 0000 \| 000   |                  |
+| First part of interrupt  | 11110  | OP\| PCholder0 \| 0000 \| 000 |                  |
+| Second part of interrupt | 11111  | OP\| PCholder1 \| 0000 \| 000 |                  |
 
 ## Types of hazards and our solution to solve it
 
 - Structural hazards : solved with using 2 diffrent types of memory (data memory and instruction memory)
-- Data hazards : Full forwarding unit which check for src & dis of second instruction (in decoding stage) and the dist of first instruction (in ALU stage or in Memory stage).
+- Data hazards : Full forwarding unit which check for src & dis of second instruction (in decoding stage) and the dist of first instruction (in ALU stage or in Memory stage) and also make sure that the instruction that we want to forward from is not a bubble.
   - Load-use case : Hazard detector which check the type of first instruction (in ALU stage) and its dist with the src & dist of second instruction (in decoding stage) to stall cycle.
 - Control hazards : Do the jump itself in decoding stages and flush the instruction which entered the IF/ID buffer if the jump will be done with static pridiction of not taken.
 
@@ -210,7 +210,7 @@
 - check passRegister bits if it 1 i will put the 16-bit instruction in imm else will be in instruction
 - at decoding if i found iam 32-bit instruction i will flush my self as (bubble) then make register (passRegister) to be one then at next cycle will come with the whole 32-bit instruction and will check the passRegister nad make it zero again
 
-## Forwarding unit
+## Forwarding unit [TODO]
 
 - ALUSrcChoce =>
   - 00 - if alusrc != memsrc & alusrc != wBsrc
@@ -234,11 +234,11 @@
 - we need wire walk the instruction ot tell us if its Bubble From IRDetector then oring with (Flush in IFIDbuffer) oring with (makeMEBubble in IDEXBuffer)
 - check inforwarding unit if the signali check for is bubble or not
 
-
 ## interrupt road
-- look at fetch 
-    - normal instrction => pass current instructiom
-                            - look at Decode if it have jump  stall one cycle
-                            - look at Decode if it Not have jump No stalling
-    - instruction need other half => fetch second part then check if its jump ( call )
-    - jump stall 2 cycles
+
+- look at fetch
+  - normal instrction => pass current instructiom
+    - look at Decode if it have jump  stall one cycle
+    - look at Decode if it Not have jump No stalling
+  - instruction need other half => fetch second part then check if its jump ( call )
+  - jump stall 2 cycles
