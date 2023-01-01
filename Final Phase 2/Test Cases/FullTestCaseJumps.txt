@@ -1,3 +1,8 @@
+.ORG 0 
+LDM R6,20 
+INC R6 
+.ORG 20
+
 LDM R1,45 
 SETC 
 JC R1 
@@ -9,6 +14,8 @@ INC R5
 PUSH R5 
 POP R7 
 INC R7 
+
+
 LDM R0,6 
 ADD R0,R0 
 LDM R7,36 
