@@ -1,3 +1,8 @@
+.ORG 0 
+LDM R6,20 
+INC R6 
+.ORG 20
+
 LDM R1,35 
 INC R2 
 STD R1,R2 

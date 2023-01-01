@@ -1,16 +1,40 @@
-#comment
 .ORG 0 
 LDM R6,20 
+INC R6 
 .ORG 20
 
-LDM R1,40 
-MOV R1,R2 
-MOV R1,R3 
-# Interrupt arise after first half of the call
+LDM R1,50 
+SETC 
+JC R1 
+
+LDM R1,56 
+INC R3 
+DEC R3 
+JZ R1 
+
+LDM R1,62 
+NOT R3 
+JN R1 
+
+LDM R1,68 
 CALL R1 
 INC R6 
-INC R6 
+
+LDM R0,6 
+ADD R0,R0 
+LDM R7,36 
+JMP R7 
+
+LDM R0,7 
+ADD R0,R0 
+LDM R7,41 
+JMP R7 
+
+LDM R0,8 
+ADD R0,R0 
+LDM R7,45 
+JMP R7 
 
 LDM R0,9 
-INC R2 
+ADD R0,R0 
 RET 
