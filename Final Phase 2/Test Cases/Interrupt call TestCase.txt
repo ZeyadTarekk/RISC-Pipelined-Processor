@@ -1,4 +1,3 @@
-#comment
 .ORG 0 
 LDM R6,20 
 .ORG 20
