@@ -4,11 +4,6 @@ module BWZZ (
     interrupt
 );
 
-  // * first pass the next pc to the interrupt handler unit to save it and will output it later when the ISR is finished
-  // * then the interrupt handler unit will have an output signal indicating whether to take the pc from the handler unit or the next normal pc
-  // * in BWZZ we will have a mux to select the next pc based on the signal from the interrupt handler unit
-
-
   ///// if
   wire stall, interruptRaisedToFetch,interruptRaisedInstruction, interruptRaisedPC,interruptRaisedBubble;
   wire [31:0] PC, NextPC, selectedPC, branchAddress, privateRegResultOutput;
