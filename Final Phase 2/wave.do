@@ -11,11 +11,9 @@ add wave sim:/BWZZ_TB/yarb/interruptHandler/myFunctionBits
 add wave sim:/BWZZ_TB/yarb/interruptHandler/interruptRaisedInstruction
 add wave sim:/BWZZ_TB/yarb/interruptHandler/startWork
 add wave sim:/BWZZ_TB/yarb/interruptHandler/interruptBit
-add wave sim:/BWZZ_TB/yarb/interruptHandler/nextPC
-add wave sim:/BWZZ_TB/yarb/interruptHandler/interruptPC
-add wave sim:/BWZZ_TB/yarb/SELECTED_NEXT_PC
-add wave sim:/BWZZ_TB/yarb/interruptHandler/savedPc
-add wave sim:/BWZZ_TB/yarb/interruptHandler/interruptRaisedPC
+add wave sim:/BWZZ_TB/yarb/interruptHandler/interruptStall
+add wave sim:/BWZZ_TB/yarb/interruptHandler/opCode
+add wave sim:/BWZZ_TB/yarb/interruptHandler/myOpCode
 add wave sim:/BWZZ_TB/yarb/interruptHandler/interruptInstruction
 add wave sim:/BWZZ_TB/yarb/interruptHandler/nextStateFlag
 add wave sim:/BWZZ_TB/yarb/SELECTED_INSTRUCTION
@@ -25,6 +23,7 @@ add wave sim:/BWZZ_TB/yarb/fetchStage/finalInstruction
 add wave sim:/BWZZ_TB/yarb/IF_ID_Buffer/oInstruction
 
 add wave sim:/BWZZ_TB/yarb/ALUStage/*
+add wave sim:/BWZZ_TB/yarb/*
 
 
 add wave sim:/BWZZ_TB/yarb/RegisterFile/*

@@ -13,7 +13,7 @@ module BWZZ (
   wire stall, interruptRaisedToFetch,interruptRaisedInstruction, interruptRaisedPC,interruptRaisedBubble;
   wire [31:0] PC, NextPC, selectedPC, branchAddress, privateRegResultOutput;
   wire [15:0] Inst, Imm;
-  wire flush, choosedBitOutput, iamBubble, iamJMP;
+  wire flush, choosedBitOutput, iamBubble, iamJMP,pushFlags,interruptStall;
 
 
   Fetch fetchStage (
@@ -42,19 +42,19 @@ module BWZZ (
   wire interruptIamBubble;
   wire SELECTED_IAM_BUBBLE;
   wire [15:0] SELECTED_INSTRUCTION;
-  wire [31:0] SELECTED_NEXT_PC;
   wire [31:0] interruptPC;
   wire [15:0] interruptInstruction;
 
-
+  // assign SELECTED_IAM_BUBBLE = interruptRaisedBubble ? interruptIamBubble:MakeMeBubble;
+assign SELECTED_IAM_BUBBLE = iamBubble || interruptIamBubble;
   IfIdBuffer IF_ID_Buffer (
       .clk(clk),
       .flush(flush),
-      .instruction(Inst),
+      .instruction(SELECTED_INSTRUCTION),
 			// this pc is pushed when the first interrupt instruction is added
       .pc(PC),
-      .nextPC(SELECTED_NEXT_PC),
-      .iamBubble(iamBubble),
+      .nextPC(NextPC),
+      .iamBubble(SELECTED_IAM_BUBBLE),
       .oPc(IF_ID_PC),
       .oNextPC(IF_ID_NextPC),
       .oInstruction(IF_ID_Inst),
@@ -64,23 +64,22 @@ module BWZZ (
 
   interruptHandler interruptHandler (
       .clk(clk),
-      .functionBits(IF_ID_Inst[2:0]),
-      .opCode(IF_ID_Inst[15:11]),
+      // fetched instruction
+      .functionBits(Inst[2:0]),
+      // fetched instruction
+      .opCode(Inst[15:11]),
       .interruptBit(interrupt),
       .interruptInstruction(interruptInstruction),
       .interruptRaisedToFetch(interruptRaisedToFetch),
       .interruptRaisedInstruction(interruptRaisedInstruction),
-      .nextPC(NextPC),
-      .interruptRaisedPC(interruptRaisedPC),
-      .interruptPC(interruptPC),
       .iamJMP(iamJMP),
       .interruptIamBubble(interruptIamBubble),
-      .interruptRaisedBubble(interruptRaisedBubble)
+      .interruptRaisedBubble(interruptRaisedBubble),
+      .interruptStall(interruptStall)
   );
 
-  assign SELECTED_INSTRUCTION = interruptRaisedInstruction ? interruptInstruction : IF_ID_Inst;
-  assign SELECTED_NEXT_PC = interruptRaisedPC ? interruptPC : NextPC;
-  assign SELECTED_IAM_BUBBLE = interruptRaisedBubble ? interruptIamBubble:IF_ID_iamBubble;
+  assign SELECTED_INSTRUCTION = interruptRaisedInstruction ? interruptInstruction : Inst;
+
 
   /// Decoding Stage
   wire RegWrite , MemOrReg, DestOrPrivate , MemWrite, MemRead, SPOrALUres, immOrReg, updateStatus, BranchFlag, PCControl, privateRegWrite;
@@ -90,8 +89,8 @@ module BWZZ (
   wire [1:0] SPOpeartion, carryFlag;
   wire [3:0] regDestAddressID_EX, regSrcAddressID_EX;
 
-  assign regSrcAddress  = SELECTED_INSTRUCTION[10:7];
-  assign regDestAddress = SELECTED_INSTRUCTION[6:3];
+  assign regSrcAddress  = IF_ID_Inst[10:7];
+  assign regDestAddress = IF_ID_Inst[6:3];
 
   wire MakeMeBubble, ID_EX_MemRead;
 
@@ -104,12 +103,11 @@ module BWZZ (
       .MakeMeBubble(MakeMeBubble)
   );
 
-
   wire iamTwoInstruction, iamNop;
 
   controlUnit ControlUnit (
       .makeMeBubble(MakeMeBubble),
-      .opCode(SELECTED_INSTRUCTION[15:11]),
+      .opCode(IF_ID_Inst[15:11]),
       .SPOperation(SPOpeartion),
       .RegWrite(RegWrite),
       .MemRead(MemRead),
@@ -126,11 +124,12 @@ module BWZZ (
       .privateRegWrite(privateRegWrite),
       .iamTwoInstruction(iamTwoInstruction),
       .iamNop(iamNop),
-      .iamJMP(iamJMP)
+      .iamJMP(iamJMP),
+      .pushFlags(pushFlags)
   );
 
-  assign selectedPC = PCControl ? PC : SELECTED_NEXT_PC;
-  assign funCode = SELECTED_INSTRUCTION[2:0];
+  assign selectedPC = (PCControl || interruptStall) ? PC : NextPC;
+  assign funCode = IF_ID_Inst[2:0];
 
 
   // Register file
@@ -145,8 +144,8 @@ module BWZZ (
       .privateRegWrite(privateRegWrite),
       .PC(selectedPC),
       .write_data(outputRes),
-      .read_addr1(SELECTED_INSTRUCTION[10:7]),
-      .read_addr2(SELECTED_INSTRUCTION[6:3]),
+      .read_addr1(IF_ID_Inst[10:7]),
+      .read_addr2(IF_ID_Inst[6:3]),
       .write_addr(MEM_WB_RegDestAddress),
 
       .read_data1(RegSrc),
@@ -229,7 +228,8 @@ module BWZZ (
   );
 
   SavedFlages savedFlag (
-      .interrupt(interrupt),
+    // A signal raised by the alu when the first part of the interrupt is executed
+      .interrupt(pushFlags),
       .CCR(StatusFlagsOutput),
       .SavedFlages(savedFlagsOutput)
   );

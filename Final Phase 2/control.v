@@ -3,12 +3,12 @@ module controlUnit(
 	MemRead, MemWrite, MemOrReg, UpdateStatus,
 	ImmOrReg, ALUControl, SPOrALUres, DestOrPrivate,
 	BranchFlag, CarryFlag, PCControl, privateRegWrite,
-	iamTwoInstruction, iamNop, iamJMP);
+	iamTwoInstruction, iamNop, iamJMP, pushFlags);
 input[4:0] opCode;
 input makeMeBubble;
 output reg [3:0] ALUControl;
 output reg [1:0] SPOperation,CarryFlag;
-output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite,iamTwoInstruction,iamNop, iamJMP;
+output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,DestOrPrivate,BranchFlag,PCControl,privateRegWrite,iamTwoInstruction,iamNop, iamJMP, pushFlags;
 
 
   always @(*) begin
@@ -28,6 +28,7 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   privateRegWrite=1'b0;
   iamTwoInstruction=1'b0;
   iamJMP = 1'b0;
+  pushFlags = 1'b0;
   iamNop = !(|opCode);
   if(makeMeBubble == 1'b1) begin
   SPOperation=2'b00;
@@ -493,7 +494,7 @@ output reg RegWrite,MemRead,MemWrite,MemOrReg,UpdateStatus,ImmOrReg,SPOrALUres,D
   BranchFlag=1'b0;
   PCControl=1'b0;
   privateRegWrite=1'b1;
-
+  pushFlags = 1'b1;
   end
   else if(opCode == 5'b11111) begin
     // Second part of interrupt

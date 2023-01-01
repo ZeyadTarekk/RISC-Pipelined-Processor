@@ -65,6 +65,7 @@ for x in f:
         f2.write(opCode)
         f2.write("\n")
     elif instructionParts[0] == "SETC":
+        print("SETC")
         opCode = "0000100000000000"
         f2.write(opCode)
         f2.write("\n")
