@@ -1,7 +1,9 @@
 module BWZZ (
     input clk,
     reset,
-    interrupt
+    interrupt,
+    input [15:0] inport,
+    output [15:0] outport
 );
 
   ///// if
@@ -141,6 +143,7 @@ IfIdBuffer IF_ID_Buffer (
   wire [15:0] outputRes;
 
   regFile RegisterFile (
+      .inport(inport),
       .write_enable(MEM_WB_RegWrite),
       .rst(reset),
       .clk(clk),
@@ -151,6 +154,7 @@ IfIdBuffer IF_ID_Buffer (
       .read_addr2(IF_ID_Inst[6:3]),
       .write_addr(MEM_WB_RegDestAddress),
 
+      .outport(outport),
       .read_data1(RegSrc),
       .read_data2(RegDest),
       .privateRegResult(privateRegResultOutput)
