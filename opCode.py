@@ -2,6 +2,8 @@ import os
 
 
 def DecimalToBinary(num):
+    # print(num)
+    num = int(str(num), base=16)
     return "{0:b}".format(int(num))
 
 
@@ -161,7 +163,7 @@ for x in f:
         registers = instructionParts[1].split(",")
         opCode = opCode + addressRegsiter(registers[0]) + addressRegsiter(registers[0])
         opCode = opCode + "100"
-        binaryNumber = str(DecimalToBinary(int(registers[1]))).zfill(16)
+        binaryNumber = str(DecimalToBinary(registers[1])).zfill(16)
         f2.write(opCode)
         f2.write("\n")
         f2.write(binaryNumber)
@@ -172,7 +174,7 @@ for x in f:
         registers = instructionParts[1].split(",")
         opCode = opCode + addressRegsiter(registers[0]) + addressRegsiter(registers[0])
         opCode = opCode + "100"
-        binaryNumber = str(DecimalToBinary(int(registers[1]))).zfill(16)
+        binaryNumber = str(DecimalToBinary(registers[1])).zfill(16)
         f2.write(opCode)
         f2.write("\n")
         f2.write(binaryNumber)
@@ -199,7 +201,7 @@ for x in f:
         registers = instructionParts[1].split(",")
         opCode = opCode + addressRegsiter(registers[0])
         opCode = opCode + "100"
-        binaryNumber = str(DecimalToBinary(int(registers[1]))).zfill(16)
+        binaryNumber = str(DecimalToBinary(registers[1])).zfill(16)
         f2.write(opCode)
         f2.write("\n")
         f2.write(binaryNumber)

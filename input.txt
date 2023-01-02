@@ -1,39 +1,39 @@
 .ORG 0 
-LDM R6,20 
+LDM R6,14 
 INC R6 #this is comment
 RTI #this is comment
 .ORG 20
 
-LDM R1,50 
+LDM R1,32 
 SETC #this is comment also
 JC R1 
 
-LDM R1,56 
+LDM R1,38 
 INC R3 
 DEC R3 
 JZ R1 
 
-LDM R1,62 
+LDM R1,3E 
 NOT R3 
 JN R1 
 
-LDM R1,68 
+LDM R1,44 
 CALL R1 
 INC R6 
 
 LDM R0,6 
 ADD R0,R0 
-LDM R7,36 
+LDM R7,24 
 JMP R7 
 
 LDM R0,7 
 ADD R0,R0 
-LDM R7,41 
+LDM R7,29 
 JMP R7 
 
 LDM R0,8 
 ADD R0,R0 
-LDM R7,45 
+LDM R7,2D 
 JMP R7 
 
 LDM R0,9 
