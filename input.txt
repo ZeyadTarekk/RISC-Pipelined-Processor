@@ -1,6 +1,7 @@
 .ORG 0 
 LDM R6,20 
 INC R6 
+RTI 
 .ORG 20
 
 LDM R1,50 

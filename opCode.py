@@ -39,11 +39,11 @@ f2 = open("Final Phase 2/instr.txt", "a")
 
 
 def fillFirst32(num):
-    f2.write("1110000001010000")
-    f2.write("\n")
-    f2.write("1110100001001011")
-    f2.write("\n")
-    for i in range(int(32 - num - 3)):
+    # f2.write("1110000001010000")
+    # f2.write("\n")
+    # f2.write("1110100001001011")
+    # f2.write("\n")
+    for i in range(int(32 - num - 2)):
         f2.write("0000000000000000")
         f2.write("\n")
 
