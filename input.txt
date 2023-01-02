@@ -1,11 +1,11 @@
 .ORG 0 
 LDM R6,20 
-INC R6 
-RTI 
-.ORG 20
+INC R6 #this is comment
+RTI #this is comment
+.ORG 32
 
 LDM R1,50 
-SETC 
+SETC #this is comment also
 JC R1 
 
 LDM R1,56 

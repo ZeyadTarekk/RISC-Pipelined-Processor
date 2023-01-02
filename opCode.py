@@ -38,12 +38,12 @@ f2 = open("Final Phase 2/instr.txt", "a")
 #     f2.write("\n")
 
 
-def fillFirst32(num):
+def fillFirst32(num, start):
     # f2.write("1110000001010000")
     # f2.write("\n")
     # f2.write("1110100001001011")
     # f2.write("\n")
-    for i in range(int(32 - num - 2)):
+    for i in range(int(start - num - 2)):
         f2.write("0000000000000000")
         f2.write("\n")
 
@@ -53,9 +53,13 @@ for x in f:
     if x[0] == "#" or x.strip() == ".ORG 0":
         continue
     opCode = ""
-    if x.strip() == ".ORG 20":
-        fillFirst32(num)
+    if x.strip().startswith(".ORG"):
+        parts = x.strip().split(" ")
+        fillFirst32(num, int(parts[1]))
         continue
+    # if x.strip() == ".ORG 20":
+    #     fillFirst32(num)
+    #     continue
     instructionParts = x.split(" ")
 
     num = num + 1
