@@ -2,12 +2,12 @@
 
 ## Team Members
 
-| Name           | Section | BN |
-| -------------- | ------- | -- |
-| Beshoy Morad   | 1       | 20 |
-| Ziad Sherif    | 1       | 27 |
-| Zeyad Tarek    | 1       | 28 |
-| Youssef Khaled | 2       | 38 |
+| Name           | Section | BN  |
+| -------------- | ------- | --- |
+| Beshoy Morad   | 1       | 20  |
+| Ziad Sherif    | 1       | 27  |
+| Zeyad Tarek    | 1       | 28  |
+| Youssef Khaled | 2       | 38  |
 
 ## Control Unit Signals
 
@@ -15,14 +15,14 @@
 
 | Instruction | SPOperation | RegWrite | MemRead | MemWrite | MemOrReg | UpdateStatus | ImmOrReg | ALUControl | SPOrALUres | DestOrPrivate | BranchFlag | CarryFlag | PCControl | privateRegWrite |
 | :---------: | :---------: | :------: | :-----: | :------: | :------: | :----------: | :------: | :--------: | :--------: | :-----------: | :--------: | :-------: | :-------: | :-------------: |
-|     NOP     |     00     |    0    |    0    |    0    |    0    |      0      |    0    |    xxxx    |     x     |       x       |     0     |    xx    |     0     |        0        |
-|    SETC    |     00     |    0    |    0    |    0    |    0    |      1      |    0    |    xxxx    |     x     |       x       |     0     |    11    |     0     |        0        |
-|    CLRC    |     00     |    0    |    0    |    0    |    0    |      1      |    0    |    xxxx    |     x     |       x       |     0     |    01    |     0     |        0        |
-|  NOT Rdst  |     00     |    1    |    0    |    0    |    1    |      1      |    1    |    0110    |     x     |       x       |     0     |    00    |     0     |        0        |
-|  INC Rdst  |     00     |    1    |    0    |    0    |    1    |      1      |    1    |    1000    |     x     |       x       |     0     |    00    |     0     |        0        |
-|  DEC Rdst  |     00     |    1    |    0    |    0    |    1    |      1      |    1    |    1001    |     x     |       x       |     0     |    00    |     0     |        0        |
-|  OUT Rdst  |     00     |    1    |    0    |    0    |    1    |      0      |    1    |    1010    |     x     |       x       |     0     |    xx    |     0     |        0        |
-|   IN Rdst   |     00     |    1    |    0    |    0    |    1    |      0      |    1    |    1010    |     x     |       x       |     0     |    xx    |     0     |        0        |
+|     NOP     |     00      |    0     |    0    |    0     |    0     |      0       |    0     |    xxxx    |     x      |       x       |     0      |    xx     |     0     |        0        |
+|    SETC     |     00      |    0     |    0    |    0     |    0     |      1       |    0     |    xxxx    |     x      |       x       |     0      |    11     |     0     |        0        |
+|    CLRC     |     00      |    0     |    0    |    0     |    0     |      1       |    0     |    xxxx    |     x      |       x       |     0      |    01     |     0     |        0        |
+|  NOT Rdst   |     00      |    1     |    0    |    0     |    1     |      1       |    1     |    0110    |     x      |       x       |     0      |    00     |     0     |        0        |
+|  INC Rdst   |     00      |    1     |    0    |    0     |    1     |      1       |    1     |    1000    |     x      |       x       |     0      |    00     |     0     |        0        |
+|  DEC Rdst   |     00      |    1     |    0    |    0     |    1     |      1       |    1     |    1001    |     x      |       x       |     0      |    00     |     0     |        0        |
+|  OUT Rdst   |     00      |    1     |    0    |    0     |    1     |      0       |    1     |    1010    |     x      |       x       |     0      |    xx     |     0     |        0        |
+|   IN Rdst   |     00      |    1     |    0    |    0     |    1     |      0       |    1     |    1010    |     x      |       x       |     0      |    xx     |     0     |        0        |
 
 ### Two Operand Instructions
 
@@ -195,8 +195,8 @@
 | Second part of RET       | 11011  | OP\| 0000 \| PCholder0 \| 011   |                  |
 | RTI                      | 11100  | OP\| 0000 \| PCholder1 \| 000   |                  |
 | Second part of RTI       | 11101  | OP\| 0000 \| PCholder0 \| 011   |                  |
-| First part of interrupt  | 11110  | OP\| PCholder0 \| 0000 \| 000 |                  |
-| Second part of interrupt | 11111  | OP\| PCholder1 \| 0000 \| 000 |                  |
+| First part of interrupt  | 11110  | OP\| PCholder0 \| 0000 \| 000   |                  |
+| Second part of interrupt | 11111  | OP\| PCholder1 \| 0000 \| 000   |                  |
 
 ## Types of hazards and our solution to solve it
 
@@ -242,3 +242,15 @@
     - look at Decode if it Not have jump No stalling
   - instruction need other half => fetch second part then check if its jump ( call )
   - jump stall 2 cycles
+  ##### Changes  in interrupt after phase 2:
+   > We handled interrupt by using a finite state machine **FSM**
+   1. 000: ready state , if function bit is not (IMM,Ret,Call) , go to stall one cycle (110)
+   2. 001: if IMM,Ret,Call --> stall 2 cycles
+   3. 010: push first part of interrupt
+   4. 011: push second part of interrupt
+   5. 100: jump to interrupt vector table and set local interrupt
+   6. 101: clear local interrupt
+   7. 110: stall only one cycle
+   8. 111: jump instruction , pass the next instruction then go the the first state to check it's case 
+         change the start read flags to repeat the whole interrupt scenario
+  ![INT States](Assets/int.png)
