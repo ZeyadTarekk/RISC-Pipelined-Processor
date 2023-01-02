@@ -1,7 +1,7 @@
 import os
 
 
-def DecimalToBinary(num):
+def HexToBinary(num):
     # print(num)
     num = int(str(num), base=16)
     return "{0:b}".format(int(num))
@@ -35,17 +35,8 @@ if os.path.exists("Final Phase 2/instr.txt"):
 f2 = open("Final Phase 2/instr.txt", "a")
 
 
-# for i in range(30):
-#     f2.write("0000000000000000")
-#     f2.write("\n")
-
 
 def fillFirst32(num, start):
-    # f2.write("1110000001010000")
-    # f2.write("\n")
-    # f2.write("1110100001001011")
-    # f2.write("\n")
-    # print(start)
     start = int(start, base=16)
     for i in range(int(start - num - 2)):
         f2.write("0000000000000000")
@@ -54,18 +45,23 @@ def fillFirst32(num, start):
 
 num = 0
 for x in f:
-    if x[0] == "#" or x.strip() == ".ORG 0":
+    # if this line is a comment
+    if x[0] == "#":
         continue
     opCode = ""
-    if x.strip().startswith(".ORG"):
+    # check if this line going to another position
+    if x.strip().lower().startswith(".org"):
         parts = x.strip().split(" ")
         fillFirst32(num, parts[1])
         continue
-    # if x.strip() == ".ORG 20":
-    #     fillFirst32(num)
-    #     continue
+
+    # check if the line has a comment trim it
+    if x.find("#") != -1:
+        indexOfComment = x.index("#")
+        x = x[:indexOfComment]
     instructionParts = x.split(" ")
 
+    # increase the number of written lines
     num = num + 1
     if instructionParts[0] == "NOP":
         print("NOP")
@@ -163,7 +159,7 @@ for x in f:
         registers = instructionParts[1].split(",")
         opCode = opCode + addressRegsiter(registers[0]) + addressRegsiter(registers[0])
         opCode = opCode + "100"
-        binaryNumber = str(DecimalToBinary(registers[1])).zfill(16)
+        binaryNumber = str(HexToBinary(registers[1])).zfill(16)
         f2.write(opCode)
         f2.write("\n")
         f2.write(binaryNumber)
@@ -174,7 +170,7 @@ for x in f:
         registers = instructionParts[1].split(",")
         opCode = opCode + addressRegsiter(registers[0]) + addressRegsiter(registers[0])
         opCode = opCode + "100"
-        binaryNumber = str(DecimalToBinary(registers[1])).zfill(16)
+        binaryNumber = str(HexToBinary(registers[1])).zfill(16)
         f2.write(opCode)
         f2.write("\n")
         f2.write(binaryNumber)
@@ -201,7 +197,7 @@ for x in f:
         registers = instructionParts[1].split(",")
         opCode = opCode + addressRegsiter(registers[0])
         opCode = opCode + "100"
-        binaryNumber = str(DecimalToBinary(registers[1])).zfill(16)
+        binaryNumber = str(HexToBinary(registers[1])).zfill(16)
         f2.write(opCode)
         f2.write("\n")
         f2.write(binaryNumber)

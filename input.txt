@@ -10,10 +10,10 @@ JC R1
 
 LDM R1,38 
 INC R3 
-DEC R3 
+DEC R3 #another comment
 JZ R1 
 
-LDM R1,3E 
+LDM R1,3E #new comment
 NOT R3 
 JN R1 
 
