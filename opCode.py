@@ -43,6 +43,8 @@ def fillFirst32(num, start):
     # f2.write("\n")
     # f2.write("1110100001001011")
     # f2.write("\n")
+    # print(start)
+    start = int(start, base=16)
     for i in range(int(start - num - 2)):
         f2.write("0000000000000000")
         f2.write("\n")
@@ -55,7 +57,7 @@ for x in f:
     opCode = ""
     if x.strip().startswith(".ORG"):
         parts = x.strip().split(" ")
-        fillFirst32(num, int(parts[1]))
+        fillFirst32(num, parts[1])
         continue
     # if x.strip() == ".ORG 20":
     #     fillFirst32(num)
