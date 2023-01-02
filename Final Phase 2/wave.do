@@ -14,7 +14,8 @@ add wave sim:/BWZZ_TB/yarb/RegisterFile/registers[4]
 add wave sim:/BWZZ_TB/yarb/RegisterFile/registers[5]
 add wave sim:/BWZZ_TB/yarb/RegisterFile/registers[6]
 add wave sim:/BWZZ_TB/yarb/RegisterFile/registers[7]
-add wave sim:/BWZZ_TB/yarb/RegisterFile/registers[8]
+add wave sim:/BWZZ_TB/yarb/RegisterFile/inport
+add wave sim:/BWZZ_TB/yarb/RegisterFile/outport
 
 add wave sim:/BWZZ_TB/yarb/DataMemory/spmManager/sp
 
