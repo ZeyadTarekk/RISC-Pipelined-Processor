@@ -1,7 +1,9 @@
 import os
 
 
-def DecimalToBinary(num):
+def HexToBinary(num):
+    print(num)
+    num = int(str(num), base=16)
     return "{0:b}".format(int(num))
 
 
@@ -28,26 +30,59 @@ def addressRegsiter(word):
 
 f = open("input.txt", "r")
 # content = f.read()
-if os.path.exists("Final Phase 1/instr.txt"):
-    os.remove("Final Phase 1/instr.txt")
-f2 = open("Final Phase 1/instr.txt", "a")
+if os.path.exists("Final Phase 2/instr.txt"):
+    os.remove("Final Phase 2/instr.txt")
+f2 = open("Final Phase 2/instr.txt", "a")
 
+
+
+def fillFirst32(num, start):
+    start = int(start, base=16)
+    num2 = num
+    print(start, num)
+    for i in range(int(start - num )):
+        f2.write("0000000000000000")
+        f2.write("\n")
+        num2 = num2 + 1
+    print(num2)
+    return num2
+
+
+num = 0
 for x in f:
+    # if this line is a comment
+    if x[0] == "#":
+        continue
     opCode = ""
+    # check if this line going to another position
+    if x.strip().lower().startswith(".org"):
+        parts = x.strip().split(" ")
+        currentLines =  fillFirst32(num, parts[1])
+        num = currentLines
+        print(num)
+        continue
+
+    # check if the line has a comment trim it
+    if x.find("#") != -1:
+        indexOfComment = x.index("#")
+        x = x[:indexOfComment]
     instructionParts = x.split(" ")
 
+    # increase the number of written lines
+    num = num + 1
     if instructionParts[0] == "NOP":
         print("NOP")
         opCode = "0000000000000000"
         f2.write(opCode)
         f2.write("\n")
     elif instructionParts[0] == "SETC":
+        print("SETC")
         opCode = "0000100000000000"
         f2.write(opCode)
         f2.write("\n")
     elif instructionParts[0] == "CLRC":
         print("CLRC")
-        opCode = "0001100000000000"
+        opCode = "0001000000000000"
         f2.write(opCode)
         f2.write("\n")
     elif instructionParts[0] == "NOT":
@@ -127,26 +162,28 @@ for x in f:
         f2.write("\n")
     elif instructionParts[0] == "SHL":
         print("SHL")
-        opCode = "01100"
+        opCode = "01101"
         registers = instructionParts[1].split(",")
         opCode = opCode + addressRegsiter(registers[0]) + addressRegsiter(registers[0])
         opCode = opCode + "100"
-        binaryNumber = str(DecimalToBinary(int(registers[1]))).zfill(16)
+        binaryNumber = str(HexToBinary(registers[1])).zfill(16)
         f2.write(opCode)
         f2.write("\n")
         f2.write(binaryNumber)
         f2.write("\n")
+        num = num + 1
     elif instructionParts[0] == "SHR":
         print("SHR")
         opCode = "01110"
         registers = instructionParts[1].split(",")
         opCode = opCode + addressRegsiter(registers[0]) + addressRegsiter(registers[0])
         opCode = opCode + "100"
-        binaryNumber = str(DecimalToBinary(int(registers[1]))).zfill(16)
+        binaryNumber = str(HexToBinary(registers[1])).zfill(16)
         f2.write(opCode)
         f2.write("\n")
         f2.write(binaryNumber)
         f2.write("\n")
+        num = num + 1
     elif instructionParts[0] == "PUSH":
         print("PUSH")
         opCode = "01111"
@@ -169,11 +206,12 @@ for x in f:
         registers = instructionParts[1].split(",")
         opCode = opCode + addressRegsiter(registers[0])
         opCode = opCode + "100"
-        binaryNumber = str(DecimalToBinary(int(registers[1]))).zfill(16)
+        binaryNumber = str(HexToBinary(registers[1])).zfill(16)
         f2.write(opCode)
         f2.write("\n")
         f2.write(binaryNumber)
         f2.write("\n")
+        num = num + 1
     elif instructionParts[0] == "LDD":
         print("LDD")
         opCode = "10010"
@@ -221,13 +259,14 @@ for x in f:
     elif instructionParts[0] == "CALL":
         print("CALL")
         opCode = "11000"
-        opCode = opCode + "1001" + addressRegsiter(instructionParts[1])
+        opCode = opCode + "1001" + "1111"
         opCode = opCode + "000"
         opCode2 = "11001" + "1010" + addressRegsiter(instructionParts[1]) + "011"
         f2.write(opCode)
         f2.write("\n")
         f2.write(opCode2)
         f2.write("\n")
+        num = num + 1
     elif instructionParts[0] == "RET":
         print("RET")
         opCode = "11010"
@@ -237,6 +276,7 @@ for x in f:
         f2.write("\n")
         f2.write(opCode2)
         f2.write("\n")
+        num = num + 1
     elif instructionParts[0] == "RTI":
         print("RTI")
         opCode = "11100"
@@ -246,6 +286,7 @@ for x in f:
         f2.write("\n")
         f2.write(opCode2)
         f2.write("\n")
+        num = num + 1
 
 f.close()
 f2.close()

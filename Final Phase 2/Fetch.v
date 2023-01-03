@@ -1,79 +1,35 @@
-/*
-Module name   : Fetch
-Author	      : Ziad Sherif
-Functionality : Stage that fetch data from instruction memory
-*/
-
-// includes
-`include "Mux32.v"
-`include "PC.v"
-`include "MemInstruction.v"
-`include "IRDetector.v"
-
-
 module Fetch (
-    stall,
+    input stall,
     clk,
     jumpBit,
     rst,
     interruptBit,
-    finalInstruction,
-    branchIR,
+    input [31:0] branchIR,
     initPc,
-    samePc,
-    nextPc,
+    output [15:0] finalInstruction,
     instructionTest,
-    immediate
+    immediate,
+    output [31:0] samePc,
+    nextPc,
+    output iamBubble
 );
-  input stall, clk, jumpBit, rst, interruptBit;
-  input [31:0] branchIR, initPc;
-  output [31:0] nextPc, samePc;
-  output [15:0] instructionTest, immediate, finalInstruction;
-
-
 
   wire [31:0] currentCount[2:0];
   wire [31:0] nextWire;
   reg  [15:0] tempWire;
 
-  /* first mux
-    * param (next pc ,branch address , sel bit, output data)
-    */
+  assign currentCount[0] = jumpBit ? branchIR : initPc;
 
-  Mux32 M1 (
-      initPc,
-      branchIR,
-      jumpBit,
-      currentCount[0]
-  );
+  assign currentCount[1] = interruptBit ? 32'b0 : currentCount[0];
 
-  /* second mux
-    * param (current pc ,first instruction after interrupt , sel bit, output data)
-    */
-  Mux32 M2 (
-      currentCount[0],
-      32'b0,
-      interruptBit,
-      currentCount[1]
-  );
-  /* third mux
-    * param (current pc ,first address of interrupt memory , sel bit, output data)
-    */
-  Mux32 M3 (
-      currentCount[1],
-      32'b0,
-      rst,
-      currentCount[2]
-  );
-
+  assign currentCount[2] = rst ? 32'b0000_0000_0000_0000_0000_0000_0010_0000 : currentCount[1];
 
   PC addPc (
-      .a(currentCount[2]),
-      .b(32'b1),
-      .samePcOut(samePc),
-      .nextPcOut(nextPc),
+      .CurrentPC(currentCount[2]),
+      .samePc(samePc),
+      .nextPc(nextPc),
       .stall(stall),
-			.clk(clk)
+      .clk(clk)
   );
 
   assign nextWire = samePc;
@@ -90,8 +46,11 @@ module Fetch (
   IRDetector iRImemediate (
       .iR(tempWire),
       .clk(clk),
+      .interruptBit(interruptBit),
+      .jumpBit(jumpBit),
       .instruction(finalInstruction),
-      .immediate(immediate)
+      .immediate(immediate),
+      .iamBubble(iamBubble)
   );
 
 

@@ -1,25 +1,13 @@
 module PC (
-    a,
-    b,
-    samePcOut,
-    nextPcOut,
-    stall,
-		clk
+    input [31:0] CurrentPC,
+    input stall, clk,
+    output reg [31:0] samePc,nextPc
 );
-  input stall, clk;
-  input [31:0] a, b;
-  output reg [31:0] samePcOut, nextPcOut;
 
-  // initial begin
-	// 	samePcOut=32'b0;
-	// 	nextPcOut=32'b0;
-  // end
-
-  // assign samePcOut = a;
   always @(posedge clk) begin
-    samePcOut = a;
-    if (!stall) nextPcOut = a + b;
-    else samePcOut = a;
-
+		#1
+    samePc = CurrentPC;
+    nextPc = CurrentPC + 1'b1;
   end
+
 endmodule

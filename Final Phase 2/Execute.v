@@ -1,15 +1,10 @@
-/*
-Module name   : ExecuteStage
-Author	      : Beshoy Morad
-Functionality : Recieve two operands and apply an operations on them then update the status flag
-*/
 module ExecuteStage (
 	input ImmOrReg,
 	input [1:0] selectSrc, selectDst,
 	input [3:0] ALUControl,
 	input [15:0] RegSrc, RegDst, immediate, RegSrcFromEx, RegDstFromEx, RegSrcFromMem, RegDstFromMem,
 	output reg [3:0] newStatus,
-	output reg [15:0] ALUResult
+	output reg [15:0] ALUResult, ALUfirstOperand
 );
 
 	wire [15:0] RegDstOrImm, Operand1, Operand2;
@@ -20,11 +15,13 @@ module ExecuteStage (
 										:(selectSrc == 2'b01)? RegSrcFromEx
 										:(selectSrc == 2'b10)? RegSrcFromMem
 										: RegSrc;
-
-	assign Operand2 =  (selectSrc == 2'b00)? RegDstOrImm
-										:(selectSrc == 2'b01)? RegDstFromEx
-										:(selectSrc == 2'b10)? RegDstFromMem
-										: RegDstOrImm;
+	assign ALUfirstOperand = Operand1;
+	
+	assign Operand2 = (!ImmOrReg)?immediate: 
+					  ((selectDst == 2'b00)? RegDstOrImm
+					:(selectDst == 2'b01)? RegDstFromEx
+					:(selectDst == 2'b10)? RegDstFromMem
+					: RegDstOrImm);
 
   always @(*) begin
 		if (ALUControl == 4'b0000) begin  // ADD
@@ -54,8 +51,8 @@ module ExecuteStage (
 			{newStatus[2], ALUResult} = Operand1 - 1;
 		end else if (ALUControl == 4'b1010) begin  // PASS First
 			ALUResult = Operand1;
-		end else begin  // ADD
-			{newStatus[2], ALUResult} = Operand1 + Operand2;
+		end else if (ALUControl == 4'b1111) begin  // Do Nothing
+			ALUResult = ALUResult;
 		end
 
 		// update the status flag

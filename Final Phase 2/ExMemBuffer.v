@@ -6,6 +6,7 @@ module ExMemBuffer (
     MemRead,
     clk,
     SPOrALUres,
+    iamBubble,
     input [3:0] regDestAddress,
     input [15:0] ALUResult,
     RegSrc,
@@ -16,6 +17,7 @@ module ExMemBuffer (
     oMemRead,
     oDestOrPrivate,
     oSPOrALUres,
+    oiamBubble,
     output reg [3:0] oRegDestAddress,
     output reg [15:0] oALUResult,
     oRegSrc,
@@ -33,6 +35,7 @@ module ExMemBuffer (
     oSPOrALUres = 0;
     oALUResult = 0;
     oRegSrc = 0;
+    oiamBubble = 0;
   end
 
   always @(posedge clk) begin
@@ -46,6 +49,7 @@ module ExMemBuffer (
     oMemRead = MemRead;
     oSPOrALUres = SPOrALUres;
     oRegSrc = RegSrc;
+    oiamBubble = iamBubble;
   end
 
 endmodule

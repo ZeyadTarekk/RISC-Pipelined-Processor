@@ -1,7 +1,6 @@
 module SP (
     input [1:0] SPOpeartion,
-    input clk,
-    rst,
+    input clk, rst,
     output reg [31:0] SPValue
 );
   reg [31:0] sp;
@@ -11,13 +10,17 @@ module SP (
   end
 
   always @(posedge clk) begin
+		#1;
     if (SPOpeartion == 2'b10) begin
-      sp <= sp + 1;
-      SPValue = sp + 1'b1;
-    end else if (SPOpeartion == 2'b01) begin
+			// POP
+      sp = sp + 1;
       SPValue = sp;
-      sp <= sp - 1'b1;
-    end
+    end else if (SPOpeartion == 2'b01) begin
+			// PUSH
+      SPValue = sp;
+      sp = sp - 1'b1;
+		end else 
+			SPValue = sp;
   end
 
 endmodule

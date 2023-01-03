@@ -4,6 +4,10 @@ module SavedFlages (
     output reg [3:0] SavedFlages
 );
 
+initial begin
+    SavedFlages = 0;
+end
+
 always @(*) begin
     if(interrupt) SavedFlages = CCR;
     else SavedFlages=SavedFlages;

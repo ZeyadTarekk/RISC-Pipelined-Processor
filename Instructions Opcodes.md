@@ -127,6 +127,7 @@
 | 1000   | INC           |
 | 1001   | DEC           |
 | 1010   | PASS First    |
+| 1111   | Do Nothing    |
 
 ## Instructions bits details
 
@@ -200,7 +201,7 @@
 ## Types of hazards and our solution to solve it
 
 - Structural hazards : solved with using 2 diffrent types of memory (data memory and instruction memory)
-- Data hazards : Full forwarding unit which check for src & dis of second instruction (in decoding stage) and the dist of first instruction (in ALU stage or in Memory stage).
+- Data hazards : Full forwarding unit which check for src & dis of second instruction (in decoding stage) and the dist of first instruction (in ALU stage or in Memory stage) and also make sure that the instruction that we want to forward from is not a bubble.
   - Load-use case : Hazard detector which check the type of first instruction (in ALU stage) and its dist with the src & dist of second instruction (in decoding stage) to stall cycle.
 - Control hazards : Do the jump itself in decoding stages and flush the instruction which entered the IF/ID buffer if the jump will be done with static pridiction of not taken.
 
@@ -209,18 +210,47 @@
 - check passRegister bits if it 1 i will put the 16-bit instruction in imm else will be in instruction
 - at decoding if i found iam 32-bit instruction i will flush my self as (bubble) then make register (passRegister) to be one then at next cycle will come with the whole 32-bit instruction and will check the passRegister nad make it zero again
 
-## Forwarding unit
+## Forwarding unit [TODO]
+
 - ALUSrcChoce =>
   - 00 - if alusrc != memsrc & alusrc != wBsrc
-  - 01 - if alusrc != memsrc & alusrc == wBsrc 
+  - 01 - if alusrc != memsrc & alusrc == wBsrc
   - 10 - if alusrc == memsrc
   - SrcChange = ALURegsrc == AlUMEMres ? 10 : ( ALURegsrc == MEMWBres ? 01 : 00 );
 - ALUDestChoce =>
-    - 00 - if aludest != memsrc & aludest != wBsrc
-    - 01 - if aludest != memsrc & aludest == wBsrc 
-    - 10 - if aludest == memsrc
-    - DestChange = ALURegdest == AlUMEMres ? 10 : ( ALURegdest == MEMWBres ? 01 : 00 );
+  - 00 - if aludest != memsrc & aludest != wBsrc
+  - 01 - if aludest != memsrc & aludest == wBsrc
+  - 10 - if aludest == memsrc
+  - DestChange = ALURegdest == AlUMEMres ? 10 : ( ALURegdest == MEMWBres ? 01 : 00 );
+
 ## HazardDetection Unit
+
 - we should insert bubble before our self as MakeMeBubble then execute the instrution itself in next cycle
--  if MemRead of next instruction is read from memory and the current src or the dest is the register will load on it 
--  MakeMeBubble = MemRead && (ALUDest == DecodeSrc || ALUDest == DecodeDest);
+- if MemRead of next instruction is read from memory and the current src or the dest is the register will load on it
+- MakeMeBubble = MemRead && (ALUDest == DecodeSrc || ALUDest == DecodeDest);
+
+## Solving the Forwarding Unit problem
+
+- we need wire walk the instruction ot tell us if its Bubble From IRDetector then oring with (Flush in IFIDbuffer) oring with (makeMEBubble in IDEXBuffer)
+- check inforwarding unit if the signali check for is bubble or not
+
+## interrupt road
+
+- look at fetch
+  - normal instrction => pass current instructiom
+    - look at Decode if it have jump  stall one cycle
+    - look at Decode if it Not have jump No stalling
+  - instruction need other half => fetch second part then check if its jump ( call )
+  - jump stall 2 cycles
+  ##### Changes  in interrupt after phase 2:
+   > We handled interrupt by using a finite state machine **FSM**
+   1. 000: ready state , if function bit is not (IMM,Ret,Call) , go to stall one cycle (110)
+   2. 001: if IMM,Ret,Call --> stall 2 cycles
+   3. 010: push first part of interrupt
+   4. 011: push second part of interrupt
+   5. 100: jump to interrupt vector table and set local interrupt
+   6. 101: clear local interrupt
+   7. 110: stall only one cycle
+   8. 111: jump instruction , pass the next instruction then go the the first state to check it's case 
+         change the start read flags to repeat the whole interrupt scenario
+  ![INT States](Assets/int.png)

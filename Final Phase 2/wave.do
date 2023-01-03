@@ -1,33 +1,34 @@
-restart
+vsim -gui work.BWZZ_TB
 
+add wave sim:/BWZZ_TB/interrupt
 add wave sim:/BWZZ_TB/clk
 add wave sim:/BWZZ_TB/reset
 
-add wave -position insertpoint sim:/BWZZ_TB/yarb/PC
-add wave -position insertpoint sim:/BWZZ_TB/yarb/NextPC
+add wave sim:/BWZZ_TB/yarb/PC
 
-add wave sim:/BWZZ_TB/yarb/fetchStage/immediate
-add wave sim:/BWZZ_TB/yarb/fetchStage/finalInstruction
+add wave sim:/BWZZ_TB/yarb/RegisterFile/registers[0]
+add wave sim:/BWZZ_TB/yarb/RegisterFile/registers[1]
+add wave sim:/BWZZ_TB/yarb/RegisterFile/registers[2]
+add wave sim:/BWZZ_TB/yarb/RegisterFile/registers[3]
+add wave sim:/BWZZ_TB/yarb/RegisterFile/registers[4]
+add wave sim:/BWZZ_TB/yarb/RegisterFile/registers[5]
+add wave sim:/BWZZ_TB/yarb/RegisterFile/registers[6]
+add wave sim:/BWZZ_TB/yarb/RegisterFile/registers[7]
+add wave sim:/BWZZ_TB/yarb/RegisterFile/inport
+add wave sim:/BWZZ_TB/yarb/RegisterFile/outport
 
-add wave sim:/BWZZ_TB/yarb/IF_ID_Buffer/oInstruction
-add wave sim:/BWZZ_TB/yarb/IF_ID_Buffer/oimm
-
-add wave -position end sim:/BWZZ_TB/yarb/ALUStage/*
-
-add wave sim:/BWZZ_TB/yarb/DataMemory/Data_result
-add wave sim:/BWZZ_TB/yarb/DataMemory/Data
-add wave sim:/BWZZ_TB/yarb/DataMemory/*
-
-
-add wave sim:/BWZZ_TB/yarb/MEM_WB_Buffer/oRegWrite
-add wave sim:/BWZZ_TB/yarb/MEM_WB_Buffer/oMemOrReg
-add wave sim:/BWZZ_TB/yarb/MEM_WB_Buffer/oRegDestAddress
-add wave sim:/BWZZ_TB/yarb/MEM_WB_Buffer/oDataRes
-add wave sim:/BWZZ_TB/yarb/MEM_WB_Buffer/oData
-
-add wave sim:/BWZZ_TB/yarb/WriteBackStage/memData
-add wave sim:/BWZZ_TB/yarb/WriteBackStage/aluData
-add wave sim:/BWZZ_TB/yarb/WriteBackStage/outputRes
+add wave sim:/BWZZ_TB/yarb/DataMemory/spmManager/sp
 
 add wave sim:/BWZZ_TB/yarb/StatusRegisterBank/CCR
-add wave sim:/BWZZ_TB/yarb/StatusRegisterBank/carryFlag
+
+
+run
+force -freeze sim:/BWZZ_TB/yarb/RegisterFile/inport 3'h005 0
+run
+run
+force -freeze sim:/BWZZ_TB/yarb/RegisterFile/inport 3'h019 0
+run
+force -freeze sim:/BWZZ_TB/yarb/RegisterFile/inport 3'hffff 0
+run
+force -freeze sim:/BWZZ_TB/yarb/RegisterFile/inport 0'hf320 0
+run
