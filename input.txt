@@ -1,41 +1,17 @@
 .ORG 0 
-LDM R6,14 
-INC R6 #this is comment
-RTI #this is comment
-.ORG 20
-
-LDM R1,32 
-SETC #this is comment also
-JC R1 
-
-LDM R1,38 
-INC R3 
-DEC R3 #another comment
-JZ R1 
-
-LDM R1,3E #new comment
-NOT R3 
-JN R1 
-
-LDM R1,44 
-CALL R1 
-INC R6 
-
-LDM R0,6 
-ADD R0,R0 
-LDM R7,24 
-JMP R7 
-
-LDM R0,7 
-ADD R0,R0 
-LDM R7,29 
-JMP R7 
-
-LDM R0,8 
-ADD R0,R0 
-LDM R7,2D 
-JMP R7 
-
-LDM R0,9 
-ADD R0,R0 
-RET 
+AND R3,R4 
+ADD R1,R4 
+OUT R4 
+RTI 
+.ORG 20 
+IN R1 
+IN R2 
+IN R3 
+IN R4 
+MOV R3,R5 
+ADD R1,R4 
+SUB R5,R4 
+AND R7,R4 
+OR R2,R1 
+SHL R1,4 
+SHR R1,4 

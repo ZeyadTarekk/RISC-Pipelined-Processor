@@ -25,9 +25,12 @@ module RetStateMachine (
 			flushSignal = 1;
 			state = 2'b11;
 		end else if (state == 2'b11) begin
-			flushSignal = 0;
+			flushSignal = 1;
 			state = 2'b00;
+		end else if(state == 2'b00) begin
+			flushSignal = 0;
 		end
+
 	end
 
 endmodule

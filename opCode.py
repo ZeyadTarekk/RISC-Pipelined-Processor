@@ -2,7 +2,7 @@ import os
 
 
 def HexToBinary(num):
-    # print(num)
+    print(num)
     num = int(str(num), base=16)
     return "{0:b}".format(int(num))
 
@@ -38,9 +38,14 @@ f2 = open("Final Phase 2/instr.txt", "a")
 
 def fillFirst32(num, start):
     start = int(start, base=16)
-    for i in range(int(start - num - 2)):
+    num2 = num
+    print(start, num)
+    for i in range(int(start - num )):
         f2.write("0000000000000000")
         f2.write("\n")
+        num2 = num2 + 1
+    print(num2)
+    return num2
 
 
 num = 0
@@ -52,7 +57,9 @@ for x in f:
     # check if this line going to another position
     if x.strip().lower().startswith(".org"):
         parts = x.strip().split(" ")
-        fillFirst32(num, parts[1])
+        currentLines =  fillFirst32(num, parts[1])
+        num = currentLines
+        print(num)
         continue
 
     # check if the line has a comment trim it
@@ -75,7 +82,7 @@ for x in f:
         f2.write("\n")
     elif instructionParts[0] == "CLRC":
         print("CLRC")
-        opCode = "0001100000000000"
+        opCode = "0001000000000000"
         f2.write(opCode)
         f2.write("\n")
     elif instructionParts[0] == "NOT":
@@ -164,6 +171,7 @@ for x in f:
         f2.write("\n")
         f2.write(binaryNumber)
         f2.write("\n")
+        num = num + 1
     elif instructionParts[0] == "SHR":
         print("SHR")
         opCode = "01110"
@@ -175,6 +183,7 @@ for x in f:
         f2.write("\n")
         f2.write(binaryNumber)
         f2.write("\n")
+        num = num + 1
     elif instructionParts[0] == "PUSH":
         print("PUSH")
         opCode = "01111"
@@ -202,6 +211,7 @@ for x in f:
         f2.write("\n")
         f2.write(binaryNumber)
         f2.write("\n")
+        num = num + 1
     elif instructionParts[0] == "LDD":
         print("LDD")
         opCode = "10010"
@@ -256,6 +266,7 @@ for x in f:
         f2.write("\n")
         f2.write(opCode2)
         f2.write("\n")
+        num = num + 1
     elif instructionParts[0] == "RET":
         print("RET")
         opCode = "11010"
@@ -265,6 +276,7 @@ for x in f:
         f2.write("\n")
         f2.write(opCode2)
         f2.write("\n")
+        num = num + 1
     elif instructionParts[0] == "RTI":
         print("RTI")
         opCode = "11100"
@@ -274,6 +286,7 @@ for x in f:
         f2.write("\n")
         f2.write(opCode2)
         f2.write("\n")
+        num = num + 1
 
 f.close()
 f2.close()

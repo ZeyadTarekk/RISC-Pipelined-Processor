@@ -16,10 +16,12 @@ module ExecuteStage (
 										:(selectSrc == 2'b10)? RegSrcFromMem
 										: RegSrc;
 	assign ALUfirstOperand = Operand1;
-	assign Operand2 =  (selectDst == 2'b00)? RegDstOrImm
-										:(selectDst == 2'b01)? RegDstFromEx
-										:(selectDst == 2'b10)? RegDstFromMem
-										: RegDstOrImm;
+	
+	assign Operand2 = (!ImmOrReg)?immediate: 
+					  ((selectDst == 2'b00)? RegDstOrImm
+					:(selectDst == 2'b01)? RegDstFromEx
+					:(selectDst == 2'b10)? RegDstFromMem
+					: RegDstOrImm);
 
   always @(*) begin
 		if (ALUControl == 4'b0000) begin  // ADD

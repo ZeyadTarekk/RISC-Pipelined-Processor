@@ -23,7 +23,7 @@ module regFile (
   output reg [15:0] read_data2;
   output [31:0] privateRegResult;
   integer i;
-  reg [10:0] registers[15:0];
+  reg [15:0] registers[15:0];
 
 	always @(privateRegWrite) begin
 		#2;
