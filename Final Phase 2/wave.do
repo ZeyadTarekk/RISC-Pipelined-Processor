@@ -21,14 +21,3 @@ add wave sim:/BWZZ_TB/yarb/DataMemory/spmManager/sp
 
 add wave sim:/BWZZ_TB/yarb/StatusRegisterBank/CCR
 
-
-run
-force -freeze sim:/BWZZ_TB/yarb/RegisterFile/inport 3'h005 0
-run
-run
-force -freeze sim:/BWZZ_TB/yarb/RegisterFile/inport 3'h019 0
-run
-force -freeze sim:/BWZZ_TB/yarb/RegisterFile/inport 3'hffff 0
-run
-force -freeze sim:/BWZZ_TB/yarb/RegisterFile/inport 0'hf320 0
-run
