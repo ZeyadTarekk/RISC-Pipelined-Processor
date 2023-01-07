@@ -1,11 +1,11 @@
 <div align="center">
 
-[![GitHub contributors](https://img.shields.io/github/contributors/ZeyadTarekk/My-Reads)](https://github.com/ZeyadTarekk/My-Reads/contributors)
-[![GitHub issues](https://img.shields.io/github/issues/ZeyadTarekk/My-Reads)](https://github.com/ZeyadTarekk/My-Reads/issues)
-[![GitHub license](https://img.shields.io/github/license/ZeyadTarekk/My-Reads)](https://github.com/ZeyadTarekk/My-Reads/blob/master/LICENSE)
-[![GitHub forks](https://img.shields.io/github/forks/ZeyadTarekk/My-Reads)](https://github.com/ZeyadTarekk/My-Reads/network)
-[![GitHub stars](https://img.shields.io/github/stars/ZeyadTarekk/My-Reads)](https://github.com/ZeyadTarekk/My-Reads/stargazers)
-[![GitHub Language](https://img.shields.io/github/languages/top/ZeyadTarekk/My-Reads)](https://img.shields.io/github/languages/count/ZeyadTarekk/My-Reads)
+[![GitHub contributors](https://img.shields.io/github/contributors/ZeyadTarekk/RISC-Pipelined-Processor)](https://github.com/ZeyadTarekk/RISC-Pipelined-Processor/contributors)
+[![GitHub issues](https://img.shields.io/github/issues/ZeyadTarekk/RISC-Pipelined-Processor)](https://github.com/ZeyadTarekk/RISC-Pipelined-Processor/issues)
+[![GitHub license](https://img.shields.io/github/license/ZeyadTarekk/RISC-Pipelined-Processor)](https://github.com/ZeyadTarekk/RISC-Pipelined-Processor/blob/master/LICENSE)
+[![GitHub forks](https://img.shields.io/github/forks/ZeyadTarekk/RISC-Pipelined-Processor)](https://github.com/ZeyadTarekk/RISC-Pipelined-Processor/network)
+[![GitHub stars](https://img.shields.io/github/stars/ZeyadTarekk/RISC-Pipelined-Processor)](https://github.com/ZeyadTarekk/RISC-Pipelined-Processor/stargazers)
+[![GitHub Language](https://img.shields.io/github/languages/top/ZeyadTarekk/RISC-Pipelined-Processor)](https://img.shields.io/github/languages/count/ZeyadTarekk/RISC-Pipelined-Processor)
 
 </div>
 
@@ -119,4 +119,4 @@ Interrupt
 
  ## License <a name = "license"></a>
 
-> This software is licensed under MIT License, See [License](https://github.com/ZeyadTarekk/My-Reads/blob/main/LICENSE) for more information.
+> This software is licensed under MIT License, See [License](https://github.com/ZeyadTarekk/RISC-Pipelined-Processor/blob/main/LICENSE) for more information.
