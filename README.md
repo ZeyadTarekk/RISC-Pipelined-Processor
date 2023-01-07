@@ -34,6 +34,12 @@
    <img src="Assets/design.svg">
 </div>
 
+### Interrupt state machine
+
+<div align="center">
+   <img src="Assets/int.png">
+</div>
+
 
 
 ## Implemented Instructions <a name = "implemented-instructions"></a>
