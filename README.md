@@ -39,7 +39,8 @@
 <div align="center">
    <img src="Assets/int.png">
 </div>
-[Design.svg](Assets/design.svg)
+
+[Design.svg](https://github.com/ZeyadTarekk/RISC-Pipelined-Processor/blob/main/Assets/design.svg)
 
 
 ## Implemented Instructions <a name = "implemented-instructions"></a>
