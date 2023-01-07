@@ -39,7 +39,7 @@
 <div align="center">
    <img src="Assets/int.png">
 </div>
-
+[Design.svg](Assets/design.svg)
 
 
 ## Implemented Instructions <a name = "implemented-instructions"></a>
@@ -103,10 +103,10 @@ Interrupt
     <sub><b>Zeyad Tarek</b></sub></a>
     </td>
     <td align="center">
-    <a href="https://github.com/BeshoyMorad" target="_black">
-    <img src="https://avatars.githubusercontent.com/u/82404564?v=4" width="150px;" alt="Beshoy Morad"/>
+    <a href="https://github.com/ZiadSheriif" target="_black">
+    <img src="https://avatars.githubusercontent.com/u/78238570?v=4" width="150px;" alt="Ziad Sherif"/>
     <br />
-    <sub><b>Beshoy Morad</b></sub></a>
+    <sub><b>Ziad Sherif</b></sub></a>
     </td>
     <td align="center">
     <a href="https://github.com/Waer1" target="_black">
@@ -115,10 +115,10 @@ Interrupt
     <sub><b>Youssef Elwaer</b></sub></a>
     </td>
     <td align="center">
-    <a href="https://github.com/ZiadSheriif" target="_black">
-    <img src="https://avatars.githubusercontent.com/u/78238570?v=4" width="150px;" alt="Ziad Sherif"/>
+    <a href="https://github.com/BeshoyMorad" target="_black">
+    <img src="https://avatars.githubusercontent.com/u/82404564?v=4" width="150px;" alt="Beshoy Morad"/>
     <br />
-    <sub><b>Ziad Sherif</b></sub></a>
+    <sub><b>Beshoy Morad</b></sub></a>
     </td>
   </tr>
  </table>
