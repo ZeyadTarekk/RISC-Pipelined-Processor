@@ -30,9 +30,9 @@ def addressRegsiter(word):
 
 f = open("input.txt", "r")
 # content = f.read()
-if os.path.exists("Final Phase 2/instr.txt"):
-    os.remove("Final Phase 2/instr.txt")
-f2 = open("Final Phase 2/instr.txt", "a")
+if os.path.exists("src/instr.txt"):
+    os.remove("src/instr.txt")
+f2 = open("src/instr.txt", "a")
 
 
 
